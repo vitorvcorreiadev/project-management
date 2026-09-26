@@ -1,32 +1,24 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Tech stack: Vue.js, Typescript, Plain CSS, Pinia
+  Tests: Vitest and Playwright
+  Domain: A single tenant project management system with local persistence
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Keep proposals under 500 words
+    - Never presume features, ask any question before defining the plan
+  specs:
+    - Always use given/when/then
+    - Check the existing code standards in AGENTS.md before proposing a new specification.
+  tasks:
+    - Break tasks into chunks of max 1 hour
 
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+operations:
+  apply:
+    guidance:
+      - Keep test summaries concise
+  archive:
+    guidance:
+      - Summarize what was implemented and which specifications were affected.
