@@ -6,7 +6,6 @@ import type { Project, SortParam, SortRule } from '@/types/project'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
-import type {} from '@/types/project'
 
 const store = useProjectsStore()
 const { filters, sorting } = storeToRefs(store)
@@ -25,10 +24,7 @@ const handleSortSelection = (event: Event) => {
 <template>
   <div class="project-listing">
     <header>
-      <div>
-        <h1>Projetos</h1>
-        <span>({{ projects.length }})</span>
-      </div>
+      <slot name="header"></slot>
 
       <div>
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
@@ -59,21 +55,9 @@ const handleSortSelection = (event: Event) => {
     justify-content: space-between;
     align-items: center;
 
-    > div {
+    > div:last-child {
       display: flex;
       align-items: center;
-    }
-
-    > div:first-child {
-      gap: var(--space-2);
-
-      span {
-        font-size: var(--font-size-17);
-        color: var(--color-purple-500);
-      }
-    }
-
-    > div:last-child {
       gap: var(--space-6);
     }
   }
