@@ -7,6 +7,14 @@ import type { Project } from '@/types/project'
 
 defineProps<{ project: Project }>()
 const store = useProjectsStore()
+
+function formatDate(isoString: string) {
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(isoString))
+}
 </script>
 
 <template>
@@ -28,12 +36,12 @@ const store = useProjectsStore()
       <div>
         <div>
           <CalendarDayLight />
-          <p>{{ project.started_at }}</p>
+          <p>{{ formatDate(project.started_at) }}</p>
         </div>
 
         <div>
           <CalendarCheckLight />
-          <p>{{ project.ended_at }}</p>
+          <p>{{ formatDate(project.end_at) }}</p>
         </div>
       </div>
     </div>

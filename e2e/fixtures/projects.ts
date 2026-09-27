@@ -8,8 +8,8 @@ export function buildProject(overrides: Partial<Project> = {}): Project {
     id: 1,
     title: 'Projeto 1',
     client: 'Clicksign',
-    started_at: '01 de setembro de 2024',
-    ended_at: '12 de dezembro de 2024',
+    started_at: '2026-01-27T14:30:00.000Z',
+    end_at: '2026-06-30T14:30:00.000Z',
     favorited: false,
     ...overrides,
   }

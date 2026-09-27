@@ -45,7 +45,7 @@ test.describe('projects listing', () => {
 
     await expect(card.getByRole('heading', { level: 2, name: 'Projeto 1' })).toBeVisible()
     await expect(card).toContainText('Cliente: Clicksign')
-    await expect(card).toContainText('01 de setembro de 2024')
-    await expect(card).toContainText('12 de dezembro de 2024')
+    await expect(card).toContainText('27 de janeiro de 2026')
+    await expect(card).toContainText('30 de junho de 2026')
   })
 })
