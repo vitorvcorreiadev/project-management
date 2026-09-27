@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { Project } from '@/types/project'
+import type { Project, SortParam, SortRule } from '@/types/project'
 
 export const useProjectsStore = defineStore(
   'projects',
@@ -18,6 +18,30 @@ export const useProjectsStore = defineStore(
         id: 2,
         title: 'Projeto 2',
         client: 'Clicksign',
+        started_at: '2025-01-27T14:30:00.000Z',
+        end_at: '2025-06-30T14:30:00.000Z',
+        favorited: false,
+      },
+      {
+        id: 3,
+        title: 'AAAAAA',
+        client: 'Clicksign',
+        started_at: '2022-01-27T14:30:00.000Z',
+        end_at: '2022-06-30T14:30:00.000Z',
+        favorited: false,
+      },
+      {
+        id: 4,
+        title: 'QQQQQQQQQ',
+        client: 'Clicksign',
+        started_at: '2021-01-27T14:30:00.000Z',
+        end_at: '2021-06-30T14:30:00.000Z',
+        favorited: false,
+      },
+      {
+        id: 5,
+        title: 'OOOOOOOO',
+        client: 'Clicksign',
         started_at: '2026-01-27T14:30:00.000Z',
         end_at: '2026-06-30T14:30:00.000Z',
         favorited: false,
@@ -34,6 +58,29 @@ export const useProjectsStore = defineStore(
       })
     })
 
+    const sorting = ref<{ param: SortParam; rule: SortRule }>({
+      param: 'title',
+      rule: 'asc',
+    })
+
+    const sortedProjects = computed(() => {
+      const { param, rule } = sorting.value
+      const mult = rule === 'asc' ? 1 : -1
+
+      return [...filteredProjects.value].sort((a, b) => {
+        const valueA = a[param]
+        const valueB = b[param]
+
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return valueA.localeCompare(valueB) * mult
+        }
+
+        if (valueA < valueB) return -1 * mult
+        if (valueA > valueB) return 1 * mult
+        return 0
+      })
+    })
+
     const toggleFavorite = (id: number) => {
       const project = projects.value.find((project) => project.id == id)
 
@@ -42,7 +89,7 @@ export const useProjectsStore = defineStore(
       project.favorited = !project.favorited
     }
 
-    return { filteredProjects, toggleFavorite, filters, projects }
+    return { sortedProjects, toggleFavorite, filters, projects, sorting }
   },
   {
     persist: {

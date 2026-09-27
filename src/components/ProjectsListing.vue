@@ -2,15 +2,24 @@
 import BaseButton from './BaseButton.vue'
 import BaseToggle from './BaseToggle.vue'
 import ProjectCard from './ProjectCard.vue'
-import type { Project } from '@/types/project'
+import type { Project, SortParam, SortRule } from '@/types/project'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
+import type {} from '@/types/project'
 
 const store = useProjectsStore()
-const { filters } = storeToRefs(store)
+const { filters, sorting } = storeToRefs(store)
 
 defineProps<{ projects: Project[] }>()
+
+const handleSortSelection = (event: Event) => {
+  const target = event.target as HTMLSelectElement
+  const selectedOption = target.options[target.selectedIndex]
+
+  sorting.value.param = selectedOption?.dataset.param as SortParam
+  sorting.value.rule = selectedOption?.dataset.rule as SortRule
+}
 </script>
 
 <template>
@@ -23,6 +32,11 @@ defineProps<{ projects: Project[] }>()
 
       <div>
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
+        <select @change="handleSortSelection">
+          <option data-param="title" data-rule="asc">Ordem alfabética</option>
+          <option data-param="started_at" data-rule="desc">Iniciados mais recentes</option>
+          <option data-param="end_at" data-rule="desc">Prazo mais próximo</option>
+        </select>
         <BaseButton>
           <PlusCircle />
           Novo Projeto
