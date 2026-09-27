@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import BaseButton from './BaseButton.vue'
 import BaseToggle from './BaseToggle.vue'
 import ProjectCard from './ProjectCard.vue'
 import type { Project } from '@/types/project'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
+import { useProjectsStore } from '@/stores/projects'
+import { storeToRefs } from 'pinia'
 
-const favorites = ref(false)
+const store = useProjectsStore()
+const { filters } = storeToRefs(store)
 
 defineProps<{ projects: Project[] }>()
 </script>
@@ -20,7 +22,7 @@ defineProps<{ projects: Project[] }>()
       </div>
 
       <div>
-        <BaseToggle v-model="favorites">Apenas Favoritos</BaseToggle>
+        <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
         <BaseButton>
           <PlusCircle />
           Novo Projeto

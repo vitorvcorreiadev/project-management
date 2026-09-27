@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { Project } from '@/types/project'
 
@@ -22,6 +22,16 @@ export const useProjectsStore = defineStore('projects', () => {
     },
   ])
 
+  const filters = ref({
+    favorited: false,
+  })
+
+  const filteredProjects = computed(() => {
+    return projects.value.filter((project) => {
+      return !filters.value.favorited || project.favorited === true
+    })
+  })
+
   const toggleFavorite = (id: number) => {
     const project = projects.value.find((project) => project.id == id)
 
@@ -30,5 +40,5 @@ export const useProjectsStore = defineStore('projects', () => {
     project.favorited = !project.favorited
   }
 
-  return { projects, toggleFavorite }
+  return { filteredProjects, toggleFavorite, filters }
 })
