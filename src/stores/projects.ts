@@ -40,5 +40,5 @@ export const useProjectsStore = defineStore('projects', () => {
     project.favorited = !project.favorited
   }
 
-  return { filteredProjects, toggleFavorite, filters }
+  return { filteredProjects, toggleFavorite, filters, projects }
 })
