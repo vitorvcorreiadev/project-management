@@ -2,6 +2,11 @@
 import { nextTick, ref } from 'vue'
 import SearchIcon from '@/assets/images/SearchIcon.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
+import { useProjectsStore } from '@/stores/projects'
+import { storeToRefs } from 'pinia'
+
+const store = useProjectsStore()
+const { filters } = storeToRefs(store)
 
 const searchBoxRef = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLElement | null>(null)
@@ -37,6 +42,7 @@ useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
           type="search"
           placeholder="Digite o nome do projeto..."
           ref="inputRef"
+          v-model="filters.term"
         />
       </div>
     </div>

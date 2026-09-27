@@ -55,7 +55,12 @@ export const useProjectsStore = defineStore(
 
     const filteredProjects = computed(() => {
       return projects.value.filter((project) => {
-        return !filters.value.favorited || project.favorited === true
+        const matchesFavorited = !filters.value.favorited || project.favorited === true
+        const matchesTerm =
+          filters.value.term.length < 3 ||
+          project.name.toLowerCase().includes(filters.value.term.toLowerCase())
+
+        return matchesFavorited && matchesTerm
       })
     })
 
