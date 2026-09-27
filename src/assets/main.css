@@ -1,0 +1,4 @@
+@layer reset;
+
+@import '@fontsource-variable/encode-sans/wght.css';
+@import './reset.css';
