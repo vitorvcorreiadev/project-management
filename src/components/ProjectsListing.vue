@@ -4,6 +4,7 @@ import BaseButton from './BaseButton.vue'
 import BaseToggle from './BaseToggle.vue'
 import ProjectCard from './ProjectCard.vue'
 import type { Project } from '@/types/project'
+import PlusCircle from '@/assets/images/PlusCircle.vue'
 
 const favorites = ref(false)
 
@@ -20,7 +21,10 @@ defineProps<{ projects: Project[] }>()
 
       <div>
         <BaseToggle v-model="favorites">Apenas Favoritos</BaseToggle>
-        <BaseButton>Novo Projeto</BaseButton>
+        <BaseButton>
+          <PlusCircle />
+          Novo Projeto
+        </BaseButton>
       </div>
     </header>
 

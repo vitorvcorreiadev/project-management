@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseButton from './BaseButton.vue'
+import PlusCircle from '@/assets/images/PlusCircle.vue'
 </script>
 
 <template>
@@ -8,7 +9,10 @@ import BaseButton from './BaseButton.vue'
 
     <p>Clique no botão abaixo para criar o primeiro e gerenciá-lo.</p>
 
-    <BaseButton size="large"> Novo projeto </BaseButton>
+    <BaseButton size="large">
+      <PlusCircle />
+      Novo Projeto
+    </BaseButton>
   </div>
 </template>
 
