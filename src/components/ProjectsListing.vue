@@ -10,7 +10,7 @@ import { storeToRefs } from 'pinia'
 const store = useProjectsStore()
 const { filters, sorting } = storeToRefs(store)
 
-defineProps<{ projects: Project[] }>()
+withDefaults(defineProps<{ projects: Project[]; filterPanel?: boolean }>(), { filterPanel: true })
 
 const handleSortSelection = (event: Event) => {
   const target = event.target as HTMLSelectElement
@@ -26,7 +26,7 @@ const handleSortSelection = (event: Event) => {
     <header>
       <slot name="header"></slot>
 
-      <div>
+      <div v-if="filterPanel">
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
         <select @change="handleSortSelection">
           <option data-param="name" data-rule="asc">Ordem alfabética</option>
