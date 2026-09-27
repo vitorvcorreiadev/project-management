@@ -23,6 +23,7 @@ defineProps<{ project: Project }>()
           <CalendarDayLight />
           <p>{{ project.started_at }}</p>
         </div>
+
         <div>
           <CalendarCheckLight />
           <p>{{ project.ended_at }}</p>
@@ -56,6 +57,10 @@ article {
 
       h2 {
         margin-bottom: var(--space-2);
+      }
+
+      p strong {
+        margin-right: var(--space-2);
       }
     }
 

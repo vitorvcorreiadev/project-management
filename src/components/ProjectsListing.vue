@@ -2,8 +2,12 @@
 import { ref } from 'vue'
 import BaseButton from './BaseButton.vue'
 import BaseToggle from './BaseToggle.vue'
+import ProjectCard from './ProjectCard.vue'
+import type { Project } from '@/types/project'
 
 const favorites = ref(false)
+
+defineProps<{ projects: Project[] }>()
 </script>
 
 <template>
@@ -19,6 +23,12 @@ const favorites = ref(false)
         <BaseButton>Novo Projeto</BaseButton>
       </div>
     </header>
+
+    <ul>
+      <li v-for="(project, index) in projects" :key="index">
+        <ProjectCard :project="project" />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -46,6 +56,13 @@ const favorites = ref(false)
     > div:last-child {
       gap: var(--space-6);
     }
+  }
+
+  > ul {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    margin-top: var(--space-5);
   }
 }
 </style>
