@@ -55,5 +55,9 @@
 
     /* Toggle borders */
     --toggle-focus-ring-width: 0.2rem;
+
+    /* Favorite Star */
+    --star-stroke-color: white;
+    --star-favorited-fill: var(--color-amber-400);
   }
 }

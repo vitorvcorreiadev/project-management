@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
+import FavoriteStar from '@/components/FavoriteStar.vue'
+import { useProjectsStore } from '@/stores/projects'
 import type { Project } from '@/types/project'
 
 defineProps<{ project: Project }>()
+const store = useProjectsStore()
 </script>
 
 <template>
   <article>
     <div>
       <img src="@/assets/images/project-cover.png" />
+      <FavoriteStar
+        :model-value="project.favorited"
+        @update:model-value="store.toggleFavorite(project.id)"
+      />
     </div>
 
     <div>
@@ -39,9 +46,16 @@ article {
   width: 346px;
 
   > div:first-child {
+    position: relative;
+
     img {
       border-top-left-radius: var(--radius-4);
       border-top-right-radius: var(--radius-4);
+    }
+
+    .favorite-star {
+      position: absolute;
+      bottom: 25px;
     }
   }
 
