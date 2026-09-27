@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/encode-sans':
+        specifier: ^5.3.0
+        version: 5.3.0
       pinia:
         specifier: ^4.0.3
         version: 4.0.3(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))
@@ -328,6 +331,9 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource-variable/encode-sans@5.3.0':
+    resolution: {integrity: sha512-itgd12U7ENnmzDozTXFM0UbUzLPK6tFE4HWLXPj+exHGklpbA1m+HNkRVg/SWfro34OyclQR4/comFWfilT3LQ==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2351,6 +2357,8 @@ snapshots:
       levn: 0.4.1
 
   '@exodus/bytes@1.16.0': {}
+
+  '@fontsource-variable/encode-sans@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
