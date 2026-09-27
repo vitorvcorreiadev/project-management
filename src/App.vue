@@ -26,7 +26,7 @@ import HeaderLogo from './assets/images/HeaderLogo.vue'
   display: flex;
   flex-direction: column;
 
-  header {
+  > header {
     background-color: var(--color-purple-950);
     box-shadow: var(--shadow-default);
     width: 100%;
@@ -54,6 +54,11 @@ import HeaderLogo from './assets/images/HeaderLogo.vue'
     flex: 1;
     display: flex;
     padding: var(--space-7) var(--space-8);
+    width: 100%;
+
+    > div {
+      width: 100%;
+    }
   }
 }
 </style>
