@@ -1,0 +1,31 @@
+@layer semantic {
+  :root {
+    /* Button color */
+    --button-accent: var(--color-purple-500);
+    --button-primary-bg: var(--color-purple-500);
+    --button-primary-bg-disabled: var(--color-purple-200);
+    --button-primary-text: var(--color-white);
+    --button-secondary-bg: var(--color-white);
+    --button-secondary-text: var(--color-purple-500);
+    --button-secondary-border: var(--color-purple-500);
+
+    /* Button size */
+    --button-radius: var(--radius-5);
+    --button-size-medium-font-weight: var(--font-weight-reguar);
+    --button-size-medium-padding-block: var(--space-2);
+    --button-size-medium-padding-inline: var(--space-5);
+    --button-size-medium-font-size: var(--font-size-16);
+    --button-size-medium-line-height: var(--line-height-normal);
+    --button-size-medium-gap: var(--space-2);
+    --button-size-large-font-weight: var(--font-weight-semibold);
+    --button-size-large-padding-block: var(--space-4);
+    --button-size-large-padding-inline: var(--space-6);
+    --button-size-large-font-size: var(--font-size-20);
+    --button-size-large-line-height: var(--line-height-tight);
+    --button-size-large-gap: var(--space-4);
+
+    /* Button borders */
+    --button-border-width: 0.1rem;
+    --button-focus-ring-width: 0.2rem;
+  }
+}
