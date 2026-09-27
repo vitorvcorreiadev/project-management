@@ -29,7 +29,7 @@ function formatDate(isoString: string) {
 
     <div>
       <div>
-        <h2>{{ project.title }}</h2>
+        <h2>{{ project.name }}</h2>
         <p><strong>Cliente:</strong> {{ project.client }}</p>
       </div>
 

@@ -6,7 +6,7 @@ const PROJECTS_STORAGE_KEY = 'projects'
 export function buildProject(overrides: Partial<Project> = {}): Project {
   return {
     id: 1,
-    title: 'Projeto 1',
+    name: 'Projeto 1',
     client: 'Clicksign',
     started_at: '2026-01-27T14:30:00.000Z',
     end_at: '2026-06-30T14:30:00.000Z',

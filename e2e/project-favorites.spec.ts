@@ -11,8 +11,8 @@ import {
 } from './fixtures/locators.js'
 
 const twoProjects = () => [
-  buildProject({ id: 1, title: 'Projeto 1' }),
-  buildProject({ id: 2, title: 'Projeto 2' }),
+  buildProject({ id: 1, name: 'Projeto 1' }),
+  buildProject({ id: 2, name: 'Projeto 2' }),
 ]
 
 test.describe('project favorites', () => {

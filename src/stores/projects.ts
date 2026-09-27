@@ -8,7 +8,7 @@ export const useProjectsStore = defineStore(
     const projects = ref<Project[]>([
       {
         id: 1,
-        title: 'Projeto 1',
+        name: 'Projeto 1',
         client: 'Clicksign',
         started_at: '2026-01-27T14:30:00.000Z',
         end_at: '2026-06-30T14:30:00.000Z',
@@ -16,7 +16,7 @@ export const useProjectsStore = defineStore(
       },
       {
         id: 2,
-        title: 'Projeto 2',
+        name: 'Projeto 2',
         client: 'Clicksign',
         started_at: '2025-01-27T14:30:00.000Z',
         end_at: '2025-06-30T14:30:00.000Z',
@@ -24,7 +24,7 @@ export const useProjectsStore = defineStore(
       },
       {
         id: 3,
-        title: 'AAAAAA',
+        name: 'AAAAAA',
         client: 'Clicksign',
         started_at: '2022-01-27T14:30:00.000Z',
         end_at: '2022-06-30T14:30:00.000Z',
@@ -32,7 +32,7 @@ export const useProjectsStore = defineStore(
       },
       {
         id: 4,
-        title: 'QQQQQQQQQ',
+        name: 'QQQQQQQQQ',
         client: 'Clicksign',
         started_at: '2021-01-27T14:30:00.000Z',
         end_at: '2021-06-30T14:30:00.000Z',
@@ -40,7 +40,7 @@ export const useProjectsStore = defineStore(
       },
       {
         id: 5,
-        title: 'OOOOOOOO',
+        name: 'OOOOOOOO',
         client: 'Clicksign',
         started_at: '2026-01-27T14:30:00.000Z',
         end_at: '2026-06-30T14:30:00.000Z',
@@ -50,6 +50,7 @@ export const useProjectsStore = defineStore(
 
     const filters = ref({
       favorited: false,
+      term: '',
     })
 
     const filteredProjects = computed(() => {
@@ -59,7 +60,7 @@ export const useProjectsStore = defineStore(
     })
 
     const sorting = ref<{ param: SortParam; rule: SortRule }>({
-      param: 'title',
+      param: 'name',
       rule: 'asc',
     })
 

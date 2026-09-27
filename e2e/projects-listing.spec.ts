@@ -22,9 +22,9 @@ test.describe('projects listing', () => {
 
   test('lists the projects with their count when there are projects', async ({ page }) => {
     await seedProjects(page, [
-      buildProject({ id: 1, title: 'Projeto 1' }),
-      buildProject({ id: 2, title: 'Projeto 2' }),
-      buildProject({ id: 3, title: 'Projeto 3' }),
+      buildProject({ id: 1, name: 'Projeto 1' }),
+      buildProject({ id: 2, name: 'Projeto 2' }),
+      buildProject({ id: 3, name: 'Projeto 3' }),
     ])
     await page.goto('/')
 
@@ -37,8 +37,8 @@ test.describe('projects listing', () => {
     await expect(projectsEmptyState(page)).toHaveCount(0)
   })
 
-  test('shows the title, the client and the dates of a project in its card', async ({ page }) => {
-    await seedProjects(page, [buildProject({ id: 1, title: 'Projeto 1', client: 'Clicksign' })])
+  test('shows the name, the client and the dates of a project in its card', async ({ page }) => {
+    await seedProjects(page, [buildProject({ id: 1, name: 'Projeto 1', client: 'Clicksign' })])
     await page.goto('/')
 
     const card = projectCard(page, 'Projeto 1')

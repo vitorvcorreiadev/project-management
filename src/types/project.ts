@@ -1,6 +1,6 @@
 export interface Project {
   id: number
-  title: string
+  name: string
   client: string
   started_at: string
   end_at: string

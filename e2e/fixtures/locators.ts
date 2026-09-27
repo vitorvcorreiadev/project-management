@@ -9,8 +9,8 @@ export const projectCount = (page: Page): Locator => page.locator('.project-list
 
 export const projectCards = (page: Page): Locator => page.getByRole('article')
 
-export const projectCard = (page: Page, title: string): Locator =>
-  projectCards(page).filter({ has: page.getByRole('heading', { level: 2, name: title }) })
+export const projectCard = (page: Page, name: string): Locator =>
+  projectCards(page).filter({ has: page.getByRole('heading', { level: 2, name }) })
 
 export const favoriteStar = (card: Locator): Locator => card.locator('button.favorite-star')
 

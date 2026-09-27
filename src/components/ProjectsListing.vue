@@ -33,7 +33,7 @@ const handleSortSelection = (event: Event) => {
       <div>
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
         <select @change="handleSortSelection">
-          <option data-param="title" data-rule="asc">Ordem alfabética</option>
+          <option data-param="name" data-rule="asc">Ordem alfabética</option>
           <option data-param="started_at" data-rule="desc">Iniciados mais recentes</option>
           <option data-param="end_at" data-rule="desc">Prazo mais próximo</option>
         </select>
