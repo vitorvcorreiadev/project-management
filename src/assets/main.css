@@ -1,4 +1,6 @@
-@layer reset;
+@layer reset, tokens, base;
 
 @import '@fontsource-variable/encode-sans/wght.css';
 @import './reset.css';
+@import './tokens.css';
+@import './base.css';

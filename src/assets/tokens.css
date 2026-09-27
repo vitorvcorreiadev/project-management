@@ -1,0 +1,59 @@
+@layer tokens {
+  :root {
+    /* Color */
+    --color-white: #ffffff;
+    --color-gray-100: #dcdcdc;
+    --color-gray-300: #8c8b93;
+    --color-gray-400: #717171;
+    --color-gray-600: #53525d;
+    --color-purple-50: #f4f2ff;
+    --color-purple-200: #b2a8ff;
+    --color-purple-500: #695ccd;
+    --color-purple-800: #1f1283;
+    --color-purple-950: #1c1930;
+    --color-amber-400: #ffb23d;
+
+    /* Spacing */
+    --space-1: 0.4rem;
+    --space-2: 0.8rem;
+    --space-3: 1.2rem;
+    --space-4: 1.6rem;
+    --space-5: 2.4rem;
+    --space-6: 3.2rem;
+    --space-7: 4.8rem;
+    --space-8: 6.4rem;
+
+    /* Font size */
+    --font-size-14: 1.4rem;
+    --font-size-16: 1.6rem;
+    --font-size-17: 1.7rem;
+    --font-size-18: 1.8rem;
+    --font-size-20: 2rem;
+    --font-size-22: 2.2rem;
+    --font-size-24: 2.4rem;
+
+    /* Line height */
+    --line-height-tight: 1;
+    --line-height-snug: 1.375;
+    --line-height-normal: 1.5;
+    --line-height-loose: 2;
+
+    /* Font family and weight */
+    --font-family-sans: 'Encode Sans Variable', system-ui, sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Radius */
+    --radius-1: 0.4rem;
+    --radius-2: 0.8rem;
+    --radius-3: 1.2rem;
+    --radius-4: 1.6rem;
+    --radius-5: 2.6rem;
+    --radius-full: 100%;
+
+    /* Shadow */
+    --shadow-default: 0 0.4rem 0.4rem 0 rgb(0 0 0 / 25%);
+  }
+}
