@@ -7,4 +7,17 @@
     font-family: var(--font-family-sans);
     background-color: var(--color-purple-50);
   }
+
+  h1 {
+    color: var(--color-purple-800);
+    font-size: var(--font-size-24);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  p {
+    font-size: var(--font-size-16);
+    line-height: var(--line-height-tight);
+    color: var(--color-gray-400);
+  }
 }
