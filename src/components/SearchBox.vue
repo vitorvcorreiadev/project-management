@@ -24,6 +24,13 @@ function closeSearch() {
   opened.value = false
 }
 
+async function cancelSearch() {
+  filters.value.term = ''
+  closeSearch()
+  await nextTick()
+  buttonRef.value?.focus()
+}
+
 useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
 </script>
 
@@ -43,6 +50,7 @@ useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
           placeholder="Digite o nome do projeto..."
           ref="inputRef"
           v-model="filters.term"
+          @keydown.esc="cancelSearch"
         />
       </div>
     </div>
@@ -53,6 +61,7 @@ useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
 .search-box {
   > button {
     color: white;
+    cursor: pointer;
   }
 
   > div {
