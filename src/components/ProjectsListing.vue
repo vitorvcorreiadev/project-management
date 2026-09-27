@@ -18,7 +18,7 @@ defineProps<{ projects: Project[] }>()
     <header>
       <div>
         <h1>Projetos</h1>
-        <span>(9)</span>
+        <span>({{ projects.length }})</span>
       </div>
 
       <div>
@@ -31,7 +31,7 @@ defineProps<{ projects: Project[] }>()
     </header>
 
     <ul>
-      <li v-for="(project, index) in projects" :key="index">
+      <li v-for="project in projects" :key="project.id">
         <ProjectCard :project="project" />
       </li>
     </ul>
