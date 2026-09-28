@@ -1,10 +1,16 @@
 import 'fake-indexeddb/auto'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 
 import ProjectCard from '../components/ProjectCard.vue'
 import type { Project } from '../types/project'
+
+const { push } = vi.hoisted(() => ({ push: vi.fn<(to: string) => unknown>() }))
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push, back: vi.fn<() => void>() }),
+}))
 
 function buildProject(overrides: Partial<Project> = {}): Project {
   return {
@@ -26,6 +32,20 @@ describe('ProjectCard', () => {
 
     return mount(ProjectCard, { props: { project }, global: { plugins: [pinia] } })
   }
+
+  async function pickMenuItem(wrapper: ReturnType<typeof mountCard>, label: string) {
+    const item = wrapper
+      .findAll('.dropdown-menu-item')
+      .find((candidate) => candidate.text() === label)
+
+    if (!item) throw new Error(`No menu item labeled "${label}"`)
+
+    await item.trigger('click')
+  }
+
+  beforeEach(() => {
+    push.mockReset()
+  })
 
   it('renders the start day the user picked, not the day before', () => {
     const wrapper = mountCard(buildProject())
@@ -51,5 +71,21 @@ describe('ProjectCard', () => {
 
   it('does not throw when a date is missing', () => {
     expect(() => mountCard(buildProject({ started_at: '', end_at: '' }))).not.toThrow()
+  })
+
+  it('navigates to the edit route for the project it was given', async () => {
+    const wrapper = mountCard(buildProject({ id: 7 }))
+
+    await pickMenuItem(wrapper, 'Editar')
+
+    expect(push).toHaveBeenCalledWith('/projects/7/edit')
+  })
+
+  it('does not navigate when Remover is picked', async () => {
+    const wrapper = mountCard(buildProject())
+
+    await pickMenuItem(wrapper, 'Remover')
+
+    expect(push).not.toHaveBeenCalled()
   })
 })

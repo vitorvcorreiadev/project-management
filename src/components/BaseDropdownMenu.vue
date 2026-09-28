@@ -75,6 +75,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
     padding: var(--space-2);
     border-radius: var(--radius-full);
     max-width: 32px;
+    width: 32px;
     height: 32px;
     box-shadow: var(--shadow-default);
     list-style: none;

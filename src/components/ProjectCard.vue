@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
 import fallbackCover from '@/assets/images/project-cover.png'
@@ -7,15 +9,36 @@ import { useProjectsStore } from '@/stores/projects'
 import { useCoverUrl } from '@/composables/useCoverUrl'
 import { formatProjectDate } from '@/utils/dates'
 import type { Project } from '@/types/project'
+import type { DropdownItem } from '@/types/dropdown'
 import BaseDropdownMenu from './BaseDropdownMenu.vue'
 import ElipsisIcon from '@/assets/images/ElipsisIcon.vue'
 import EditIcon from '@/assets/images/EditIcon.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'
 
+const EDIT = 'edit'
+const REMOVE = 'remove'
+
+const menuItems: DropdownItem[] = [
+  { id: EDIT, label: 'Editar', icon: EditIcon },
+  { id: REMOVE, label: 'Remover', icon: TrashIcon },
+]
+
 const props = defineProps<{ project: Project }>()
 
 const store = useProjectsStore()
+const router = useRouter()
 const coverUrl = useCoverUrl(() => props.project)
+const isRemoveDialogOpen = ref(false)
+
+function handleMenuSelect(item: DropdownItem) {
+  if (item.id === EDIT) {
+    router.push(`/projects/${props.project.id}/edit`)
+
+    return
+  }
+
+  if (item.id === REMOVE) isRemoveDialogOpen.value = true
+}
 </script>
 
 <template>
@@ -29,11 +52,9 @@ const coverUrl = useCoverUrl(() => props.project)
           @update:model-value="store.toggleFavorite(project.id)"
         />
         <BaseDropdownMenu
-          ariaLabel="aqui"
-          :items="[
-            { id: '1', label: 'Editar', icon: EditIcon },
-            { id: '2', label: 'Remover', icon: TrashIcon },
-          ]"
+          :ariaLabel="`Ações do projeto ${project.name}`"
+          :items="menuItems"
+          @select="handleMenuSelect"
         >
           <ElipsisIcon />
         </BaseDropdownMenu>
