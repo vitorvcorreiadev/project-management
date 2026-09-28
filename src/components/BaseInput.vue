@@ -14,12 +14,14 @@ const requiredLabel = ref('"(Obrigatório)"')
     <span>{{ label }}</span>
 
     <div>
-      <input v-bind="$attrs" />
+      <slot name="custom-input" />
+      <input v-bind="$attrs" v-if="!$slots['custom-input']" />
 
-      <div class="custom-icon">
+      <div class="custom-icon" v-if="$slots['custom-icon']">
         <slot name="custom-icon" />
       </div>
     </div>
+
     <small v-if="errorMessage">{{ errorMessage }}</small>
   </label>
 </template>
@@ -36,7 +38,7 @@ const requiredLabel = ref('"(Obrigatório)"')
     color: var(--color-purple-500);
     margin-bottom: var(--space-1);
 
-    &:has(~ input[required]) {
+    &:has(~ div > input[required]) {
       &::after {
         content: v-bind(requiredLabel);
         font-size: var(--font-size-14);
