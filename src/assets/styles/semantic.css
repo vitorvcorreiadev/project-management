@@ -82,7 +82,6 @@
     --dialog-title-color: var(--color-purple-800);
 
     /* Dialog content */
-    --dialog-divider-color: var(--color-gray-100);
     --dialog-content-color: var(--color-gray-400);
     --dialog-content-font-size: var(--font-size-16);
     --dialog-content-line-height: var(--line-height-normal);

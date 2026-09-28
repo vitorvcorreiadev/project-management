@@ -10,7 +10,9 @@ import { useCoverUrl } from '@/composables/useCoverUrl'
 import { formatProjectDate } from '@/utils/dates'
 import type { Project } from '@/types/project'
 import type { DropdownItem } from '@/types/dropdown'
+import BaseDialog from './BaseDialog.vue'
 import BaseDropdownMenu from './BaseDropdownMenu.vue'
+import BaseButton from './BaseButton.vue'
 import ElipsisIcon from '@/assets/images/ElipsisIcon.vue'
 import EditIcon from '@/assets/images/EditIcon.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'
@@ -38,6 +40,11 @@ function handleMenuSelect(item: DropdownItem) {
   }
 
   if (item.id === REMOVE) isRemoveDialogOpen.value = true
+}
+
+function confirmRemove() {
+  store.removeProject(props.project.id)
+  isRemoveDialogOpen.value = false
 }
 </script>
 
@@ -79,6 +86,20 @@ function handleMenuSelect(item: DropdownItem) {
         </div>
       </div>
     </div>
+
+    <BaseDialog v-model:open="isRemoveDialogOpen" title="Remover projeto">
+      <template #icon>
+        <TrashIcon aria-hidden="true" />
+      </template>
+
+      <p>Essa ação removerá definitivamente o projeto</p>
+      <span>{{ project.name }}</span>
+
+      <template #actions>
+        <BaseButton variant="secondary" @click="isRemoveDialogOpen = false">Cancelar</BaseButton>
+        <BaseButton @click="confirmRemove">Confirmar</BaseButton>
+      </template>
+    </BaseDialog>
   </article>
 </template>
 
@@ -106,7 +127,7 @@ article {
     }
   }
 
-  > div:last-child {
+  > div:nth-child(2) {
     border: 1px solid var(--color-gray-100);
     border-bottom-left-radius: var(--radius-4);
     border-bottom-right-radius: var(--radius-4);

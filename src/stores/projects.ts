@@ -69,6 +69,10 @@ export const useProjectsStore = defineStore(
       Object.assign(target, project)
     }
 
+    const removeProject = (id: number) => {
+      projects.value = projects.value.filter((project) => project.id !== id)
+    }
+
     const filters = ref({
       favorited: false,
       term: '',
@@ -133,6 +137,7 @@ export const useProjectsStore = defineStore(
       createProject,
       findProjectById,
       updateProject,
+      removeProject,
     }
   },
   {

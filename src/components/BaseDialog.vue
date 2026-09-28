@@ -46,7 +46,6 @@ defineSlots<{
 
       <div class="dialog-body">
         <h2 :id="titleId" class="dialog-title">{{ title }}</h2>
-        <hr class="dialog-divider" />
 
         <div class="dialog-content">
           <slot />
@@ -118,16 +117,13 @@ defineSlots<{
   text-align: center;
 }
 
-.dialog-divider {
-  border: 0;
-  border-block-start: 1px solid var(--dialog-divider-color);
-}
-
 .dialog-content {
   color: var(--dialog-content-color);
   font-size: var(--dialog-content-font-size);
   line-height: var(--dialog-content-line-height);
   text-align: center;
+  border-top: 1px solid var(--color-gray-300);
+  padding-top: var(--space-6);
 }
 
 .dialog-actions {

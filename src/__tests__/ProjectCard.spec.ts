@@ -1,9 +1,10 @@
 import 'fake-indexeddb/auto'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 
 import ProjectCard from '../components/ProjectCard.vue'
+import { useProjectsStore } from '../stores/projects'
 import type { Project } from '../types/project'
 
 const { push } = vi.hoisted(() => ({ push: vi.fn<(to: string) => unknown>() }))
@@ -11,6 +12,30 @@ const { push } = vi.hoisted(() => ({ push: vi.fn<(to: string) => unknown>() }))
 vi.mock('vue-router', () => ({
   useRouter: () => ({ push, back: vi.fn<() => void>() }),
 }))
+
+const showModalMock = vi.fn<() => void>(function (this: HTMLDialogElement) {
+  this.open = true
+})
+
+const closeMock = vi.fn<() => void>(function (this: HTMLDialogElement) {
+  if (!this.open) return
+
+  this.open = false
+  this.dispatchEvent(new Event('close'))
+})
+
+const nativeShowModal = HTMLDialogElement.prototype.showModal
+const nativeClose = HTMLDialogElement.prototype.close
+
+beforeAll(() => {
+  HTMLDialogElement.prototype.showModal = showModalMock
+  HTMLDialogElement.prototype.close = closeMock
+})
+
+afterAll(() => {
+  HTMLDialogElement.prototype.showModal = nativeShowModal
+  HTMLDialogElement.prototype.close = nativeClose
+})
 
 function buildProject(overrides: Partial<Project> = {}): Project {
   return {
@@ -26,11 +51,21 @@ function buildProject(overrides: Partial<Project> = {}): Project {
 }
 
 describe('ProjectCard', () => {
+  const wrappers: VueWrapper[] = []
+
   function mountCard(project: Project) {
     const pinia = createPinia()
     setActivePinia(pinia)
 
-    return mount(ProjectCard, { props: { project }, global: { plugins: [pinia] } })
+    const wrapper = mount(ProjectCard, {
+      props: { project },
+      global: { plugins: [pinia] },
+      attachTo: document.body,
+    })
+
+    wrappers.push(wrapper)
+
+    return wrapper
   }
 
   async function pickMenuItem(wrapper: ReturnType<typeof mountCard>, label: string) {
@@ -43,8 +78,22 @@ describe('ProjectCard', () => {
     await item.trigger('click')
   }
 
+  async function openRemoveDialog(wrapper: ReturnType<typeof mountCard>) {
+    await pickMenuItem(wrapper, 'Remover')
+  }
+
+  function dialogOf(wrapper: ReturnType<typeof mountCard>) {
+    return wrapper.find('dialog').element as HTMLDialogElement
+  }
+
   beforeEach(() => {
     push.mockReset()
+    showModalMock.mockClear()
+    closeMock.mockClear()
+  })
+
+  afterEach(() => {
+    for (const wrapper of wrappers.splice(0)) wrapper.unmount()
   })
 
   it('renders the start day the user picked, not the day before', () => {
@@ -87,5 +136,50 @@ describe('ProjectCard', () => {
     await pickMenuItem(wrapper, 'Remover')
 
     expect(push).not.toHaveBeenCalled()
+  })
+
+  it('asks which project is about to go before letting the user delete anything', async () => {
+    const wrapper = mountCard(buildProject({ name: 'Projeto 1' }))
+
+    await openRemoveDialog(wrapper)
+
+    const content = wrapper.get('.dialog-content')
+
+    expect(wrapper.get('.dialog-title').text()).toBe('Remover projeto')
+    expect(content.get('p').text()).toContain('Essa ação removerá definitivamente o projeto')
+    expect(content.get('p span').text()).toBe('Projeto 1')
+    expect(wrapper.find('.dialog-icon svg').exists()).toBe(true)
+    expect(wrapper.get('.dialog-actions').text()).toBe('CancelarConfirmar')
+  })
+
+  it('opens the dialog when Remover is picked', async () => {
+    const wrapper = mountCard(buildProject())
+
+    await openRemoveDialog(wrapper)
+
+    expect(showModalMock).toHaveBeenCalledTimes(1)
+    expect(dialogOf(wrapper).open).toBe(true)
+  })
+
+  it('leaves the project alone and shuts the dialog when Cancelar is pressed', async () => {
+    const wrapper = mountCard(buildProject())
+    const store = useProjectsStore()
+
+    await openRemoveDialog(wrapper)
+    await wrapper.get('.dialog-actions button.secondary').trigger('click')
+
+    expect(store.findProjectById(1)).toBeDefined()
+    expect(dialogOf(wrapper).open).toBe(false)
+  })
+
+  it('removes the project and shuts the dialog when Confirmar is pressed', async () => {
+    const wrapper = mountCard(buildProject())
+    const store = useProjectsStore()
+
+    await openRemoveDialog(wrapper)
+    await wrapper.get('.dialog-actions button.primary').trigger('click')
+
+    expect(store.findProjectById(1)).toBeUndefined()
+    expect(dialogOf(wrapper).open).toBe(false)
   })
 })
