@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, useId } from 'vue'
 
 const props = defineProps<{ label: string; errorMessage?: string }>()
 
@@ -9,6 +9,7 @@ defineOptions({ inheritAttrs: false })
 
 const errorClass = computed(() => props.errorMessage && 'has-error')
 const requiredLabel = ref('"(Obrigatório)"')
+const errorId = useId()
 </script>
 
 <template>
@@ -17,14 +18,20 @@ const requiredLabel = ref('"(Obrigatório)"')
 
     <div>
       <slot name="custom-input" />
-      <input v-bind="$attrs" v-if="!$slots['custom-input']" v-model="modelValue" />
+      <input
+        v-bind="$attrs"
+        v-if="!$slots['custom-input']"
+        v-model="modelValue"
+        :aria-invalid="errorMessage ? true : undefined"
+        :aria-describedby="errorMessage ? errorId : undefined"
+      />
 
       <div class="custom-icon" v-if="$slots['custom-icon']">
         <slot name="custom-icon" />
       </div>
     </div>
 
-    <small v-if="errorMessage" role="alert">{{ errorMessage }}</small>
+    <small v-if="errorMessage" :id="errorId" role="alert">{{ errorMessage }}</small>
   </label>
 </template>
 
@@ -50,6 +57,10 @@ const requiredLabel = ref('"(Obrigatório)"')
     input {
       color: var(--color-red-500);
       border-color: var(--color-red-500);
+    }
+
+    .custom-icon {
+      color: var(--color-red-500);
     }
   }
 

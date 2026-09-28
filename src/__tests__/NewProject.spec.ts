@@ -225,3 +225,212 @@ describe('NewProject', () => {
     expect(wrapper.find('[role="alert"]').text()).toContain('capa do projeto')
   })
 })
+
+describe('NewProject - validation', () => {
+  function mountPage(options: { attachTo?: Element } = {}) {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+
+    return mount(NewProject, { ...options, global: { plugins: [pinia] } })
+  }
+
+  function lastProject(): Project | undefined {
+    const { projects } = useProjectsStore()
+
+    return projects[projects.length - 1]
+  }
+
+  async function fillAndSubmit(
+    wrapper: ReturnType<typeof mountPage>,
+    values: [string, string][] = [],
+  ) {
+    for (const [name, value] of values) {
+      await wrapper.find(`input[name="${name}"]`).setValue(value)
+    }
+
+    await wrapper.find('form').trigger('submit')
+  }
+
+  function errorFor(wrapper: ReturnType<typeof mountPage>, field: string): string | undefined {
+    const label = wrapper.find(`input[name="${field}"]`).element.closest('label')
+
+    return label?.querySelector('[role="alert"]')?.textContent ?? undefined
+  }
+
+  beforeEach(() => {
+    push.mockReset()
+    coversFailure.current = null
+  })
+
+  it('marks the form novalidate so the browser does not pre-empt the shared rules', () => {
+    const wrapper = mountPage()
+
+    expect(wrapper.find('form').attributes('novalidate')).toBeDefined()
+  })
+
+  it('keeps required on the fields, which drives the label marker and date placeholder', () => {
+    const wrapper = mountPage()
+
+    for (const field of ['name', 'client', 'started_at', 'end_at']) {
+      expect(wrapper.find(`input[name="${field}"]`).attributes('required')).toBeDefined()
+    }
+  })
+
+  it('says nothing about a form the user has not touched yet', () => {
+    const wrapper = mountPage()
+
+    expect(wrapper.findAll('[role="alert"]')).toHaveLength(0)
+  })
+
+  it('refuses an empty form and names every field', async () => {
+    const wrapper = mountPage()
+    const store = useProjectsStore()
+    const before = store.projects.length
+
+    await fillAndSubmit(wrapper)
+
+    expect(store.projects).toHaveLength(before)
+    expect(push).not.toHaveBeenCalled()
+    expect(errorFor(wrapper, 'name')).toBe('Por favor, digite ao menos duas palavras')
+    expect(errorFor(wrapper, 'client')).toBe('Por favor, digite ao menos uma palavra')
+    expect(errorFor(wrapper, 'started_at')).toBe('Selecione uma data válida')
+    expect(errorFor(wrapper, 'end_at')).toBe('Selecione uma data válida')
+  })
+
+  it('refuses a single-word name', async () => {
+    const wrapper = mountPage()
+    const store = useProjectsStore()
+    const before = store.projects.length
+
+    await fillAndSubmit(wrapper, [
+      ['name', 'Loja'],
+      ['client', 'Clicksign'],
+      ['started_at', '2026-09-01'],
+      ['end_at', '2026-12-15'],
+    ])
+
+    expect(errorFor(wrapper, 'name')).toBe('Por favor, digite ao menos duas palavras')
+    expect(store.projects).toHaveLength(before)
+    expect(push).not.toHaveBeenCalled()
+  })
+
+  it('refuses a whitespace-only client, which the native required allows', async () => {
+    const wrapper = mountPage()
+
+    await fillAndSubmit(wrapper, [
+      ['name', 'Projeto novo'],
+      ['client', '   '],
+      ['started_at', '2026-09-01'],
+      ['end_at', '2026-12-15'],
+    ])
+
+    expect(errorFor(wrapper, 'client')).toBe('Por favor, digite ao menos uma palavra')
+  })
+
+  it('refuses an end date before the start date', async () => {
+    const wrapper = mountPage()
+    const store = useProjectsStore()
+    const before = store.projects.length
+
+    await fillAndSubmit(wrapper, [
+      ['name', 'Projeto novo'],
+      ['client', 'Clicksign'],
+      ['started_at', '2026-09-01'],
+      ['end_at', '2026-08-31'],
+    ])
+
+    expect(errorFor(wrapper, 'end_at')).toBe(
+      'A data final deve ser igual ou posterior à data de início.',
+    )
+    expect(store.projects).toHaveLength(before)
+    expect(push).not.toHaveBeenCalled()
+  })
+
+  it('accepts an end date equal to the start date', async () => {
+    const wrapper = mountPage()
+
+    await fillAndSubmit(wrapper, [
+      ['name', 'Projeto novo'],
+      ['client', 'Clicksign'],
+      ['started_at', '2026-09-01'],
+      ['end_at', '2026-09-01'],
+    ])
+
+    await vi.waitFor(() => {
+      expect(lastProject()?.end_at).toBe('2026-09-01')
+    })
+  })
+
+  it('reports a field once it has been left, even if nothing was typed', async () => {
+    const wrapper = mountPage()
+
+    await wrapper.find('input[name="name"]').trigger('blur')
+
+    expect(errorFor(wrapper, 'name')).toBe('Por favor, digite ao menos duas palavras')
+  })
+
+  it('clears the message as soon as the field is corrected', async () => {
+    const wrapper = mountPage()
+    const name = wrapper.find('input[name="name"]')
+
+    await name.trigger('blur')
+    expect(errorFor(wrapper, 'name')).toBeDefined()
+
+    await name.setValue('Loja Virtual')
+    expect(errorFor(wrapper, 'name')).toBeUndefined()
+  })
+
+  it('keeps a message for an untouched field out of the way until submit', async () => {
+    const wrapper = mountPage()
+
+    await wrapper.find('input[name="name"]').trigger('blur')
+
+    expect(errorFor(wrapper, 'name')).toBeDefined()
+    expect(errorFor(wrapper, 'client')).toBeUndefined()
+  })
+
+  it('saves once every field satisfies the rules', async () => {
+    const wrapper = mountPage()
+
+    await fillAndSubmit(wrapper, [
+      ['name', 'Loja Virtual'],
+      ['client', 'Clicksign'],
+      ['started_at', '2026-09-01'],
+      ['end_at', '2026-12-15'],
+    ])
+
+    await vi.waitFor(() => {
+      expect(push).toHaveBeenCalledWith('/')
+    })
+
+    expect(lastProject()?.name).toBe('Loja Virtual')
+  })
+
+  it('moves focus to the first invalid field after a refused submit', async () => {
+    const wrapper = mountPage({ attachTo: document.body })
+
+    await fillAndSubmit(wrapper)
+
+    await vi.waitFor(() => {
+      expect(document.activeElement).toBe(wrapper.find('input[name="name"]').element)
+    })
+
+    wrapper.unmount()
+  })
+
+  it('describes each message to its own input', async () => {
+    const wrapper = mountPage()
+
+    await fillAndSubmit(wrapper)
+
+    const name = wrapper.find('input[name="name"]')
+    const describedBy = name.attributes('aria-describedby')
+    const label = name.element.closest('label')
+    const alert = label?.querySelector('[role="alert"]')
+
+    expect(name.attributes('aria-invalid')).toBe('true')
+    expect(describedBy).toBeDefined()
+    expect(alert?.getAttribute('id')).toBe(describedBy)
+    expect(alert?.getAttribute('role')).toBe('alert')
+  })
+})

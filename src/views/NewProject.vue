@@ -5,25 +5,19 @@ import BaseInput from '@/components/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
 import ImageInput from '@/components/ImageInput.vue'
-import { reactive, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useProjectsStore } from '@/stores/projects'
 import { saveCover } from '@/db/covers'
-import type { Project } from '@/types/project'
+import useProjectForm from '@/composables/useProjectForm'
+import { firstInvalidField } from '@/validation/project'
 import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
 const router = useRouter()
 
-const form = reactive<Project>({
-  id: Date.now() * 1000 + Math.floor(Math.random() * 1000),
-  name: '',
-  client: '',
-  started_at: '',
-  end_at: '',
-  favorited: false,
-  hasCover: false,
-})
+const { form, errors, visibleErrors, touch, validateAll } = useProjectForm()
 
+const formRef = ref<HTMLFormElement | null>(null)
 const coverFile = ref<File | null>(null)
 const isSaving = ref(false)
 const saveError = ref<string | null>(null)
@@ -32,8 +26,23 @@ watch(coverFile, () => {
   saveError.value = null
 })
 
+async function focusFirstError(): Promise<void> {
+  await nextTick()
+
+  const field = firstInvalidField(errors.value)
+
+  if (!field) return
+
+  formRef.value?.querySelector<HTMLInputElement>(`[name="${field}"]`)?.focus()
+}
+
 const handleSubmit = async () => {
   if (isSaving.value) return
+
+  if (!validateAll()) {
+    await focusFirstError()
+    return
+  }
 
   isSaving.value = true
   saveError.value = null
@@ -58,9 +67,23 @@ const handleSubmit = async () => {
     <BaseBreadcrumb title="Novo projeto" />
 
     <div class="project-form-wrapper">
-      <form @submit.prevent="handleSubmit">
-        <BaseInput label="Nome do projeto" required name="name" v-model="form.name" />
-        <BaseInput label="Cliente" required name="client" v-model="form.client" />
+      <form ref="formRef" novalidate @submit.prevent="handleSubmit">
+        <BaseInput
+          label="Nome do projeto"
+          required
+          name="name"
+          v-model="form.name"
+          :error-message="visibleErrors.name"
+          @blur="touch('name')"
+        />
+        <BaseInput
+          label="Cliente"
+          required
+          name="client"
+          v-model="form.client"
+          :error-message="visibleErrors.client"
+          @blur="touch('client')"
+        />
         <div>
           <BaseInput
             label="Data de Início"
@@ -68,13 +91,23 @@ const handleSubmit = async () => {
             type="date"
             name="started_at"
             v-model="form.started_at"
+            :error-message="visibleErrors.started_at"
+            @blur="touch('started_at')"
           >
             <template #custom-icon>
               <CalendarDayLight />
             </template>
           </BaseInput>
 
-          <BaseInput label="Data Final" required type="date" name="end_at" v-model="form.end_at">
+          <BaseInput
+            label="Data Final"
+            required
+            type="date"
+            name="end_at"
+            v-model="form.end_at"
+            :error-message="visibleErrors.end_at"
+            @blur="touch('end_at')"
+          >
             <template #custom-icon>
               <CalendarCheckLight />
             </template>
@@ -111,7 +144,6 @@ const handleSubmit = async () => {
 
     > div {
       display: flex;
-      align-items: center;
       gap: 4rem;
       width: 100%;
       justify-content: space-between;
