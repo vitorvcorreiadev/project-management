@@ -12,9 +12,24 @@ export const projectCards = (page: Page): Locator => page.getByRole('article')
 export const projectCard = (page: Page, name: string): Locator =>
   projectCards(page).filter({ has: page.getByRole('heading', { level: 2, name }) })
 
+export const projectNames = (page: Page): Locator => projectCards(page).locator('h2')
+
 export const favoriteStar = (card: Locator): Locator => card.locator('button.favorite-star')
 
 export const favoritedFilter = (page: Page): Locator => page.getByRole('switch')
+
+export const sortSelect = (page: Page): Locator => page.getByRole('combobox')
+
+export const searchToggle = (page: Page): Locator => page.locator('.search-box > button')
+
+export const searchInput = (page: Page): Locator =>
+  page.getByPlaceholder('Digite o nome do projeto...')
+
+export const searchResultTitle = (page: Page): Locator =>
+  page.getByRole('heading', { level: 2, name: 'Resultado da busca' })
+
+export const searchBackButton = (page: Page): Locator =>
+  page.getByRole('button', { name: 'Voltar' })
 
 export const projectsEmptyState = (page: Page): Locator => page.getByRole('status')
 
