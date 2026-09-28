@@ -111,6 +111,7 @@ article {
     border-bottom-left-radius: var(--radius-4);
     border-bottom-right-radius: var(--radius-4);
     padding: var(--space-5);
+    background: white;
 
     > div:first-child {
       padding-bottom: var(--space-4);
