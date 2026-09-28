@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { COVER_PNG } from './fixtures/cover.js'
 import { seedProjects } from './fixtures/projects.js'
 import {
   newProjectTitle,
@@ -12,12 +13,6 @@ import {
   projectSaveButton,
   projectStartedAtInput,
 } from './fixtures/locators.js'
-
-/** A 1x1 PNG, so the upload is a real image the browser will decode. */
-const PNG = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
-  'base64',
-)
 
 const VALID = {
   name: 'Projeto do form',
@@ -129,7 +124,7 @@ test.describe('new project', () => {
     await projectCoverInput(page).setInputFiles({
       name: 'capa.png',
       mimeType: 'image/png',
-      buffer: PNG,
+      buffer: COVER_PNG,
     })
 
     await fillProjectForm(page)

@@ -6,14 +6,24 @@ import BaseButton from './BaseButton.vue'
 
 const cover = defineModel<File | null>({ default: null })
 
+const props = defineProps<{ existing?: string | null }>()
+
+const emit = defineEmits<{ removeExisting: [] }>()
+
 const inputRef = ref<HTMLInputElement | null>(null)
-const previewUrl = ref<string | null>(null)
+const pickedUrl = ref<string | null>(null)
 const errorMessage = ref<string | null>(null)
 
 const inputId = useId()
 const hintId = useId()
 
+const previewUrl = computed(() => pickedUrl.value ?? props.existing ?? null)
+
 const hasPreview = computed(() => previewUrl.value !== null)
+
+const altText = computed(() =>
+  cover.value ? `Pré-visualização de ${cover.value.name}` : 'Pré-visualização da capa do projeto',
+)
 
 const statusText = computed(() => (cover.value ? `Imagem ${cover.value.name} selecionada.` : ''))
 
@@ -40,22 +50,29 @@ function onFileChange(event: Event): void {
 }
 
 function removeCover(): void {
-  cover.value = null
   errorMessage.value = null
+
+  if (cover.value) {
+    cover.value = null
+    return
+  }
+
+  emit('removeExisting')
 }
 
-function releasePreview(): void {
-  if (!previewUrl.value) return
-  URL.revokeObjectURL(previewUrl.value)
-  previewUrl.value = null
+function releasePickedUrl(): void {
+  if (!pickedUrl.value) return
+
+  URL.revokeObjectURL(pickedUrl.value)
+  pickedUrl.value = null
 }
 
 watch(cover, (file) => {
-  releasePreview()
-  previewUrl.value = file ? URL.createObjectURL(file) : null
+  releasePickedUrl()
+  pickedUrl.value = file ? URL.createObjectURL(file) : null
 })
 
-onUnmounted(releasePreview)
+onUnmounted(releasePickedUrl)
 </script>
 
 <template>
@@ -72,7 +89,7 @@ onUnmounted(releasePreview)
     />
 
     <template v-if="hasPreview">
-      <img :src="previewUrl ?? undefined" :alt="`Pré-visualização de ${cover?.name}`" />
+      <img :src="previewUrl ?? undefined" :alt="altText" />
 
       <BaseButton
         variant="secondary"

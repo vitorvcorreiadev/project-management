@@ -59,6 +59,15 @@ export const projectEndAtInput = (page: Page): Locator =>
 export const projectCoverInput = (page: Page): Locator =>
   projectForm(page).locator('input[type="file"]')
 
+export const projectCoverPreview = (page: Page): Locator =>
+  projectForm(page).locator('.image-input img')
+
+export const projectCoverRemoveButton = (page: Page): Locator =>
+  projectForm(page).getByRole('button', { name: 'Remover imagem' })
+
+export const backButton = (page: Page): Locator =>
+  page.getByRole('button', { name: 'Voltar' })
+
 export const projectSaveButton = (page: Page): Locator =>
   projectForm(page).getByRole('button', { name: 'Salvar projeto' })
 

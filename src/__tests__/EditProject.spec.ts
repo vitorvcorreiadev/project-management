@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 
 import EditProject from '../views/EditProject.vue'
 import { useProjectsStore } from '../stores/projects'
-import { getCover } from '../db/covers'
+import { getCover, saveCover } from '../db/covers'
 import type { Project } from '../types/project'
 
 const { push, route } = vi.hoisted(() => ({
@@ -173,6 +173,38 @@ describe('EditProject', () => {
       expect(storedProject(1)?.hasCover).toBe(true)
     })
     await expect(getCover(1)).resolves.toBeDefined()
+  })
+
+  it('opens the edit page showing the cover the project already has', async () => {
+    await saveCover(1, new File(['cover-bytes'], 'capa.png', { type: 'image/png' }))
+
+    const wrapper = mountPage('1', () => {
+      requireProject(1).hasCover = true
+    })
+
+    await vi.waitFor(() => {
+      expect(wrapper.find('.image-input img').exists()).toBe(true)
+    })
+  })
+
+  it('clears the flag and the stored image when the cover is removed and saved', async () => {
+    await saveCover(1, new File(['cover-bytes'], 'capa.png', { type: 'image/png' }))
+
+    const wrapper = mountPage('1', () => {
+      requireProject(1).hasCover = true
+    })
+
+    await vi.waitFor(() => {
+      expect(wrapper.find('button[aria-label="Remover imagem"]').exists()).toBe(true)
+    })
+
+    await wrapper.find('button[aria-label="Remover imagem"]').trigger('click')
+    await renameProject(wrapper, 'Projeto 1 renomeado')
+
+    await vi.waitFor(() => {
+      expect(storedProject(1)?.hasCover).toBe(false)
+    })
+    await expect(getCover(1)).resolves.toBeUndefined()
   })
 
   it('returns to the listing once the project is saved', async () => {

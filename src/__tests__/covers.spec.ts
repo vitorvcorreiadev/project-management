@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import { getCover, saveCover, toBlob } from '../db/covers'
+import { deleteCover, getCover, saveCover, toBlob } from '../db/covers'
 
 /*
  * Covers live in IndexedDB because the alternative — a `File` on the persisted
@@ -95,5 +95,24 @@ describe('covers', () => {
 
     expect(record?.bytes.byteLength).toBe(64)
     expect(record?.bytes.byteLength).not.toBe(0)
+  })
+
+  it('drops the record when a cover is deleted', async () => {
+    await deleteCover(1)
+
+    await expect(getCover(1)).resolves.toBeUndefined()
+  })
+
+  it('leaves every other project alone when one cover is deleted', async () => {
+    await saveCover(2, buildFile('dois.png', 'image/png', 'bytes-dois'))
+
+    await deleteCover(1)
+
+    await expect(getCover(2)).resolves.toMatchObject({ projectId: 2, name: 'dois.png' })
+  })
+
+  it('treats deleting a cover that is not there as nothing to do', async () => {
+    await expect(deleteCover(404)).resolves.toBeUndefined()
+    await expect(getCover(1)).resolves.toMatchObject({ name: 'seed.png' })
   })
 })

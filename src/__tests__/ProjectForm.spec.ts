@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import ProjectForm from '../components/ProjectForm.vue'
-import { getCover } from '../db/covers'
+import { getCover, saveCover } from '../db/covers'
 import type { Project } from '../types/project'
 
 /*
@@ -35,7 +35,9 @@ vi.mock('../db/covers', async (importOriginal) => {
   }
 })
 
-const createObjectURL = vi.fn<(blob: Blob) => string>(() => 'blob:capa')
+let minted = 0
+
+const createObjectURL = vi.fn<(blob: Blob) => string>(() => `blob:capa-${++minted}`)
 const revokeObjectURL = vi.fn<(url: string) => void>()
 
 function mountForm(options: { attachTo?: Element; initial?: Project } = {}) {
@@ -82,6 +84,26 @@ async function selectCover(wrapper: FormWrapper, file: File) {
   await input.trigger('change')
 }
 
+async function removeCover(wrapper: FormWrapper) {
+  await wrapper.find('button[aria-label="Remover imagem"]').trigger('click')
+}
+
+async function seedCover(id: number, name = 'capa-salva.png') {
+  await saveCover(id, buildFile(name, 'image/png', 'bytes-salvos'))
+}
+
+function previewSrc(wrapper: FormWrapper): string | undefined {
+  const image = wrapper.find('.image-input img')
+
+  return image.exists() ? image.attributes('src') : undefined
+}
+
+async function waitForPreview(wrapper: FormWrapper, src: string) {
+  await vi.waitFor(() => {
+    expect(previewSrc(wrapper)).toBe(src)
+  })
+}
+
 async function fillFields(wrapper: FormWrapper, values: [string, string][] = VALID) {
   for (const [name, value] of values) {
     await wrapper.find(`input[name="${name}"]`).setValue(value)
@@ -113,18 +135,26 @@ async function waitForSave(wrapper: FormWrapper): Promise<Project> {
  * split under test is that the form writes the bytes to IndexedDB keyed by
  * `form.id` and emits a record whose sole trace of the image is `hasCover`.
  *
+ * Editing sees the other side of that split: the form resolves the cover already
+ * on disk and shows it in the field, so the user can throw it away or overwrite
+ * it. Removal and a new pick are both local until submit, which is why the
+ * "abandons the form" case below asserts the stored bytes are still there.
+ *
  * Submitting awaits that write before emitting, so assertions go through
  * `vi.waitFor` — a fixed number of promise flushes would race the `openDB`
  * handshake, which fake-indexeddb runs on its own schedule.
  *
  * jsdom implements neither IndexedDB nor `URL.createObjectURL`, hence the two
  * imports/stubs above: `fake-indexeddb/auto` backs the store, and the stub lets
- * `ImageInput` build a preview URL for the file the form then persists.
+ * `ImageInput` build a preview URL for the file the form then persists. It hands
+ * out a numbered url per call so the stored cover and the fresh pick can be told
+ * apart.
  */
 describe('ProjectForm', () => {
   beforeEach(() => {
     coversFailure.current = null
     releaseCover.current = null
+    minted = 0
     createObjectURL.mockClear()
     revokeObjectURL.mockClear()
 
@@ -355,6 +385,129 @@ describe('ProjectForm', () => {
 
     expect(saved.hasCover).toBe(true)
     await expect(getCover(saved.id)).resolves.toBeDefined()
+  })
+
+  it('loads the cover the project already has into the field', async () => {
+    await seedCover(SEEDED.id)
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    // The stored record carries no name into the field, so the alt stays generic.
+    expect(wrapper.find('.image-input img').attributes('alt')).toBe(
+      'Pré-visualização da capa do projeto',
+    )
+  })
+
+  it('shows no cover on a new project, which has nothing stored yet', () => {
+    const wrapper = mountForm()
+
+    expect(wrapper.find('.image-input img').exists()).toBe(false)
+  })
+
+  it('never reads IndexedDB for a project whose flag says there is no cover', () => {
+    const wrapper = mountForm({ initial: { ...SEEDED, hasCover: false } })
+
+    expect(wrapper.find('.image-input img').exists()).toBe(false)
+    expect(createObjectURL).not.toHaveBeenCalled()
+  })
+
+  it('lets a new pick take over the field from the cover already shown', async () => {
+    await seedCover(SEEDED.id)
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+
+    await selectCover(wrapper, buildFile('troca.png'))
+
+    expect(previewSrc(wrapper)).toBe('blob:capa-2')
+    expect(wrapper.find('.image-input img').attributes('alt')).toBe('Pré-visualização de troca.png')
+  })
+
+  it('drops the stored cover when the user removes it and saves', async () => {
+    await seedCover(SEEDED.id)
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    await removeCover(wrapper)
+
+    expect(previewSrc(wrapper)).toBeUndefined()
+
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(false)
+    await expect(getCover(saved.id)).resolves.toBeUndefined()
+  })
+
+  it('saves the new image when the user removes the old one and picks another', async () => {
+    await seedCover(SEEDED.id, 'antiga.png')
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    await removeCover(wrapper)
+    await selectCover(wrapper, buildFile('nova.png', 'image/png', 'bytes-novos'))
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(true)
+
+    const record = await getCover(saved.id)
+
+    expect(record?.name).toBe('nova.png')
+  })
+
+  it('keeps the stored cover when the user throws away a new pick instead', async () => {
+    await seedCover(SEEDED.id, 'antiga.png')
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    await selectCover(wrapper, buildFile('descartada.png'))
+    await removeCover(wrapper)
+
+    // The pick is gone, so the cover that was already on the project is back.
+    await waitForPreview(wrapper, 'blob:capa-1')
+
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(true)
+    await expect(getCover(saved.id)).resolves.toMatchObject({ name: 'antiga.png' })
+  })
+
+  it('forgets nothing when the cover is removed but the form is abandoned', async () => {
+    await seedCover(SEEDED.id, 'antiga.png')
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    await removeCover(wrapper)
+    wrapper.unmount()
+
+    expect(wrapper.emitted('save')).toBeUndefined()
+    await expect(getCover(SEEDED.id)).resolves.toMatchObject({ name: 'antiga.png' })
+  })
+
+  it('offers no remove button when the flag points at a cover that is gone', async () => {
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await vi.waitFor(() => {
+      expect(wrapper.find('.image-input').exists()).toBe(true)
+    })
+
+    expect(wrapper.find('button[aria-label="Remover imagem"]').exists()).toBe(false)
+
+    await submit(wrapper)
+
+    // Nothing was ever resolved, so nothing may be deleted on the way out.
+    expect((await waitForSave(wrapper)).hasCover).toBe(true)
   })
 })
 

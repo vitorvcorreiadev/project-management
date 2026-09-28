@@ -60,6 +60,10 @@ export async function getCover(projectId: number): Promise<CoverRecord | undefin
   return (await getDb()).get(COVER_STORE, projectId)
 }
 
+export async function deleteCover(projectId: number): Promise<void> {
+  await (await getDb()).delete(COVER_STORE, projectId)
+}
+
 export function toBlob(record: CoverRecord): Blob {
   return new Blob([record.bytes], { type: record.type })
 }

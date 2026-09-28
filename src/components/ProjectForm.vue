@@ -4,9 +4,10 @@ import BaseInput from '@/components/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
 import ImageInput from '@/components/ImageInput.vue'
-import { nextTick, ref, watch } from 'vue'
-import { saveCover } from '@/db/covers'
+import { computed, nextTick, ref, watch } from 'vue'
+import { deleteCover, saveCover } from '@/db/covers'
 import useProjectForm from '@/composables/useProjectForm'
+import { useCoverUrl } from '@/composables/useCoverUrl'
 import { firstInvalidField } from '@/validation/project'
 import type { Project } from '@/types/project'
 
@@ -18,10 +19,13 @@ const { form, errors, visibleErrors, touch, validateAll } = useProjectForm(props
 
 const formRef = ref<HTMLFormElement | null>(null)
 const coverFile = ref<File | null>(null)
+const coverRemoved = ref(false)
+const savedCoverUrl = useCoverUrl(() => form)
+const existingCover = computed(() => (coverRemoved.value ? null : savedCoverUrl.value))
 const isSaving = ref(false)
 const saveError = ref<string | null>(null)
 
-watch(coverFile, () => {
+watch([coverFile, coverRemoved], () => {
   saveError.value = null
 })
 
@@ -49,11 +53,19 @@ const handleSubmit = async () => {
   try {
     const file = coverFile.value
 
-    if (file) await saveCover(form.id, file)
+    if (file) {
+      await saveCover(form.id, file)
+    } else if (coverRemoved.value) {
+      await deleteCover(form.id)
+    }
 
-    // Editing a project must not drop its cover just because no new image was
-    // picked, so the flag only turns on here; the create draft seeds it false.
-    emit('save', { ...form, hasCover: file ? true : form.hasCover })
+    // A picked file always wins and an explicit removal always clears the flag;
+    // only leaving the cover alone keeps whatever the project already had, so an
+    // edit never drops a cover the user did not ask to touch.
+    emit('save', {
+      ...form,
+      hasCover: file ? true : coverRemoved.value ? false : form.hasCover,
+    })
   } catch {
     saveError.value = 'Não foi possível salvar a capa do projeto. Tente novamente.'
   } finally {
@@ -113,7 +125,11 @@ const handleSubmit = async () => {
 
       <BaseInput label="Capa do projeto" :error-message="saveError ?? undefined">
         <template #custom-input>
-          <ImageInput v-model="coverFile" />
+          <ImageInput
+            v-model="coverFile"
+            :existing="existingCover"
+            @remove-existing="coverRemoved = true"
+          />
         </template>
       </BaseInput>
 
