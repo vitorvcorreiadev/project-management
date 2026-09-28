@@ -5,11 +5,11 @@ import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
 
 const store = useProjectsStore()
-const { sortedProjects } = storeToRefs(store)
+const { sortedProjects, projects } = storeToRefs(store)
 </script>
 
 <template>
-  <ProjectsListing v-if="sortedProjects.length" :projects="sortedProjects">
+  <ProjectsListing v-if="projects.length" :projects="sortedProjects">
     <template #header>
       <div class="projects-listing-header">
         <h1>Projetos</h1>
