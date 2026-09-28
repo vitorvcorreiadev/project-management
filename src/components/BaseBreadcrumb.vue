@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const emit = defineEmits(['back'])
+defineProps<{ title: string }>()
 
 const handleBack = () => {
   router.back()
@@ -19,7 +20,7 @@ const handleBack = () => {
       Voltar
     </button>
 
-    <h2>Resultado da busca</h2>
+    <h2>{{ title }}</h2>
   </div>
 </template>
 

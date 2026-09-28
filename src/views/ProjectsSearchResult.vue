@@ -14,7 +14,7 @@ const { resetSearch } = useSearchBox()
 <template>
   <ProjectsListing :projects="searchedProjects" :filterPanel="false">
     <template #header>
-      <BaseBreadcrumb @back="resetSearch" />
+      <BaseBreadcrumb title="Resultado da busca" @back="resetSearch" />
     </template>
   </ProjectsListing>
 </template>
