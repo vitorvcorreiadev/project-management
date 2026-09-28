@@ -7,6 +7,10 @@ import { useProjectsStore } from '@/stores/projects'
 import { useCoverUrl } from '@/composables/useCoverUrl'
 import { formatProjectDate } from '@/utils/dates'
 import type { Project } from '@/types/project'
+import BaseDropdownMenu from './BaseDropdownMenu.vue'
+import ElipsisIcon from '@/assets/images/ElipsisIcon.vue'
+import EditIcon from '@/assets/images/EditIcon.vue'
+import TrashIcon from '@/assets/images/TrashIcon.vue'
 
 const props = defineProps<{ project: Project }>()
 
@@ -18,10 +22,22 @@ const coverUrl = useCoverUrl(() => props.project)
   <article>
     <div>
       <img :src="coverUrl ?? fallbackCover" alt="" />
-      <FavoriteStar
-        :model-value="project.favorited"
-        @update:model-value="store.toggleFavorite(project.id)"
-      />
+
+      <div>
+        <FavoriteStar
+          :model-value="project.favorited"
+          @update:model-value="store.toggleFavorite(project.id)"
+        />
+        <BaseDropdownMenu
+          ariaLabel="aqui"
+          :items="[
+            { id: '1', label: 'Editar', icon: EditIcon },
+            { id: '2', label: 'Remover', icon: TrashIcon },
+          ]"
+        >
+          <ElipsisIcon />
+        </BaseDropdownMenu>
+      </div>
     </div>
 
     <div>
@@ -60,9 +76,12 @@ article {
       object-fit: cover;
     }
 
-    .favorite-star {
+    > div {
       position: absolute;
       bottom: 25px;
+      right: 25px;
+      display: flex;
+      gap: var(--space-5);
     }
   }
 
