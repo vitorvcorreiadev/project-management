@@ -3,6 +3,8 @@ import { computed, ref } from 'vue'
 
 const props = defineProps<{ label: string; errorMessage?: string }>()
 
+const modelValue = defineModel<string | number>()
+
 defineOptions({ inheritAttrs: false })
 
 const errorClass = computed(() => props.errorMessage && 'has-error')
@@ -15,7 +17,7 @@ const requiredLabel = ref('"(Obrigatório)"')
 
     <div>
       <slot name="custom-input" />
-      <input v-bind="$attrs" v-if="!$slots['custom-input']" />
+      <input v-bind="$attrs" v-if="!$slots['custom-input']" v-model="modelValue" />
 
       <div class="custom-icon" v-if="$slots['custom-icon']">
         <slot name="custom-icon" />

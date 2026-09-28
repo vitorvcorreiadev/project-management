@@ -48,6 +48,10 @@ export const useProjectsStore = defineStore(
       },
     ])
 
+    const createProject = (project: Project) => {
+      projects.value.push(project)
+    }
+
     const filters = ref({
       favorited: false,
       term: '',
@@ -102,7 +106,15 @@ export const useProjectsStore = defineStore(
       project.favorited = !project.favorited
     }
 
-    return { sortedProjects, toggleFavorite, filters, projects, sorting, searchedProjects }
+    return {
+      sortedProjects,
+      toggleFavorite,
+      filters,
+      projects,
+      sorting,
+      searchedProjects,
+      createProject,
+    }
   },
   {
     persist: {
