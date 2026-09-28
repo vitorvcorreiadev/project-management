@@ -56,6 +56,37 @@
     /* Toggle borders */
     --toggle-focus-ring-width: 0.2rem;
 
+    /* Dialog backdrop */
+    --dialog-backdrop-bg: var(--color-backdrop);
+    --dialog-backdrop-blur: 1rem;
+
+    /* Dialog surface */
+    --dialog-bg: var(--color-white);
+    --dialog-radius: var(--radius-4);
+    --dialog-inline-size: 48rem;
+    --dialog-max-block-size: calc(100dvh - var(--space-7));
+    --dialog-padding-inline: var(--space-6);
+    --dialog-padding-block: var(--space-5);
+    --dialog-body-padding-block-start: var(--space-6);
+
+    /* Dialog icon */
+    --dialog-icon-size: 6.4rem;
+    --dialog-icon-offset: calc(var(--dialog-icon-size) / -2);
+    --dialog-icon-bg: var(--color-purple-500);
+    --dialog-icon-color: var(--color-white);
+
+    /* Dialog title */
+    --dialog-title-font-size: var(--font-size-20);
+    --dialog-title-line-height: var(--line-height-tight);
+    --dialog-title-font-weight: var(--font-weight-bold);
+    --dialog-title-color: var(--color-purple-800);
+
+    /* Dialog content */
+    --dialog-divider-color: var(--color-gray-100);
+    --dialog-content-color: var(--color-gray-400);
+    --dialog-content-font-size: var(--font-size-16);
+    --dialog-content-line-height: var(--line-height-normal);
+
     /* Favorite Star */
     --star-stroke-color: white;
     --star-favorited-fill: var(--color-amber-400);

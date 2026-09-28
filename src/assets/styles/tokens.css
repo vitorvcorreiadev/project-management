@@ -2,6 +2,7 @@
   :root {
     /* Color */
     --color-white: #ffffff;
+    --color-backdrop: #181818e5;
     --color-gray-100: #dcdcdc;
     --color-gray-300: #8c8b93;
     --color-gray-400: #717171;
