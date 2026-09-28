@@ -5,20 +5,13 @@ import fallbackCover from '@/assets/images/project-cover.png'
 import FavoriteStar from '@/components/FavoriteStar.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { useCoverUrl } from '@/composables/useCoverUrl'
+import { formatProjectDate } from '@/utils/dates'
 import type { Project } from '@/types/project'
 
 const props = defineProps<{ project: Project }>()
 
 const store = useProjectsStore()
 const coverUrl = useCoverUrl(() => props.project)
-
-function formatDate(isoString: string) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(isoString))
-}
 </script>
 
 <template>
@@ -40,12 +33,12 @@ function formatDate(isoString: string) {
       <div>
         <div>
           <CalendarDayLight />
-          <p>{{ formatDate(project.started_at) }}</p>
+          <p>{{ formatProjectDate(project.started_at) }}</p>
         </div>
 
         <div>
           <CalendarCheckLight />
-          <p>{{ formatDate(project.end_at) }}</p>
+          <p>{{ formatProjectDate(project.end_at) }}</p>
         </div>
       </div>
     </div>

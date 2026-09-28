@@ -76,6 +76,9 @@ describe('NewProject', () => {
 
   async function submit(wrapper: ReturnType<typeof mountPage>) {
     await wrapper.find('input[name="name"]').setValue('Projeto novo')
+    await wrapper.find('input[name="client"]').setValue('Clicksign')
+    await wrapper.find('input[name="started_at"]').setValue('2026-09-01')
+    await wrapper.find('input[name="end_at"]').setValue('2026-12-15')
     await wrapper.find('form').trigger('submit')
   }
 
@@ -110,6 +113,21 @@ describe('NewProject', () => {
       expect(store.projects).toHaveLength(before + 1)
     })
     expect(lastProject()?.name).toBe('Projeto novo')
+  })
+
+  it('stores the chosen dates verbatim, as calendar days with no time or zone', async () => {
+    const wrapper = mountPage()
+
+    await submit(wrapper)
+
+    await vi.waitFor(() => {
+      expect(lastProject()?.started_at).toBe('2026-09-01')
+    })
+
+    const created = lastProject()
+
+    expect(created?.started_at).toBe('2026-09-01')
+    expect(created?.end_at).toBe('2026-12-15')
   })
 
   it('stores the chosen file in IndexedDB under the new project id', async () => {
