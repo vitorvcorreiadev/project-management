@@ -35,3 +35,32 @@ export const projectsEmptyState = (page: Page): Locator => page.getByRole('statu
 
 export const projectsEmptyStateTitle = (page: Page): Locator =>
   page.getByRole('heading', { level: 1, name: 'Nenhum projeto' })
+
+export const newProjectTitle = (page: Page): Locator =>
+  page.getByRole('heading', { level: 2, name: 'Novo projeto' })
+
+export const projectForm = (page: Page): Locator => page.locator('form')
+
+export const projectNameInput = (page: Page): Locator =>
+  projectForm(page).locator('input[name="name"]')
+
+export const projectClientInput = (page: Page): Locator =>
+  projectForm(page).locator('input[name="client"]')
+
+export const projectStartedAtInput = (page: Page): Locator =>
+  projectForm(page).locator('input[name="started_at"]')
+
+export const projectEndAtInput = (page: Page): Locator =>
+  projectForm(page).locator('input[name="end_at"]')
+
+export const projectCoverInput = (page: Page): Locator =>
+  projectForm(page).locator('input[type="file"]')
+
+export const projectSaveButton = (page: Page): Locator =>
+  projectForm(page).getByRole('button', { name: 'Salvar projeto' })
+
+export const projectFieldError = (page: Page, field: string): Locator =>
+  projectForm(page)
+    .locator(`input[name="${field}"]`)
+    .locator('xpath=../..')
+    .getByRole('alert')

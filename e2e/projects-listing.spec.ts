@@ -48,21 +48,4 @@ test.describe('projects listing', () => {
     await expect(card).toContainText('27 de janeiro de 2026')
     await expect(card).toContainText('30 de junho de 2026')
   })
-
-  test('shows the day picked in the form', async ({ page }) => {
-    await seedProjects(page, [])
-    await page.goto('/new-project')
-
-    await page.locator('input[name="name"]').fill('Projeto do form')
-    await page.locator('input[name="client"]').fill('Clicksign')
-    await page.locator('input[name="started_at"]').fill('2026-09-01')
-    await page.locator('input[name="end_at"]').fill('2026-12-15')
-    await page.getByRole('button', { name: 'Salvar projeto' }).click()
-
-    const card = projectCard(page, 'Projeto do form')
-
-    await expect(card).toBeVisible()
-    await expect(card).toContainText('01 de setembro de 2026')
-    await expect(card).toContainText('15 de dezembro de 2026')
-  })
 })
