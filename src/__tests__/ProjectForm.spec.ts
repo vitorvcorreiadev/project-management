@@ -332,6 +332,30 @@ describe('ProjectForm', () => {
     expect(saved.id).toBe(7)
     expect(saved.favorited).toBe(true)
   })
+
+  it('keeps the seeded cover flag when the edit picks no new image', async () => {
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(true)
+    // Nothing new was chosen, so the bytes already on disk must be left alone.
+    await expect(getCover(saved.id)).resolves.toBeUndefined()
+  })
+
+  it('turns the cover flag on when the edit picks a new image', async () => {
+    const wrapper = mountForm({ initial: { ...SEEDED, hasCover: false } })
+
+    await selectCover(wrapper, buildFile())
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(true)
+    await expect(getCover(saved.id)).resolves.toBeDefined()
+  })
 })
 
 describe('ProjectForm - validation', () => {

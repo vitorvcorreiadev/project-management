@@ -57,6 +57,18 @@ export const useProjectsStore = defineStore(
       projects.value.push(project)
     }
 
+    const findProjectById = (id: number) => projects.value.find((project) => project.id === id)
+
+    const updateProject = (project: Project) => {
+      const target = findProjectById(project.id)
+
+      if (!target) return
+
+      // Mutated in place rather than replaced, so a component holding a reference
+      // to this project keeps seeing fresh values.
+      Object.assign(target, project)
+    }
+
     const filters = ref({
       favorited: false,
       term: '',
@@ -119,6 +131,8 @@ export const useProjectsStore = defineStore(
       sorting,
       searchedProjects,
       createProject,
+      findProjectById,
+      updateProject,
     }
   },
   {

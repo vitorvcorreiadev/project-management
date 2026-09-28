@@ -51,7 +51,9 @@ const handleSubmit = async () => {
 
     if (file) await saveCover(form.id, file)
 
-    emit('save', { ...form, hasCover: Boolean(file) })
+    // Editing a project must not drop its cover just because no new image was
+    // picked, so the flag only turns on here; the create draft seeds it false.
+    emit('save', { ...form, hasCover: file ? true : form.hasCover })
   } catch {
     saveError.value = 'Não foi possível salvar a capa do projeto. Tente novamente.'
   } finally {
