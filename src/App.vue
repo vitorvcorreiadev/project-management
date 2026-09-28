@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
+
 import HeaderLogo from './assets/images/HeaderLogo.vue'
 import SearchBox from './components/SearchBox.vue'
+
+const route = useRoute()
 </script>
 
 <template>
@@ -14,7 +18,7 @@ import SearchBox from './components/SearchBox.vue'
         >
       </div>
 
-      <SearchBox />
+      <SearchBox v-if="!route.meta.hideSearch" />
     </header>
 
     <main>

@@ -11,11 +11,12 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'projects', component: ProjectsView },
     { path: '/search', name: 'projects-search-result', component: ProjectsSearchResult },
-    { path: '/new-project', name: 'new-project', component: NewProject },
+    { path: '/new-project', name: 'new-project', component: NewProject, meta: { hideSearch: true } },
     {
       path: '/projects/:id/edit',
       name: 'edit-project',
       component: EditProject,
+      meta: { hideSearch: true },
       beforeEnter: (to) => {
         const store = useProjectsStore()
 

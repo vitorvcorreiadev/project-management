@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test'
 import { buildProject, seedProjects } from './fixtures/projects.js'
 import {
+  editProjectTitle,
   favoriteStar,
   favoritedFilter,
+  newProjectButton,
+  newProjectTitle,
   projectCard,
   projectCards,
   projectCount,
@@ -185,5 +188,28 @@ test.describe('projects search', () => {
     await expect(projectCard(page, 'Projeto Alpha')).toBeVisible()
     await expect(projectCard(page, 'Projeto Beta')).toBeVisible()
     await expect(projectCard(page, 'Projeto Gamma')).toBeVisible()
+  })
+
+  test('hides the search on the project form pages only', async ({ page }) => {
+    await seedProjects(page, searchableProjects())
+    await page.goto('/')
+
+    await expect(searchToggle(page)).toBeVisible()
+
+    // Clicking through keeps the header mounted, so this covers the search
+    // reacting to the route rather than just rendering the right initial state.
+    await newProjectButton(page).click()
+
+    await expect(newProjectTitle(page)).toBeVisible()
+    await expect(searchToggle(page)).toHaveCount(0)
+
+    await page.goto('/projects/1/edit')
+
+    await expect(editProjectTitle(page)).toBeVisible()
+    await expect(searchToggle(page)).toHaveCount(0)
+
+    await page.goto('/')
+
+    await expect(searchToggle(page)).toBeVisible()
   })
 })

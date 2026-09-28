@@ -39,6 +39,9 @@ export const projectsEmptyStateTitle = (page: Page): Locator =>
 export const newProjectTitle = (page: Page): Locator =>
   page.getByRole('heading', { level: 2, name: 'Novo projeto' })
 
+export const newProjectButton = (page: Page): Locator =>
+  page.getByRole('button', { name: 'Novo Projeto' })
+
 export const editProjectTitle = (page: Page): Locator =>
   page.getByRole('heading', { level: 2, name: 'Editar projeto' })
 
