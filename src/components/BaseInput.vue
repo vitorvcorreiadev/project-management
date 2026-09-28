@@ -81,8 +81,12 @@ const requiredLabel = ref('"(Obrigatório)"')
       border-radius: var(--radius-2);
 
       &[type='date']::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
       }
     }
 
@@ -90,6 +94,20 @@ const requiredLabel = ref('"(Obrigatório)"')
       position: absolute;
       top: var(--space-2);
       right: var(--space-2);
+      color: var(--color-gray-400);
+      pointer-events: none;
+    }
+
+    /* Necessary to hide the date input's placeholder */
+    input[type='date']:invalid:not(:focus) {
+      &::-webkit-datetime-edit,
+      &::-webkit-datetime-edit-day-field,
+      &::-webkit-datetime-edit-month-field,
+      &::-webkit-datetime-edit-year-field,
+      &::-webkit-datetime-edit-text {
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+      }
     }
   }
 
