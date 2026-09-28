@@ -32,11 +32,31 @@ const requiredLabel = ref('"(Obrigatório)"')
   flex-direction: column;
   width: 100%;
 
+  &.has-error {
+    color: var(--color-red-500);
+
+    span {
+      color: var(--color-red-800);
+
+      &:has(~ div > input[required]) {
+        &::after {
+          color: var(--color-red-500);
+        }
+      }
+    }
+
+    input {
+      color: var(--color-red-500);
+      border-color: var(--color-red-500);
+    }
+  }
+
   > span {
     font-size: var(--font-size-18);
     line-height: 2.2rem;
     color: var(--color-purple-500);
     margin-bottom: var(--space-1);
+    font-weight: 500;
 
     &:has(~ div > input[required]) {
       &::after {
@@ -71,6 +91,12 @@ const requiredLabel = ref('"(Obrigatório)"')
       top: var(--space-2);
       right: var(--space-2);
     }
+  }
+
+  > small {
+    font-size: var(--font-size-14);
+    line-height: 2.2rem;
+    margin-top: var(--space-1);
   }
 }
 </style>
