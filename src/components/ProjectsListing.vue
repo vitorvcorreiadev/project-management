@@ -6,11 +6,14 @@ import type { Project, SortParam, SortRule } from '@/types/project'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
 const { filters, sorting } = storeToRefs(store)
 
 withDefaults(defineProps<{ projects: Project[]; filterPanel?: boolean }>(), { filterPanel: true })
+
+const router = useRouter()
 
 const handleSortSelection = (event: Event) => {
   const target = event.target as HTMLSelectElement
@@ -28,6 +31,7 @@ const handleSortSelection = (event: Event) => {
 
       <div v-if="filterPanel">
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
+
         <select @change="handleSortSelection" :value="sorting.param">
           <option data-param="name" data-rule="asc" value="name">Ordem alfabética</option>
           <option data-param="started_at" data-rule="desc" value="started_at">
@@ -35,7 +39,8 @@ const handleSortSelection = (event: Event) => {
           </option>
           <option data-param="end_at" data-rule="desc" value="end_at">Prazo mais próximo</option>
         </select>
-        <BaseButton>
+
+        <BaseButton @click="router.push('/new-project')">
           <PlusCircle />
           Novo Projeto
         </BaseButton>
