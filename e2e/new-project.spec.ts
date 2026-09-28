@@ -23,7 +23,7 @@ const VALID = {
 
 async function gotoNewProject(page: Page): Promise<void> {
   await seedProjects(page, [])
-  await page.goto('/new-project')
+  await page.goto('/projects/new')
   await expect(newProjectTitle(page)).toBeVisible()
 }
 
@@ -75,7 +75,7 @@ test.describe('new project', () => {
     await expect(projectFieldError(page, 'started_at')).toHaveText('Selecione uma data válida')
     await expect(projectFieldError(page, 'end_at')).toHaveText('Selecione uma data válida')
 
-    await expect(page).toHaveURL(/\/new-project$/)
+    await expect(page).toHaveURL(/\/projects\/new$/)
     await expect(projectNameInput(page)).toBeFocused()
   })
 
@@ -100,7 +100,7 @@ test.describe('new project', () => {
     await expect(projectFieldError(page, 'end_at')).toHaveText(
       'A data final deve ser igual ou posterior à data de início.',
     )
-    await expect(page).toHaveURL(/\/new-project$/)
+    await expect(page).toHaveURL(/\/projects\/new$/)
   })
 
   test('reports a field as soon as it is left, and clears it once corrected', async ({ page }) => {

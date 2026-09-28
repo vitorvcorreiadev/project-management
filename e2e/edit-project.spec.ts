@@ -49,7 +49,7 @@ async function gotoEditProject(page: Page, id = SEEDED.id): Promise<void> {
  */
 async function createProjectWithCover(page: Page): Promise<number> {
   await seedProjects(page, [])
-  await page.goto('/new-project')
+  await page.goto('/projects/new')
   await expect(newProjectTitle(page)).toBeVisible()
 
   await projectCoverInput(page).setInputFiles({

@@ -40,7 +40,7 @@ const handleSortSelection = (event: Event) => {
           <option data-param="end_at" data-rule="desc" value="end_at">Prazo mais próximo</option>
         </select>
 
-        <BaseButton @click="router.push('/new-project')">
+        <BaseButton @click="router.push('/projects/new')">
           <PlusCircle />
           Novo Projeto
         </BaseButton>

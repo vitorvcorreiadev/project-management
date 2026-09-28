@@ -50,7 +50,7 @@ describe('router meta', () => {
   const RECORDS = [
     { path: '/', hideSearch: undefined },
     { path: '/search', hideSearch: undefined },
-    { path: '/new-project', hideSearch: true },
+    { path: '/projects/new', hideSearch: true },
     { path: '/projects/1/edit', hideSearch: true },
   ] as const
 

@@ -12,7 +12,7 @@ const router = useRouter()
 
     <p>Clique no botão abaixo para criar o primeiro e gerenciá-lo.</p>
 
-    <BaseButton size="large" @click="router.push('/new-project')">
+    <BaseButton size="large" @click="router.push('/projects/new')">
       <PlusCircle />
       Novo Projeto
     </BaseButton>
