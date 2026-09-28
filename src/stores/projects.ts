@@ -56,11 +56,18 @@ export const useProjectsStore = defineStore(
     const filteredProjects = computed(() => {
       return projects.value.filter((project) => {
         const matchesFavorited = !filters.value.favorited || project.favorited === true
+
+        return matchesFavorited
+      })
+    })
+
+    const searchedProjects = computed(() => {
+      return projects.value.filter((project) => {
         const matchesTerm =
-          filters.value.term.length < 3 ||
+          !filters.value.term ||
           project.name.toLowerCase().includes(filters.value.term.toLowerCase())
 
-        return matchesFavorited && matchesTerm
+        return matchesTerm
       })
     })
 
@@ -95,7 +102,7 @@ export const useProjectsStore = defineStore(
       project.favorited = !project.favorited
     }
 
-    return { sortedProjects, toggleFavorite, filters, projects, sorting }
+    return { sortedProjects, toggleFavorite, filters, projects, sorting, searchedProjects }
   },
   {
     persist: {
