@@ -1,37 +1,17 @@
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
 import SearchIcon from '@/assets/images/SearchIcon.vue'
-import { useClickOutside } from '@/composables/useClickOutside'
-import { useProjectsStore } from '@/stores/projects'
-import { storeToRefs } from 'pinia'
+import useSearchBox from '@/composables/useSearchBox'
 
-const store = useProjectsStore()
-const { filters } = storeToRefs(store)
-
-const searchBoxRef = ref<HTMLElement | null>(null)
-const inputRef = ref<HTMLElement | null>(null)
-const buttonRef = ref<HTMLElement | null>(null)
-
-const opened = ref(false)
-
-async function openSearch() {
-  opened.value = true
-  await nextTick()
-  inputRef.value?.focus()
-}
-
-function closeSearch() {
-  opened.value = false
-}
-
-async function cancelSearch() {
-  filters.value.term = ''
-  closeSearch()
-  await nextTick()
-  buttonRef.value?.focus()
-}
-
-useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
+const {
+  handleSearch,
+  searchBoxRef,
+  cancelSearch,
+  openSearch,
+  buttonRef,
+  inputRef,
+  opened,
+  filters,
+} = useSearchBox()
 </script>
 
 <template>
@@ -46,11 +26,12 @@ useClickOutside(searchBoxRef, () => closeSearch(), [buttonRef])
 
         <input
           id="search_by_name"
-          type="search"
           placeholder="Digite o nome do projeto..."
           ref="inputRef"
-          v-model="filters.term"
+          @input="handleSearch"
           @keydown.esc="cancelSearch"
+          :value="filters.term"
+          autocomplete="off"
         />
       </div>
     </div>
