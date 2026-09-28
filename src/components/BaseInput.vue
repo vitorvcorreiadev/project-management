@@ -24,7 +24,7 @@ const requiredLabel = ref('"(Obrigatório)"')
       </div>
     </div>
 
-    <small v-if="errorMessage">{{ errorMessage }}</small>
+    <small v-if="errorMessage" role="alert">{{ errorMessage }}</small>
   </label>
 </template>
 

@@ -4,9 +4,10 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
-// import ImageInput from '@/components/ImageInput.vue'
-import { reactive } from 'vue'
+import ImageInput from '@/components/ImageInput.vue'
+import { reactive, ref, watch } from 'vue'
 import { useProjectsStore } from '@/stores/projects'
+import { saveCover } from '@/db/covers'
 import type { Project } from '@/types/project'
 import { useRouter } from 'vue-router'
 
@@ -20,11 +21,35 @@ const form = reactive<Project>({
   started_at: '',
   end_at: '',
   favorited: false,
+  hasCover: false,
 })
 
-const handleSubmit = () => {
-  store.createProject(form)
-  router.push('/')
+const coverFile = ref<File | null>(null)
+const isSaving = ref(false)
+const saveError = ref<string | null>(null)
+
+watch(coverFile, () => {
+  saveError.value = null
+})
+
+const handleSubmit = async () => {
+  if (isSaving.value) return
+
+  isSaving.value = true
+  saveError.value = null
+
+  try {
+    const file = coverFile.value
+
+    if (file) await saveCover(form.id, file)
+
+    store.createProject({ ...form, hasCover: Boolean(file) })
+    router.push('/')
+  } catch {
+    saveError.value = 'Não foi possível salvar a capa do projeto. Tente novamente.'
+  } finally {
+    isSaving.value = false
+  }
 }
 </script>
 
@@ -56,13 +81,13 @@ const handleSubmit = () => {
           </BaseInput>
         </div>
 
-        <!-- <BaseInput label="Capa do projeto">
+        <BaseInput label="Capa do projeto" :error-message="saveError ?? undefined">
           <template #custom-input>
-            <ImageInput />
+            <ImageInput v-model="coverFile" />
           </template>
-        </BaseInput> -->
+        </BaseInput>
 
-        <BaseButton full>Salvar projeto</BaseButton>
+        <BaseButton full :disabled="isSaving">Salvar projeto</BaseButton>
       </form>
     </div>
   </div>

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
+import fallbackCover from '@/assets/images/project-cover.png'
 import FavoriteStar from '@/components/FavoriteStar.vue'
 import { useProjectsStore } from '@/stores/projects'
+import { useCoverUrl } from '@/composables/useCoverUrl'
 import type { Project } from '@/types/project'
 
-defineProps<{ project: Project }>()
+const props = defineProps<{ project: Project }>()
+
 const store = useProjectsStore()
+const coverUrl = useCoverUrl(() => props.project)
 
 function formatDate(isoString: string) {
   return new Intl.DateTimeFormat('pt-BR', {
@@ -20,7 +24,7 @@ function formatDate(isoString: string) {
 <template>
   <article>
     <div>
-      <img src="@/assets/images/project-cover.png" />
+      <img :src="coverUrl ?? fallbackCover" alt="" />
       <FavoriteStar
         :model-value="project.favorited"
         @update:model-value="store.toggleFavorite(project.id)"
@@ -59,6 +63,8 @@ article {
     img {
       border-top-left-radius: var(--radius-4);
       border-top-right-radius: var(--radius-4);
+      height: 231px;
+      object-fit: cover;
     }
 
     .favorite-star {

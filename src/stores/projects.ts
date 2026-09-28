@@ -13,6 +13,7 @@ export const useProjectsStore = defineStore(
         started_at: '2026-01-27T14:30:00.000Z',
         end_at: '2026-06-30T14:30:00.000Z',
         favorited: false,
+        hasCover: false,
       },
       {
         id: 2,
@@ -21,6 +22,7 @@ export const useProjectsStore = defineStore(
         started_at: '2025-01-27T14:30:00.000Z',
         end_at: '2025-06-30T14:30:00.000Z',
         favorited: false,
+        hasCover: false,
       },
       {
         id: 3,
@@ -29,6 +31,7 @@ export const useProjectsStore = defineStore(
         started_at: '2022-01-27T14:30:00.000Z',
         end_at: '2022-06-30T14:30:00.000Z',
         favorited: false,
+        hasCover: false,
       },
       {
         id: 4,
@@ -37,6 +40,7 @@ export const useProjectsStore = defineStore(
         started_at: '2021-01-27T14:30:00.000Z',
         end_at: '2021-06-30T14:30:00.000Z',
         favorited: false,
+        hasCover: false,
       },
       {
         id: 5,
@@ -45,6 +49,7 @@ export const useProjectsStore = defineStore(
         started_at: '2026-01-27T14:30:00.000Z',
         end_at: '2026-06-30T14:30:00.000Z',
         favorited: false,
+        hasCover: false,
       },
     ])
 

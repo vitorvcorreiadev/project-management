@@ -11,6 +11,7 @@ export function buildProject(overrides: Partial<Project> = {}): Project {
     started_at: '2026-01-27T14:30:00.000Z',
     end_at: '2026-06-30T14:30:00.000Z',
     favorited: false,
+    hasCover: false,
     ...overrides,
   }
 }
