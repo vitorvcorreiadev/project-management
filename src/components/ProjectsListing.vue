@@ -28,10 +28,12 @@ const handleSortSelection = (event: Event) => {
 
       <div v-if="filterPanel">
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
-        <select @change="handleSortSelection">
-          <option data-param="name" data-rule="asc">Ordem alfabética</option>
-          <option data-param="started_at" data-rule="desc">Iniciados mais recentes</option>
-          <option data-param="end_at" data-rule="desc">Prazo mais próximo</option>
+        <select @change="handleSortSelection" :value="sorting.param">
+          <option data-param="name" data-rule="asc" value="name">Ordem alfabética</option>
+          <option data-param="started_at" data-rule="desc" value="started_at">
+            Iniciados mais recentes
+          </option>
+          <option data-param="end_at" data-rule="desc" value="end_at">Prazo mais próximo</option>
         </select>
         <BaseButton>
           <PlusCircle />
