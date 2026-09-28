@@ -13,7 +13,13 @@ const requiredLabel = ref('"(Obrigatório)"')
   <label :class="errorClass" class="base-input">
     <span>{{ label }}</span>
 
-    <input v-bind="$attrs" />
+    <div>
+      <input v-bind="$attrs" />
+
+      <div class="custom-icon">
+        <slot name="custom-icon" />
+      </div>
+    </div>
     <small v-if="errorMessage">{{ errorMessage }}</small>
   </label>
 </template>
@@ -40,13 +46,29 @@ const requiredLabel = ref('"(Obrigatório)"')
     }
   }
 
-  input {
-    padding: var(--space-2) var(--space-3);
-    font-size: var(--font-size-16);
-    line-height: 2.2rem;
-    color: var(--color-purple-950);
-    border: 1px solid var(--color-gray-400);
-    border-radius: var(--radius-2);
+  > div {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--font-size-16);
+      line-height: 2.2rem;
+      color: var(--color-purple-950);
+      border: 1px solid var(--color-gray-400);
+      border-radius: var(--radius-2);
+
+      &[type='date']::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+      }
+    }
+
+    .custom-icon {
+      position: absolute;
+      top: var(--space-2);
+      right: var(--space-2);
+    }
   }
 }
 </style>
