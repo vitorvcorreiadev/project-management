@@ -4,6 +4,7 @@
     --color-white: #ffffff;
     --color-backdrop: #181818e5;
     --color-gray-100: #dcdcdc;
+    --color-gray-200: #ececec;
     --color-gray-300: #8c8b93;
     --color-gray-400: #717171;
     --color-gray-600: #53525d;
@@ -59,5 +60,8 @@
 
     /* Shadow */
     --shadow-default: 0 0.4rem 0.4rem 0 rgb(0 0 0 / 25%);
+
+    /* animation duration */
+    --duration-moderate: 200ms;
   }
 }

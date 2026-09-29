@@ -14,7 +14,8 @@ import {
   searchInput,
   searchResultTitle,
   searchToggle,
-  sortSelect,
+  chooseSorting,
+  sortCombobox,
 } from './fixtures/locators.js'
 
 const searchableProjects = () => [
@@ -176,13 +177,13 @@ test.describe('projects search', () => {
     await expect(projectCards(page)).toHaveCount(1)
     await expect(projectCard(page, 'Projeto Beta')).toBeVisible()
 
-    await sortSelect(page).selectOption('started_at')
+    await chooseSorting(page, 'Iniciados mais recentes')
 
     await searchToggle(page).click()
     await searchInput(page).fill('Pro')
 
     await expect(page).toHaveURL('/search')
-    await expect(sortSelect(page)).toHaveCount(0)
+    await expect(sortCombobox(page)).toHaveCount(0)
     await expect(favoritedFilter(page)).toHaveCount(0)
     await expect(projectCards(page)).toHaveCount(3)
     await expect(projectCard(page, 'Projeto Alpha')).toBeVisible()

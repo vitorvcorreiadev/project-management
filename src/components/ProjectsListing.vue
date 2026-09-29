@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
 import BaseButton from './BaseButton.vue'
+import BaseCombobox from './BaseCombobox.vue'
 import BaseToggle from './BaseToggle.vue'
 import ProjectCard from './ProjectCard.vue'
 import type { Project, SortParam, SortRule } from '@/types/project'
+import type { ComboboxOption } from '@/types/combobox'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
 import { useProjectsStore } from '@/stores/projects'
-import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
 const { filters, sorting } = storeToRefs(store)
@@ -18,13 +22,30 @@ withDefaults(
 
 const router = useRouter()
 
-const handleSortSelection = (event: Event) => {
-  const target = event.target as HTMLSelectElement
-  const selectedOption = target.options[target.selectedIndex]
+type SortOption = ComboboxOption & { value: SortParam; rule: SortRule }
 
-  sorting.value.param = selectedOption?.dataset.param as SortParam
-  sorting.value.rule = selectedOption?.dataset.rule as SortRule
-}
+const sortOptions: SortOption[] = [
+  { value: 'name', label: 'Ordem alfabética', rule: 'asc' },
+  { value: 'started_at', label: 'Iniciados mais recentes', rule: 'desc' },
+  { value: 'end_at', label: 'Prazo mais próximo', rule: 'desc' },
+]
+
+/*
+ * The combobox speaks plain strings while the store keeps the param and its rule
+ * together, so both are written from the option that carries the rule — the
+ * listing never has to know which value means which direction.
+ */
+const sortParam = computed<string>({
+  get: () => sorting.value.param,
+  set: (value) => {
+    const option = sortOptions.find((candidate) => candidate.value === value)
+
+    if (!option) return
+
+    sorting.value.param = option.value
+    sorting.value.rule = option.rule
+  },
+})
 </script>
 
 <template>
@@ -35,13 +56,7 @@ const handleSortSelection = (event: Event) => {
       <div v-if="filterPanel">
         <BaseToggle v-model="filters.favorited">Apenas Favoritos</BaseToggle>
 
-        <select @change="handleSortSelection" :value="sorting.param">
-          <option data-param="name" data-rule="asc" value="name">Ordem alfabética</option>
-          <option data-param="started_at" data-rule="desc" value="started_at">
-            Iniciados mais recentes
-          </option>
-          <option data-param="end_at" data-rule="desc" value="end_at">Prazo mais próximo</option>
-        </select>
+        <BaseCombobox v-model="sortParam" label="Ordenar por" :options="sortOptions" />
 
         <BaseButton @click="router.push('/projects/new')">
           <PlusCircle />

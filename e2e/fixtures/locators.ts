@@ -48,6 +48,15 @@ export const favoritedFilter = (page: Page): Locator => page.getByRole('switch')
 // Scoped to the listing: the search input is a combobox of its own, so a bare
 // `getByRole('combobox')` reads two elements whenever the search is open.
 export const sortSelect = (page: Page): Locator => projectListing(page).getByRole('combobox')
+export const sortCombobox = (page: Page): Locator => page.getByRole('combobox')
+
+export const sortOption = (page: Page, label: string): Locator =>
+  page.getByRole('listbox').getByRole('option', { name: label, exact: true })
+
+export const chooseSorting = async (page: Page, label: string): Promise<void> => {
+  await sortCombobox(page).click()
+  await sortOption(page, label).click()
+}
 
 export const searchToggle = (page: Page): Locator => page.locator('.search-box > button')
 

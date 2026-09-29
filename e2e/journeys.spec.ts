@@ -30,7 +30,8 @@ import {
   searchInput,
   searchResultTitle,
   searchToggle,
-  sortSelect,
+  sortCombobox,
+  chooseSorting,
 } from './fixtures/locators.js'
 
 const journeyProjects = () => [
@@ -331,7 +332,7 @@ test.describe('sort and filter projects', () => {
       await page.goto('/')
 
       await expect(projectCount(page)).toHaveText('(3)')
-      await expect(sortSelect(page)).toHaveValue('name')
+      await expect(sortCombobox(page)).toHaveText('Ordem alfabética')
     })
 
     await test.step('turns the favorited filter on and only the favorites are left', async () => {
@@ -356,21 +357,21 @@ test.describe('sort and filter projects', () => {
     })
 
     await test.step('picks each sorting and the list is ordered accordingly', async () => {
-      await sortSelect(page).selectOption('started_at')
+      await chooseSorting(page, 'Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
         'Projeto Alpha',
         'Projeto Gamma',
         'Projeto Beta',
       ])
 
-      await sortSelect(page).selectOption('end_at')
+      await chooseSorting(page, 'Prazo mais próximo')
       await expect(projectNames(page)).toHaveText([
         'Projeto Beta',
         'Projeto Alpha',
         'Projeto Gamma',
       ])
 
-      await sortSelect(page).selectOption('name')
+      await chooseSorting(page, 'Ordem alfabética')
       await expect(projectNames(page)).toHaveText([
         'Projeto Alpha',
         'Projeto Beta',
@@ -379,7 +380,7 @@ test.describe('sort and filter projects', () => {
     })
 
     await test.step('sorts, searches, comes back and the sorting is kept', async () => {
-      await sortSelect(page).selectOption('started_at')
+      await chooseSorting(page, 'Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
         'Projeto Alpha',
         'Projeto Gamma',
@@ -397,7 +398,7 @@ test.describe('sort and filter projects', () => {
       await searchBackButton(page).click()
 
       await expect(page).toHaveURL('/')
-      await expect(sortSelect(page)).toHaveValue('started_at')
+      await expect(sortCombobox(page)).toHaveText('Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
         'Projeto Alpha',
         'Projeto Gamma',
@@ -436,7 +437,7 @@ test.describe('search projects', () => {
       // The matching part of the name is marked with the search term.
       await expect(projectNameHighlight(projectCard(page, 'Projeto Alpha'))).toHaveText('Alp')
       // The result is a read only page: no sorting, no filter, no new project.
-      await expect(sortSelect(page)).toHaveCount(0)
+      await expect(sortCombobox(page)).toHaveCount(0)
       await expect(favoritedFilter(page)).toHaveCount(0)
     })
 

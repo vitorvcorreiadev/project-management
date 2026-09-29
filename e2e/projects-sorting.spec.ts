@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { buildProject, seedProjects } from './fixtures/projects.js'
 import {
+  chooseSorting,
   favoriteStar,
   favoritedFilter,
   projectCard,
@@ -10,7 +11,8 @@ import {
   searchInput,
   searchResultTitle,
   searchToggle,
-  sortSelect,
+  sortCombobox,
+  sortOption,
 } from './fixtures/locators.js'
 
 const sortableProjects = () => [
@@ -39,10 +41,15 @@ test.describe('projects sorting', () => {
     await seedProjects(page, sortableProjects())
     await page.goto('/')
 
-    const select = sortSelect(page)
+    const combobox = sortCombobox(page)
 
-    await expect(select).toHaveValue('name')
-    await expect(select.locator('option')).toHaveText([
+    await expect(combobox).toHaveText('Ordem alfabética')
+    await expect(combobox).toHaveAttribute('aria-expanded', 'false')
+
+    await combobox.click()
+
+    await expect(sortOption(page, 'Ordem alfabética')).toHaveAttribute('aria-selected', 'true')
+    await expect(page.getByRole('option')).toHaveText([
       'Ordem alfabética',
       'Iniciados mais recentes',
       'Prazo mais próximo',
@@ -54,8 +61,9 @@ test.describe('projects sorting', () => {
     await seedProjects(page, sortableProjects())
     await page.goto('/')
 
-    await sortSelect(page).selectOption('started_at')
+    await chooseSorting(page, 'Iniciados mais recentes')
 
+    await expect(sortCombobox(page)).toHaveText('Iniciados mais recentes')
     await expect(projectNames(page)).toHaveText(['Projeto Alpha', 'Projeto Gamma', 'Projeto Beta'])
   })
 
@@ -63,16 +71,46 @@ test.describe('projects sorting', () => {
     await seedProjects(page, sortableProjects())
     await page.goto('/')
 
-    await sortSelect(page).selectOption('end_at')
+    await chooseSorting(page, 'Prazo mais próximo')
 
+    await expect(sortCombobox(page)).toHaveText('Prazo mais próximo')
     await expect(projectNames(page)).toHaveText(['Projeto Beta', 'Projeto Alpha', 'Projeto Gamma'])
+  })
+
+  test('keeps the popup open while the arrows walk through the options', async ({ page }) => {
+    await seedProjects(page, sortableProjects())
+    await page.goto('/')
+
+    const combobox = sortCombobox(page)
+
+    await combobox.click()
+    await combobox.press('ArrowDown')
+    await combobox.press('Enter')
+
+    await expect(combobox).toHaveAttribute('aria-expanded', 'false')
+    await expect(combobox).toHaveText('Iniciados mais recentes')
+    await expect(projectNames(page)).toHaveText(['Projeto Alpha', 'Projeto Gamma', 'Projeto Beta'])
+  })
+
+  test('leaves the sorting untouched on escape', async ({ page }) => {
+    await seedProjects(page, sortableProjects())
+    await page.goto('/')
+
+    const combobox = sortCombobox(page)
+
+    await combobox.click()
+    await combobox.press('ArrowDown')
+    await combobox.press('Escape')
+
+    await expect(combobox).toHaveAttribute('aria-expanded', 'false')
+    await expect(combobox).toHaveText('Ordem alfabética')
   })
 
   test('keeps the selected sorting after searching and coming back', async ({ page }) => {
     await seedProjects(page, sortableProjects())
     await page.goto('/')
 
-    await sortSelect(page).selectOption('started_at')
+    await chooseSorting(page, 'Iniciados mais recentes')
 
     await searchToggle(page).click()
     await searchInput(page).fill('Alp')
@@ -83,7 +121,7 @@ test.describe('projects sorting', () => {
     await searchBackButton(page).click()
 
     await expect(page).toHaveURL('/')
-    await expect(sortSelect(page)).toHaveValue('started_at')
+    await expect(sortCombobox(page)).toHaveText('Iniciados mais recentes')
     await expect(projectNames(page)).toHaveText(['Projeto Alpha', 'Projeto Gamma', 'Projeto Beta'])
   })
 
@@ -101,7 +139,7 @@ test.describe('projects sorting', () => {
     await filter.click()
 
     await expect(filter).toBeChecked()
-    await expect(sortSelect(page)).toHaveValue('name')
+    await expect(sortCombobox(page)).toHaveText('Ordem alfabética')
     await expect(projectCount(page)).toHaveText('(2)')
     await expect(projectNames(page)).toHaveText(['Projeto Alpha', 'Projeto Beta'])
   })

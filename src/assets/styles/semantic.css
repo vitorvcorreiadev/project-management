@@ -1,6 +1,11 @@
 @layer semantic {
   :root {
+    /* Colors */
     --color-surface: white;
+
+    /* Focus ring */
+    --focus-ring-color: var(--color-purple-500);
+    --focus-ring-width: 0.2rem;
 
     /* Button color */
     --button-accent: var(--color-purple-500);
