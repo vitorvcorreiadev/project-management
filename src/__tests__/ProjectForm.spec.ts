@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import ProjectForm from '../components/ProjectForm.vue'
+import ProjectForm from '../components/project/ProjectForm.vue'
 import { getCover, saveCover } from '../db/covers'
 import type { Project } from '../types/project'
 

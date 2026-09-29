@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SearchIcon from '@/assets/images/SearchIcon.vue'
-import SearchHistoryPanel from '@/components/SearchHistoryPanel.vue'
+import SearchHistoryPanel from '@/components/search/SearchHistoryPanel.vue'
 import useSearchBox from '@/composables/useSearchBox'
 
 const {

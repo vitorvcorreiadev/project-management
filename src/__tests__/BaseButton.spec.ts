@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import BaseButton from '../components/BaseButton.vue'
+import BaseButton from '../components/base/BaseButton.vue'
 
 /*
  * BaseButton has a single `<button>` root, so `find('button')` is the component

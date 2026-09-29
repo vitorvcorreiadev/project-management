@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import BaseInput from '../components/BaseInput.vue'
+import BaseInput from '../components/base/BaseInput.vue'
 
 describe('BaseInput', () => {
   function mountInput(errorMessage?: string) {

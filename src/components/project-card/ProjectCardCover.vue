@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import BaseDropdownMenu from '@/components/BaseDropdownMenu.vue'
-import FavoriteStar from '@/components/FavoriteStar.vue'
+import BaseDropdownMenu from '@/components/base/BaseDropdownMenu.vue'
+import FavoriteStar from '@/components/project-card/FavoriteStar.vue'
 import ElipsisIcon from '@/assets/images/ElipsisIcon.vue'
 import EditIcon from '@/assets/images/EditIcon.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'

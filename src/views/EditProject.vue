@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseBreadcrumb from '@/components/BaseBreadcrumb.vue'
-import ProjectForm from '@/components/ProjectForm.vue'
+import BaseBreadcrumb from '@/components/base/BaseBreadcrumb.vue'
+import ProjectForm from '@/components/project/ProjectForm.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { useRoute, useRouter } from 'vue-router'
 import type { Project } from '@/types/project'

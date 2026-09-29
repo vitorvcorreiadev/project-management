@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BaseDialog from '@/components/BaseDialog.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
+import BaseDialog from '@/components/base/BaseDialog.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'
 
 defineProps<{ projectName: string }>()

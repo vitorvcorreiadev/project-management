@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
 import HeaderLogo from '@/assets/images/HeaderLogo.vue'
-import SearchBox from '@/components/SearchBox.vue'
+import SearchBox from '@/components/search/SearchBox.vue'
 
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'

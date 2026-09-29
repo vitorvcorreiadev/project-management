@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import UploadLight from '@/assets/images/UploadLight.vue'
 
 const emit = defineEmits<{ select: [] }>()

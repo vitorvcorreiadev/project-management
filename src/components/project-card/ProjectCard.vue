@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 
-import BaseHighlight from '@/components/BaseHighlight.vue'
+import BaseHighlight from '@/components/base/BaseHighlight.vue'
 import ProjectCardCover from './ProjectCardCover.vue'
 import ProjectCardDates from './ProjectCardDates.vue'
 import ProjectCardRemoveDialog from './ProjectCardRemoveDialog.vue'

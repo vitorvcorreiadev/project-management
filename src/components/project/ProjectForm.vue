@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, nextTick, shallowRef, useTemplateRef, watch } from 'vue'
 
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
+import BaseInput from '@/components/base/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
 import ImageInput from '@/components/image-input/ImageInput.vue'

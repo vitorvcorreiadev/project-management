@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ClockRotateLeftIcon from '@/assets/images/ClockRotateLeftIcon.vue'
 import CrossIcon from '@/assets/images/CrossIcon.vue'
-import BaseHighlight from '@/components/BaseHighlight.vue'
+import BaseHighlight from '@/components/base/BaseHighlight.vue'
 
 defineProps<{ items: string[]; term: string; activeIndex: number; listboxId: string }>()
 const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()

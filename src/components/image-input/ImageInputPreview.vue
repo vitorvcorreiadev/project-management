@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'
 
 defineProps<{ src: string; alt: string }>()

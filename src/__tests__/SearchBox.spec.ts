@@ -4,7 +4,7 @@ import { nextTick } from 'vue'
 import { createPinia } from 'pinia'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
-import SearchBox from '../components/SearchBox.vue'
+import SearchBox from '../components/search/SearchBox.vue'
 import { useSearchHistoryStore } from '../stores/searchHistory'
 
 const { currentRoute, push, back } = vi.hoisted(() => ({

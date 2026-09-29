@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import Toggle from '../components/BaseToggle.vue'
+import Toggle from '../components/base/BaseToggle.vue'
 
 /*
  * BaseToggle is fully controlled through `modelValue`, so the switch never mutates

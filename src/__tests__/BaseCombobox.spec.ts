@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach, beforeEach } from 'vitest'
 
 import { mount, type VueWrapper } from '@vue/test-utils'
-import BaseCombobox from '../components/BaseCombobox.vue'
+import BaseCombobox from '../components/base/BaseCombobox.vue'
 import type { ComboboxOption } from '../types/combobox'
 
 const options: ComboboxOption[] = [

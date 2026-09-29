@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProjectList from '@/components/project-list/ProjectList.vue'
-import BaseBreadcrumb from '@/components/BaseBreadcrumb.vue'
+import BaseBreadcrumb from '@/components/base/BaseBreadcrumb.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
 import useSearchBox from '@/composables/useSearchBox'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProjectsEmptyState from '@/components/ProjectsEmptyState.vue'
+import ProjectsEmptyState from '@/components/project/ProjectsEmptyState.vue'
 import ProjectList from '@/components/project-list/ProjectList.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
