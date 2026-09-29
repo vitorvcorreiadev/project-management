@@ -1,17 +1,9 @@
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll, vi } from 'vitest'
-import { createPinia, setActivePinia } from 'pinia'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
-import ProjectCard from '../components/ProjectCard.vue'
-import { useProjectsStore } from '../stores/projects'
+import ProjectCard from '../components/project-card/ProjectCard.vue'
 import type { Project } from '../types/project'
-
-const { push } = vi.hoisted(() => ({ push: vi.fn<(to: string) => unknown>() }))
-
-vi.mock('vue-router', () => ({
-  useRouter: () => ({ push, back: vi.fn<() => void>() }),
-}))
 
 const showModalMock = vi.fn<() => void>(function (this: HTMLDialogElement) {
   this.open = true
@@ -54,12 +46,8 @@ describe('ProjectCard', () => {
   const wrappers: VueWrapper[] = []
 
   function mountCard(project: Project, highlightTerm = '') {
-    const pinia = createPinia()
-    setActivePinia(pinia)
-
     const wrapper = mount(ProjectCard, {
       props: { project, highlightTerm },
-      global: { plugins: [pinia] },
       attachTo: document.body,
     })
 
@@ -87,7 +75,6 @@ describe('ProjectCard', () => {
   }
 
   beforeEach(() => {
-    push.mockReset()
     showModalMock.mockClear()
     closeMock.mockClear()
   })
@@ -142,20 +129,20 @@ describe('ProjectCard', () => {
     expect(() => mountCard(buildProject({ started_at: '', end_at: '' }))).not.toThrow()
   })
 
-  it('navigates to the edit route for the project it was given', async () => {
+  it('asks for the project it was given to be edited', async () => {
     const wrapper = mountCard(buildProject({ id: 7 }))
 
     await pickMenuItem(wrapper, 'Editar')
 
-    expect(push).toHaveBeenCalledWith('/projects/7/edit')
+    expect(wrapper.emitted('edit')).toEqual([[7]])
   })
 
-  it('does not navigate when Remover is picked', async () => {
+  it('does not ask to edit when Remover is picked', async () => {
     const wrapper = mountCard(buildProject())
 
     await pickMenuItem(wrapper, 'Remover')
 
-    expect(push).not.toHaveBeenCalled()
+    expect(wrapper.emitted('edit')).toBeUndefined()
   })
 
   it('asks which project is about to go before letting the user delete anything', async () => {
@@ -167,7 +154,7 @@ describe('ProjectCard', () => {
 
     expect(wrapper.get('.dialog-title').text()).toBe('Remover projeto')
     expect(content.get('p').text()).toContain('Essa ação removerá definitivamente o projeto')
-    expect(content.get('p span').text()).toBe('Projeto 1')
+    expect(content.get('span').text()).toBe('Projeto 1')
     expect(wrapper.find('.dialog-icon svg').exists()).toBe(true)
     expect(wrapper.get('.dialog-actions').text()).toBe('CancelarConfirmar')
   })
@@ -183,23 +170,21 @@ describe('ProjectCard', () => {
 
   it('leaves the project alone and shuts the dialog when Cancelar is pressed', async () => {
     const wrapper = mountCard(buildProject())
-    const store = useProjectsStore()
 
     await openRemoveDialog(wrapper)
-    await wrapper.get('.dialog-actions button.secondary').trigger('click')
+    await wrapper.get('.dialog-actions button.button--secondary').trigger('click')
 
-    expect(store.findProjectById(1)).toBeDefined()
+    expect(wrapper.emitted('remove')).toBeUndefined()
     expect(dialogOf(wrapper).open).toBe(false)
   })
 
-  it('removes the project and shuts the dialog when Confirmar is pressed', async () => {
+  it('asks for the project to be removed and shuts the dialog when Confirmar is pressed', async () => {
     const wrapper = mountCard(buildProject())
-    const store = useProjectsStore()
 
     await openRemoveDialog(wrapper)
-    await wrapper.get('.dialog-actions button.primary').trigger('click')
+    await wrapper.get('.dialog-actions button.button--primary').trigger('click')
 
-    expect(store.findProjectById(1)).toBeUndefined()
+    expect(wrapper.emitted('remove')).toEqual([[1]])
     expect(dialogOf(wrapper).open).toBe(false)
   })
 })
