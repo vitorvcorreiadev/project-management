@@ -34,35 +34,37 @@ const showSearchBox = computed(() => !route.meta.hideSearch && projects.value.le
 </template>
 
 <style scoped>
-header {
-  position: relative;
-  padding-inline: var(--space-8);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-areas: 'empty logo search-box';
-  place-items: center;
-  background-color: var(--color-purple-950);
-  box-shadow: var(--shadow-default);
+@layer components {
+  header {
+    position: relative;
+    padding-inline: var(--space-8);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: 'empty logo search-box';
+    place-items: center;
+    background-color: var(--color-purple-950);
+    box-shadow: var(--shadow-default);
 
-  .logo {
-    grid-area: logo;
+    .logo {
+      grid-area: logo;
 
-    a {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding-block: var(--space-2);
+      a {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding-block: var(--space-2);
 
-      h1 {
-        color: var(--color-white);
-        font-size: var(--font-size-md);
+        h1 {
+          color: var(--color-white);
+          font-size: var(--font-size-md);
+        }
       }
     }
-  }
 
-  .search-box {
-    grid-area: search-box;
-    place-self: center end;
+    .search-box {
+      grid-area: search-box;
+      place-self: center end;
+    }
   }
 }
 </style>

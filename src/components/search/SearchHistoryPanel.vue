@@ -35,53 +35,55 @@ const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()
 </template>
 
 <style lang="css" scoped>
-.search-history {
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-default);
-  border-radius: 0 0 var(--radius-4) var(--radius-4);
-  border: 2px solid var(--color-purple-500);
-  border-top: none;
+@layer components {
+  .search-history {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-default);
+    border-radius: 0 0 var(--radius-4) var(--radius-4);
+    border: 2px solid var(--color-purple-500);
+    border-top: none;
 
-  .search-history-row {
-    display: flex;
-    align-items: center;
-    border-top: 1px solid var(--color-purple-50);
-
-    .search-history-term {
+    .search-history-row {
       display: flex;
       align-items: center;
-      gap: var(--space-4);
-      flex: 1;
-      padding: var(--space-4) var(--space-5);
-      color: var(--color-gray-400);
-      cursor: pointer;
-      font-size: var(--font-size-sm);
+      border-top: 1px solid var(--color-purple-50);
 
-      &[aria-selected='true'] {
-        background-color: var(--color-purple-50);
-      }
+      .search-history-term {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        flex: 1;
+        padding: var(--space-4) var(--space-5);
+        color: var(--color-gray-400);
+        cursor: pointer;
+        font-size: var(--font-size-sm);
 
-      &:focus-visible {
-        outline: var(--focus-ring-width) solid var(--focus-ring-color);
-        outline-offset: calc(-1 * var(--focus-ring-width));
+        &[aria-selected='true'] {
+          background-color: var(--color-purple-50);
+        }
+
+        &:focus-visible {
+          outline: var(--focus-ring-width) solid var(--focus-ring-color);
+          outline-offset: calc(-1 * var(--focus-ring-width));
+        }
       }
     }
   }
-}
 
-.search-history-remove {
-  padding: var(--space-3) var(--space-4);
-  color: var(--color-gray-300);
-  cursor: pointer;
+  .search-history-remove {
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-gray-300);
+    cursor: pointer;
 
-  &:hover,
-  &:focus-visible {
-    color: var(--color-purple-500);
-  }
+    &:hover,
+    &:focus-visible {
+      color: var(--color-purple-500);
+    }
 
-  &:focus-visible {
-    outline: var(--focus-ring-width) solid var(--focus-ring-color);
-    outline-offset: calc(-1 * var(--focus-ring-width));
+    &:focus-visible {
+      outline: var(--focus-ring-width) solid var(--focus-ring-color);
+      outline-offset: calc(-1 * var(--focus-ring-width));
+    }
   }
 }
 </style>

@@ -18,9 +18,9 @@ const props = withDefaults(
 
 const classes = computed(() => [
   'button',
-  `button--${props.variant}`,
-  `button--${props.size}`,
-  { 'button--full': props.full },
+  `${props.variant}`,
+  `${props.size}`,
+  { 'full': props.full },
 ])
 </script>
 
@@ -66,33 +66,33 @@ const classes = computed(() => [
     &:disabled {
       cursor: not-allowed;
     }
-  }
 
-  .button--primary:disabled {
-    --button-bg: var(--color-purple-200);
-    --button-border: var(--color-purple-200);
-  }
-
-  .button--secondary {
-    --button-bg: var(--color-white);
-    --button-text: var(--color-purple-500);
-
-    &:disabled {
-      --button-text: var(--color-purple-200);
+    &.primary:disabled {
+      --button-bg: var(--color-purple-200);
       --button-border: var(--color-purple-200);
     }
-  }
 
-  .button--large {
-    --button-padding-block: 1.5rem;
-    --button-padding-inline: var(--space-6);
-    --button-font-size: var(--font-size-lg);
-    --button-line-height: var(--line-height-lg);
-    --button-gap: var(--space-4);
-  }
+    &.secondary {
+      --button-bg: var(--color-white);
+      --button-text: var(--color-purple-500);
 
-  .button--full {
-    width: 100%;
+      &:disabled {
+        --button-text: var(--color-purple-200);
+        --button-border: var(--color-purple-200);
+      }
+    }
+
+    &.large {
+      --button-padding-block: 1.5rem;
+      --button-padding-inline: var(--space-6);
+      --button-font-size: var(--font-size-lg);
+      --button-line-height: var(--line-height-lg);
+      --button-gap: var(--space-4);
+    }
+
+    &.full {
+      width: 100%;
+    }
   }
 }
 </style>

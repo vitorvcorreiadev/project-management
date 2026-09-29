@@ -59,23 +59,25 @@ function handleMenuSelect(item: DropdownItem) {
 </template>
 
 <style lang="css" scoped>
-.project-card-cover {
-  position: relative;
-}
+@layer components {
+  .project-card-cover {
+    position: relative;
+  }
 
-.project-card-cover-image {
-  border-start-start-radius: var(--radius-4);
-  border-start-end-radius: var(--radius-4);
-  block-size: 231px;
-  min-width: 100%;
-  object-fit: cover;
-}
+  .project-card-cover-image {
+    border-start-start-radius: var(--radius-4);
+    border-start-end-radius: var(--radius-4);
+    block-size: 231px;
+    min-width: 100%;
+    object-fit: cover;
+  }
 
-.project-card-cover-actions {
-  position: absolute;
-  inset-block-end: 25px;
-  inset-inline-end: 25px;
-  display: flex;
-  gap: var(--space-5);
+  .project-card-cover-actions {
+    position: absolute;
+    inset-block-end: 25px;
+    inset-inline-end: 25px;
+    display: flex;
+    gap: var(--space-5);
+  }
 }
 </style>

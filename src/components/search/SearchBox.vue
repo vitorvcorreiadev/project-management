@@ -68,51 +68,53 @@ const {
 </template>
 
 <style lang="css" scoped>
-.search-box {
-  > button {
-    color: var(--color-white);
-    cursor: pointer;
-  }
-
-  > div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-
-    .input-wrapper {
-      position: relative;
-
-      svg {
-        position: absolute;
-        color: var(--color-purple-500);
-        left: var(--space-6);
-        top: var(--space-6);
-      }
-
-      input {
-        width: 100%;
-        border: none;
-        font-size: var(--font-size-md);
-        line-height: var(--line-height-xl);
-        padding: var(--space-6) 7.4rem;
-        outline: 0;
-        border: 2px solid transparent;
-      }
-
-      &:has(~ .search-history) {
-        input {
-          border: 2px solid var(--color-purple-500);
-          border-bottom: 0;
-        }
-      }
+@layer components {
+  .search-box {
+    > button {
+      color: var(--color-white);
+      cursor: pointer;
     }
 
-    .search-history {
+    > div {
       position: absolute;
-      inset-block-start: 100%;
-      inset-inline: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+
+      .input-wrapper {
+        position: relative;
+
+        svg {
+          position: absolute;
+          color: var(--color-purple-500);
+          left: var(--space-6);
+          top: var(--space-6);
+        }
+
+        input {
+          width: 100%;
+          border: none;
+          font-size: var(--font-size-md);
+          line-height: var(--line-height-xl);
+          padding: var(--space-6) 7.4rem;
+          outline: 0;
+          border: 2px solid transparent;
+        }
+
+        &:has(~ .search-history) {
+          input {
+            border: 2px solid var(--color-purple-500);
+            border-bottom: 0;
+          }
+        }
+      }
+
+      .search-history {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline: 0;
+      }
     }
   }
 }

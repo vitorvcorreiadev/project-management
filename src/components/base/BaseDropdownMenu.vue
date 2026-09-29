@@ -61,70 +61,72 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
 </template>
 
 <style lang="css" scoped>
-.dropdown-menu {
-  position: relative;
-  display: inline-block;
+@layer components {
+  .dropdown-menu {
+    position: relative;
+    display: inline-block;
 
-  .dropdown-menu-trigger {
-    border-radius: var(--radius-full);
-    max-width: 32px;
-    width: 32px;
-    height: 32px;
-    box-shadow: var(--shadow-default);
-    background-color: var(--color-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-purple-500);
-    cursor: pointer;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-  }
-
-  .dropdown-menu-panel {
-    position: absolute;
-    inset-block-start: calc(100% + var(--space-2));
-    inset-inline-end: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-white);
-    border-radius: var(--radius-3);
-    box-shadow: var(--shadow-default);
-    width: 240px;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset-block-start: -4px;
-      inset-inline-end: var(--space-3);
-      inline-size: var(--space-2);
-      block-size: var(--space-2);
+    .dropdown-menu-trigger {
+      border-radius: var(--radius-full);
+      max-width: 32px;
+      width: 32px;
+      height: 32px;
+      box-shadow: var(--shadow-default);
       background-color: var(--color-white);
-      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-purple-500);
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
     }
 
-    li {
-      &:not(:last-child) {
-        border-bottom: 1px solid var(--color-purple-50);
+    .dropdown-menu-panel {
+      position: absolute;
+      inset-block-start: calc(100% + var(--space-2));
+      inset-inline-end: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-white);
+      border-radius: var(--radius-3);
+      box-shadow: var(--shadow-default);
+      width: 240px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset-block-start: -4px;
+        inset-inline-end: var(--space-3);
+        inline-size: var(--space-2);
+        block-size: var(--space-2);
+        background-color: var(--color-white);
+        transform: rotate(45deg);
       }
 
-      .dropdown-menu-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-3);
-        inline-size: 100%;
-        padding: var(--space-3);
-        color: var(--color-purple-500);
-        font-size: var(--font-size-sm);
-        line-height: var(--line-height-xl);
-        cursor: pointer;
+      li {
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--color-purple-50);
+        }
 
-        &:focus-visible {
-          outline: var(--button-focus-ring-width) solid var(--button-accent);
-          outline-offset: calc(-1 * var(--button-focus-ring-width));
+        .dropdown-menu-item {
+          display: flex;
+          align-items: center;
+          gap: var(--space-3);
+          inline-size: 100%;
+          padding: var(--space-3);
+          color: var(--color-purple-500);
+          font-size: var(--font-size-sm);
+          line-height: var(--line-height-xl);
+          cursor: pointer;
+
+          &:focus-visible {
+            outline: var(--button-focus-ring-width) solid var(--button-accent);
+            outline-offset: calc(-1 * var(--button-focus-ring-width));
+          }
         }
       }
     }

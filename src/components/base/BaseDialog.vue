@@ -75,66 +75,66 @@ defineSlots<{
       background-color: var(--color-backdrop);
       backdrop-filter: blur(1rem);
     }
-  }
 
-  .dialog-panel {
-    display: flex;
-    flex-direction: column;
-    max-block-size: calc(100dvh - var(--space-7));
-    background-color: var(--color-white);
-    border-radius: var(--radius-2);
-    box-shadow: var(--shadow-default);
-    padding-inline: var(--space-6);
-    padding-block-end: var(--space-5);
-  }
+    .dialog-panel {
+      display: flex;
+      flex-direction: column;
+      max-block-size: calc(100dvh - var(--space-7));
+      background-color: var(--color-white);
+      border-radius: var(--radius-2);
+      box-shadow: var(--shadow-default);
+      padding-inline: var(--space-6);
+      padding-block-end: var(--space-5);
 
-  .dialog-icon {
-    --dialog-icon-size: 6.4rem;
-    --dialog-icon-offset: calc(var(--dialog-icon-size) / -2);
+      .dialog-icon {
+        --dialog-icon-size: 6.4rem;
+        --dialog-icon-offset: calc(var(--dialog-icon-size) / -2);
 
-    flex: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: var(--dialog-icon-size);
-    block-size: var(--dialog-icon-size);
-    margin-inline: auto;
-    margin-block-start: var(--dialog-icon-offset);
-    border-radius: var(--radius-full);
-    background-color: var(--color-purple-500);
-    color: var(--color-white);
-  }
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        inline-size: var(--dialog-icon-size);
+        block-size: var(--dialog-icon-size);
+        margin-inline: auto;
+        margin-block-start: var(--dialog-icon-offset);
+        border-radius: var(--radius-full);
+        background-color: var(--color-purple-500);
+        color: var(--color-white);
+      }
 
-  .dialog-body {
-    display: flex;
-    flex-direction: column;
-    min-block-size: 0;
-    padding-block-start: var(--space-4);
-    overflow-y: auto;
-  }
+      .dialog-body {
+        display: flex;
+        flex-direction: column;
+        min-block-size: 0;
+        padding-block-start: var(--space-4);
+        overflow-y: auto;
 
-  .dialog-title {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-purple-800);
-    text-align: center;
-    padding-block-end: var(--space-5);
-  }
+        .dialog-title {
+          font-weight: var(--font-weight-semibold);
+          color: var(--color-purple-800);
+          text-align: center;
+          padding-block-end: var(--space-5);
+        }
 
-  .dialog-content {
-    color: var(--color-gray-400);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-xl);
-    text-align: center;
-    border-top: 1px solid var(--color-gray-300);
-    padding-top: 3.4rem;
-  }
+        .dialog-content {
+          color: var(--color-gray-400);
+          font-size: var(--font-size-sm);
+          line-height: var(--line-height-xl);
+          text-align: center;
+          border-top: 1px solid var(--color-gray-300);
+          padding-top: 3.4rem;
+        }
 
-  .dialog-actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    padding-block-start: var(--space-6);
+        .dialog-actions {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--space-3);
+          padding-block-start: var(--space-6);
+        }
+      }
+    }
   }
 }
 </style>

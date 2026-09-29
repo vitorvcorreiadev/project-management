@@ -49,9 +49,11 @@ const sortParam = computed<string>({
 </template>
 
 <style lang="css" scoped>
-.project-toolbar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-6);
+@layer components {
+  .project-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
 }
 </style>

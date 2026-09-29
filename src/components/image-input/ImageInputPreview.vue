@@ -24,32 +24,31 @@ const emit = defineEmits<{ remove: [] }>()
 </template>
 
 <style lang="css" scoped>
-.image-input-preview {
-  /* Owns its own box: the container reserves the height, this grows into it and
-     stays the positioning context for the remove control, so the two never
-     depend on the container's layout to line up. */
-  flex: 1;
-  align-self: stretch;
-  position: relative;
-  display: flex;
-}
+@layer components {
+  .image-input-preview {
+    flex: 1;
+    align-self: stretch;
+    position: relative;
+    display: flex;
 
-.image-input-preview-image {
-  align-self: stretch;
-  width: 100%;
-  max-height: 800px;
-  object-fit: cover;
-}
+    .image-input-preview-image {
+      align-self: stretch;
+      width: 100%;
+      max-height: 800px;
+      object-fit: cover;
+    }
 
-.image-input-preview-remove {
-  position: absolute;
-  top: var(--space-3);
-  inset-inline-end: var(--space-3);
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 50%;
-  box-shadow: var(--shadow-default);
+    .image-input-preview-remove {
+      position: absolute;
+      top: var(--space-3);
+      inset-inline-end: var(--space-3);
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      box-shadow: var(--shadow-default);
+    }
+  }
 }
 </style>

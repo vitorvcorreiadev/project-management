@@ -18,13 +18,15 @@ const emit = defineEmits<{ select: [] }>()
 </template>
 
 <style lang="css" scoped>
-.image-input-picker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+@layer components {
+  .image-input-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.image-input-picker-hint {
-  padding: var(--space-4) 0 var(--space-5);
+  .image-input-picker-hint {
+    padding: var(--space-4) 0 var(--space-5);
+  }
 }
 </style>

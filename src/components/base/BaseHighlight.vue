@@ -17,10 +17,12 @@ const segments = computed(() => splitByTerm(props.text, props.term))
 </template>
 
 <style lang="css" scoped>
-.base-highlight {
-  mark {
-    background-color: var(--color-amber-400);
-    color: var(--color-white);
+@layer components {
+  .base-highlight {
+    mark {
+      background-color: var(--color-amber-400);
+      color: var(--color-white);
+    }
   }
 }
 </style>

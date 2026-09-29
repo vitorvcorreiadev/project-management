@@ -98,27 +98,29 @@ function removeCover(): void {
 </template>
 
 <style lang="css" scoped>
-.image-input {
-  position: relative;
-  border: 1px dashed var(--color-gray-400);
-  border-radius: var(--radius-2);
-  padding-block: var(--space-5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--color-gray-400);
-  overflow: hidden;
-}
+@layer components {
+  .image-input {
+    position: relative;
+    border: 1px dashed var(--color-gray-400);
+    border-radius: var(--radius-2);
+    padding-block: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-gray-400);
+    overflow: hidden;
 
-.image-input.has-preview {
-  border-style: solid;
-  border-color: var(--color-gray-100);
-  padding-block: 0;
-  min-height: 20rem;
-}
+    &.has-preview {
+      border-style: solid;
+      border-color: var(--color-gray-100);
+      padding-block: 0;
+      min-height: 20rem;
+    }
 
-.image-input-error {
-  color: var(--color-red-500);
-  padding: var(--space-2) 0 0;
+    .image-input-error {
+      color: var(--color-red-500);
+      padding: var(--space-2) 0 0;
+    }
+  }
 }
 </style>

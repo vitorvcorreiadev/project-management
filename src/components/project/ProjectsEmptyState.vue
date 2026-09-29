@@ -20,16 +20,18 @@ const router = useRouter()
 </template>
 
 <style scoped>
-.projects-empty-state {
-  background-color: var(--color-surface);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--radius-1);
+@layer components {
+  .projects-empty-state {
+    background-color: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-1);
 
-  p {
-    padding-block: var(--space-5) var(--space-6);
+    p {
+      padding-block: var(--space-5) var(--space-6);
+    }
   }
 }
 </style>

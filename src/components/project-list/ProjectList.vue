@@ -39,18 +39,20 @@ withDefaults(
 </template>
 
 <style lang="css" scoped>
-.project-list {
-  > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+@layer components {
+  .project-list {
+    > header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  > ul {
-    display: flex;
-    gap: var(--space-6);
-    flex-wrap: wrap;
-    margin-top: var(--space-5);
+    > ul {
+      display: flex;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+      margin-top: var(--space-5);
+    }
   }
 }
 </style>

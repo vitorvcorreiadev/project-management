@@ -59,37 +59,39 @@ function handleRemoveConfirm(): void {
 </template>
 
 <style lang="css" scoped>
-.project-card {
+@layer components {
+  .project-card {
   border-radius: var(--radius-4);
   width: 346px;
-}
 
-.project-card-body {
-  border: 1px solid var(--color-gray-100);
-  border-end-start-radius: var(--radius-4);
-  border-end-end-radius: var(--radius-4);
-  padding: var(--space-5);
-  background: var(--color-surface);
-}
+  .project-card-body {
+    border: 1px solid var(--color-gray-100);
+    border-end-start-radius: var(--radius-4);
+    border-end-end-radius: var(--radius-4);
+    padding: var(--space-5);
+    background: var(--color-surface);
 
-.project-card-summary {
-  padding-block-end: var(--space-4);
-  border-block-end: 1px solid var(--color-gray-100);
-}
+    .project-card-summary {
+      padding-block-end: var(--space-4);
+      border-block-end: 1px solid var(--color-gray-100);
+    }
 
-.project-card-name,
-.project-card-client {
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .project-card-name,
+    .project-card-client {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.project-card-name {
-  margin-block-end: 0.5rem;
-}
+    .project-card-name {
+      margin-block-end: 0.5rem;
+    }
 
-.project-card-client strong {
-  margin-inline-end: var(--space-2);
+    .project-card-client strong {
+      margin-inline-end: var(--space-2);
+    }
+  }
+}
 }
 </style>

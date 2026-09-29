@@ -152,27 +152,29 @@ async function handleSubmit(): Promise<void> {
 </template>
 
 <style lang="css" scoped>
-.project-form-wrapper {
-  border: 1px solid var(--color-gray-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: var(--space-6);
-  border-radius: var(--radius-2);
-
-  .project-form {
-    max-width: 702px;
-    width: 100%;
-    padding-block: var(--space-7);
+@layer components {
+  .project-form-wrapper {
+    border: 1px solid var(--color-gray-100);
     display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-6);
+    border-radius: var(--radius-2);
 
-    > .row {
-      display: flex;
-      gap: 4rem;
+    .project-form {
+      max-width: 702px;
       width: 100%;
-      justify-content: space-between;
+      padding-block: var(--space-7);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+
+      > .row {
+        display: flex;
+        gap: 4rem;
+        width: 100%;
+        justify-content: space-between;
+      }
     }
   }
 }

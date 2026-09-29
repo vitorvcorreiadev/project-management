@@ -30,15 +30,17 @@ const handleBack = () => {
 </template>
 
 <style lang="css" scoped>
-.breadcrumb {
-  button {
-    display: flex;
-    gap: var(--space-2);
-    align-items: center;
-    color: var(--color-purple-500);
-    margin-bottom: var(--space-2);
-    cursor: pointer;
-    font-size: var(--font-size-sm);
+@layer components {
+  .breadcrumb {
+    button {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      color: var(--color-purple-500);
+      margin-bottom: var(--space-2);
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+    }
   }
 }
 </style>
