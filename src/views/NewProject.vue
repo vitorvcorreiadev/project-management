@@ -10,7 +10,7 @@ const router = useRouter()
 
 function handleSave(project: Project): void {
   store.createProject(project)
-  router.push('/')
+  router.push({ name: 'projects' })
 }
 </script>
 

@@ -14,7 +14,7 @@ const project = store.findProjectById(Number(route.params.id))
 
 function handleSave(updated: Project): void {
   store.updateProject(updated)
-  router.push('/')
+  router.push({ name: 'projects' })
 }
 </script>
 
