@@ -7,31 +7,29 @@ const router = useRouter()
 </script>
 
 <template>
-  <div role="status" aria-live="polite">
-    <h1>Nenhum projeto</h1>
+  <div class="projects-empty-state">
+    <h2>Nenhum projeto</h2>
 
     <p>Clique no botão abaixo para criar o primeiro e gerenciá-lo.</p>
 
-    <BaseButton size="large" @click="router.push('/projects/new')">
+    <BaseButton size="large" @click="router.push({ name: 'new-project' })">
       <PlusCircle />
       Novo Projeto
     </BaseButton>
   </div>
 </template>
 
-<style lang="css" scoped>
-div[role='status'] {
-  width: 100%;
-  background-color: white;
-  height: auto;
+<style scoped>
+.projects-empty-state {
+  background-color: var(--color-surface);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: var(--radius-4);
+  border-radius: var(--radius-1);
 
   p {
-    padding: var(--space-5) 0 var(--space-6);
+    padding-block: var(--space-5) var(--space-6);
   }
 }
 </style>
