@@ -71,7 +71,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
     width: 32px;
     height: 32px;
     box-shadow: var(--shadow-default);
-    background-color: white;
+    background-color: var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;

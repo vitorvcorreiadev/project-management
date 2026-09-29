@@ -1,7 +1,7 @@
 @layer semantic {
   :root {
     /* Colors */
-    --color-surface: white;
+    --color-surface: var(--color-white);
     --color-error: var(--color-red-500);
     --color-error-strong: var(--color-red-800);
 

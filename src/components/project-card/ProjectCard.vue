@@ -69,7 +69,7 @@ function handleRemoveConfirm(): void {
   border-end-start-radius: var(--radius-4);
   border-end-end-radius: var(--radius-4);
   padding: var(--space-5);
-  background: white;
+  background: var(--color-surface);
 }
 
 .project-card-summary {

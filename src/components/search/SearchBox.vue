@@ -70,7 +70,7 @@ const {
 <style lang="css" scoped>
 .search-box {
   > button {
-    color: white;
+    color: var(--color-white);
     cursor: pointer;
   }
 
