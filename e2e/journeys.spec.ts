@@ -14,6 +14,7 @@ import {
   projectCount,
   projectEndAtInput,
   projectNameInput,
+  projectNameHighlight,
   projectNames,
   projectSaveButton,
   projectStartedAtInput,
@@ -432,6 +433,8 @@ test.describe('search projects', () => {
       await expect(searchResultTitle(page)).toBeVisible()
       await expect(projectCards(page)).toHaveCount(1)
       await expect(projectCard(page, 'Projeto Alpha')).toBeVisible()
+      // The matching part of the name is marked with the search term.
+      await expect(projectNameHighlight(projectCard(page, 'Projeto Alpha'))).toHaveText('Alp')
       // The result is a read only page: no sorting, no filter, no new project.
       await expect(sortSelect(page)).toHaveCount(0)
       await expect(favoritedFilter(page)).toHaveCount(0)
@@ -446,6 +449,8 @@ test.describe('search projects', () => {
       await expect(searchToggle(page)).toBeFocused()
       await expect(projectsTitle(page)).toBeVisible()
       await expect(projectCards(page)).toHaveCount(3)
+      // Back on the listing the name is plain again, no leftover highlight.
+      await expect(projectNameHighlight(projectCard(page, 'Projeto Alpha'))).toHaveCount(0)
     })
   })
 })

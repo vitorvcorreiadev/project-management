@@ -11,7 +11,10 @@ import { useRouter } from 'vue-router'
 const store = useProjectsStore()
 const { filters, sorting } = storeToRefs(store)
 
-withDefaults(defineProps<{ projects: Project[]; filterPanel?: boolean }>(), { filterPanel: true })
+withDefaults(
+  defineProps<{ projects: Project[]; filterPanel?: boolean; highlightTerm?: string }>(),
+  { filterPanel: true, highlightTerm: '' },
+)
 
 const router = useRouter()
 
@@ -49,7 +52,7 @@ const handleSortSelection = (event: Event) => {
 
     <ul>
       <li v-for="project in projects" :key="project.id">
-        <ProjectCard :project="project" />
+        <ProjectCard :project="project" :highlight-term="highlightTerm" />
       </li>
     </ul>
   </div>

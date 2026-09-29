@@ -13,6 +13,7 @@ import type { DropdownItem } from '@/types/dropdown'
 import BaseDialog from './BaseDialog.vue'
 import BaseDropdownMenu from './BaseDropdownMenu.vue'
 import BaseButton from './BaseButton.vue'
+import BaseHighlight from './BaseHighlight.vue'
 import ElipsisIcon from '@/assets/images/ElipsisIcon.vue'
 import EditIcon from '@/assets/images/EditIcon.vue'
 import TrashIcon from '@/assets/images/TrashIcon.vue'
@@ -25,7 +26,9 @@ const menuItems: DropdownItem[] = [
   { id: REMOVE, label: 'Remover', icon: TrashIcon },
 ]
 
-const props = defineProps<{ project: Project }>()
+const props = withDefaults(defineProps<{ project: Project; highlightTerm?: string }>(), {
+  highlightTerm: '',
+})
 
 const store = useProjectsStore()
 const router = useRouter()
@@ -70,7 +73,9 @@ function confirmRemove() {
 
     <div>
       <div>
-        <h2>{{ project.name }}</h2>
+        <h2>
+          <BaseHighlight :text="project.name" :term="highlightTerm" />
+        </h2>
         <p><strong>Cliente:</strong> {{ project.client }}</p>
       </div>
 

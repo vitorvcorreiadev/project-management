@@ -53,12 +53,12 @@ function buildProject(overrides: Partial<Project> = {}): Project {
 describe('ProjectCard', () => {
   const wrappers: VueWrapper[] = []
 
-  function mountCard(project: Project) {
+  function mountCard(project: Project, highlightTerm = '') {
     const pinia = createPinia()
     setActivePinia(pinia)
 
     const wrapper = mount(ProjectCard, {
-      props: { project },
+      props: { project, highlightTerm },
       global: { plugins: [pinia] },
       attachTo: document.body,
     })
@@ -116,6 +116,25 @@ describe('ProjectCard', () => {
     expect(wrapper.text()).toContain('Clicksign')
     expect(wrapper.text()).toContain('01 de setembro de 2026')
     expect(wrapper.text()).toContain('15 de dezembro de 2026')
+  })
+
+  it('leaves the name unhighlighted when it is not given a search term', () => {
+    const wrapper = mountCard(buildProject({ name: 'Projeto Alpha' }))
+
+    expect(wrapper.find('h2 mark').exists()).toBe(false)
+  })
+
+  it('highlights the searched term inside the name, keeping the whole name readable', () => {
+    const wrapper = mountCard(buildProject({ name: 'Projeto Alpha' }), 'Alp')
+
+    expect(wrapper.get('h2 mark').text()).toBe('Alp')
+    expect(wrapper.get('h2').text()).toBe('Projeto Alpha')
+  })
+
+  it('highlights every occurrence of the term in the name', () => {
+    const wrapper = mountCard(buildProject({ name: 'Projeto Pro' }), 'Pro')
+
+    expect(wrapper.findAll('h2 mark').map((mark) => mark.text())).toEqual(['Pro', 'Pro'])
   })
 
   it('does not throw when a date is missing', () => {

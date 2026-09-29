@@ -19,6 +19,8 @@ export const projectCard = (page: Page, name: string): Locator =>
 export const projectNames = (page: Page): Locator =>
   projectCards(page).locator('h2:not(.dialog-title)')
 
+export const projectNameHighlight = (card: Locator): Locator => card.locator('h2 mark')
+
 export const favoriteStar = (card: Locator): Locator => card.locator('button.favorite-star')
 
 export const cardActionsTrigger = (page: Page, name: string): Locator =>

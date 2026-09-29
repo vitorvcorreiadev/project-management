@@ -6,13 +6,13 @@ import { storeToRefs } from 'pinia'
 import useSearchBox from '@/composables/useSearchBox'
 
 const store = useProjectsStore()
-const { searchedProjects } = storeToRefs(store)
+const { searchedProjects, filters } = storeToRefs(store)
 
 const { resetSearch } = useSearchBox()
 </script>
 
 <template>
-  <ProjectsListing :projects="searchedProjects" :filterPanel="false">
+  <ProjectsListing :projects="searchedProjects" :filterPanel="false" :highlightTerm="filters.term">
     <template #header>
       <BaseBreadcrumb title="Resultado da busca" @back="resetSearch" />
     </template>
