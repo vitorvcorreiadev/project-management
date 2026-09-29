@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProjectsListing from '@/components/ProjectsListing.vue'
+import ProjectList from '@/components/project-list/ProjectList.vue'
 import BaseBreadcrumb from '@/components/BaseBreadcrumb.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
@@ -12,9 +12,9 @@ const { resetSearch } = useSearchBox()
 </script>
 
 <template>
-  <ProjectsListing :projects="searchedProjects" :filterPanel="false" :highlightTerm="filters.term">
+  <ProjectList :projects="searchedProjects" :filterPanel="false" :highlightTerm="filters.term">
     <template #header>
       <BaseBreadcrumb title="Resultado da busca" @back="resetSearch" />
     </template>
-  </ProjectsListing>
+  </ProjectList>
 </template>
