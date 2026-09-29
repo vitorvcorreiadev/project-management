@@ -8,7 +8,12 @@ const emit = defineEmits(['back'])
 defineProps<{ title: string }>()
 
 const handleBack = () => {
-  router.back()
+  if (window.history.state?.back) {
+    router.back()
+  } else {
+    router.push({ name: 'projects' })
+  }
+
   emit('back')
 }
 </script>
