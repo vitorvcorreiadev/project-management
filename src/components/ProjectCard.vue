@@ -73,10 +73,10 @@ function confirmRemove() {
 
     <div>
       <div>
-        <h2>
+        <h2 :title="project.name">
           <BaseHighlight :text="project.name" :term="highlightTerm" />
         </h2>
-        <p><strong>Cliente:</strong> {{ project.client }}</p>
+        <p :title="project.client"><strong>Cliente:</strong> {{ project.client }}</p>
       </div>
 
       <div>
@@ -142,6 +142,14 @@ article {
     > div:first-child {
       padding-bottom: var(--space-4);
       border-bottom: 1px solid var(--color-gray-100);
+
+      h2,
+      p {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
       h2 {
         margin-bottom: var(--space-2);

@@ -68,6 +68,7 @@ defineSlots<{
   max-block-size: none;
   inline-size: min(var(--dialog-inline-size), calc(100vw - var(--space-7)));
   overflow: visible;
+  word-break: break-all;
 
   &::backdrop {
     background-color: var(--dialog-backdrop-bg);
