@@ -19,8 +19,8 @@ const errorId = useId()
     <div>
       <slot name="custom-input" />
       <input
-        v-bind="$attrs"
         v-if="!$slots['custom-input']"
+        v-bind="$attrs"
         v-model="modelValue"
         :aria-invalid="errorMessage ? true : undefined"
         :aria-describedby="errorMessage ? errorId : undefined"
@@ -57,6 +57,7 @@ const errorId = useId()
     input {
       color: var(--color-red-500);
       border-color: var(--color-red-500);
+      background-color: var(--color-surface);
     }
 
     .custom-icon {

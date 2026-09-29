@@ -479,8 +479,31 @@ describe('ProjectForm', () => {
     const saved = await waitForSave(wrapper)
 
     expect(saved.hasCover).toBe(true)
-    await expect(getCover(saved.id)).resolves.toMatchObject({ name: 'antiga.png' })
+    await expect(getCover(SEEDED.id)).resolves.toMatchObject({ name: 'antiga.png' })
   })
+
+  it('keeps the stored cover when a pick taken after a removal is thrown away', async () => {
+    await seedCover(SEEDED.id, 'antiga.png')
+
+    const wrapper = mountForm({ initial: SEEDED })
+
+    await waitForPreview(wrapper, 'blob:capa-1')
+    await removeCover(wrapper)
+    await selectCover(wrapper, buildFile('nova.png', 'image/png', 'bytes-novos'))
+    await removeCover(wrapper)
+
+    // Discarding the pick supersedes the earlier removal, so the cover that is
+    // still on the project comes back rather than leaving the field empty.
+    await waitForPreview(wrapper, 'blob:capa-1')
+
+    await submit(wrapper)
+
+    const saved = await waitForSave(wrapper)
+
+    expect(saved.hasCover).toBe(true)
+    await expect(getCover(SEEDED.id)).resolves.toMatchObject({ name: 'antiga.png' })
+  })
+
 
   it('forgets nothing when the cover is removed but the form is abandoned', async () => {
     await seedCover(SEEDED.id, 'antiga.png')

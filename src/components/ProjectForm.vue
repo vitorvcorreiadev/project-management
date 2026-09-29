@@ -1,49 +1,58 @@
 <script setup lang="ts">
+import { computed, nextTick, shallowRef, useTemplateRef, watch } from 'vue'
+
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
 import ImageInput from '@/components/ImageInput.vue'
-import { computed, nextTick, ref, watch } from 'vue'
 import { deleteCover, saveCover } from '@/db/covers'
 import useProjectForm from '@/composables/useProjectForm'
 import { useCoverUrl } from '@/composables/useCoverUrl'
-import { firstInvalidField } from '@/validation/project'
 import type { Project } from '@/types/project'
+import type { ProjectField } from '@/validation/project'
 
 const props = defineProps<{ initial?: Partial<Project> }>()
 
 const emit = defineEmits<{ save: [project: Project] }>()
 
-const { form, errors, visibleErrors, touch, validateAll } = useProjectForm(props.initial)
+const { form, visibleErrors, touch, validateAll } = useProjectForm(props.initial)
 
-const formRef = ref<HTMLFormElement | null>(null)
-const coverFile = ref<File | null>(null)
-const coverRemoved = ref(false)
-const savedCoverUrl = useCoverUrl(() => form)
+const formRef = useTemplateRef<HTMLFormElement>('form')
+const coverFile = shallowRef<File | null>(null)
+const coverRemoved = shallowRef(false)
+const savedCoverUrl = useCoverUrl(form)
 const existingCover = computed(() => (coverRemoved.value ? null : savedCoverUrl.value))
-const isSaving = ref(false)
-const saveError = ref<string | null>(null)
+const isSaving = shallowRef(false)
+const saveError = shallowRef<string | null>(null)
 
-watch([coverFile, coverRemoved], () => {
+watch(coverFile, (file) => {
+  // A new pick supersedes an earlier removal: the stored cover is still on disk,
+  // so throwing this pick away must bring it back rather than leave the field
+  // empty and delete that cover on submit.
+  if (file) coverRemoved.value = false
+
   saveError.value = null
 })
 
-async function focusFirstError(): Promise<void> {
+watch(coverRemoved, () => {
+  saveError.value = null
+})
+
+async function focusFirstError(field: ProjectField): Promise<void> {
   await nextTick()
-
-  const field = firstInvalidField(errors.value)
-
-  if (!field) return
 
   formRef.value?.querySelector<HTMLInputElement>(`[name="${field}"]`)?.focus()
 }
 
-const handleSubmit = async () => {
+async function handleSubmit(): Promise<void> {
   if (isSaving.value) return
 
-  if (!validateAll()) {
-    await focusFirstError()
+  const invalidField = validateAll()
+
+  if (invalidField) {
+    await focusFirstError(invalidField)
+
     return
   }
 
@@ -76,7 +85,7 @@ const handleSubmit = async () => {
 
 <template>
   <div class="project-form-wrapper">
-    <form ref="formRef" novalidate @submit.prevent="handleSubmit">
+    <form ref="form" class="project-form" novalidate @submit.prevent="handleSubmit">
       <BaseInput
         label="Nome do projeto"
         required
@@ -84,7 +93,9 @@ const handleSubmit = async () => {
         v-model="form.name"
         :error-message="visibleErrors.name"
         @blur="touch('name')"
+        autocomplete="off"
       />
+
       <BaseInput
         label="Cliente"
         required
@@ -92,8 +103,10 @@ const handleSubmit = async () => {
         v-model="form.client"
         :error-message="visibleErrors.client"
         @blur="touch('client')"
+        autocomplete="off"
       />
-      <div>
+
+      <div class="row">
         <BaseInput
           label="Data de Início"
           required
@@ -133,7 +146,7 @@ const handleSubmit = async () => {
         </template>
       </BaseInput>
 
-      <BaseButton full :disabled="isSaving">Salvar projeto</BaseButton>
+      <BaseButton full :disabled="isSaving" size="large">Salvar projeto</BaseButton>
     </form>
   </div>
 </template>
@@ -145,8 +158,9 @@ const handleSubmit = async () => {
   align-items: center;
   justify-content: center;
   margin-top: var(--space-6);
+  border-radius: var(--radius-2);
 
-  form {
+  .project-form {
     max-width: 704px;
     width: 100%;
     padding-block: var(--space-7);
@@ -154,7 +168,7 @@ const handleSubmit = async () => {
     flex-direction: column;
     gap: var(--space-6);
 
-    > div {
+    > .row {
       display: flex;
       gap: 4rem;
       width: 100%;

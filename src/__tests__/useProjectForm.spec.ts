@@ -69,7 +69,7 @@ describe('useProjectForm', () => {
   it('unlocks every field once a submit is refused', () => {
     const { visibleErrors, validateAll } = useProjectForm()
 
-    expect(validateAll()).toBe(false)
+    expect(validateAll()).toBe('name')
     expect(Object.keys(visibleErrors.value).sort()).toEqual([
       'client',
       'end_at',
@@ -81,7 +81,7 @@ describe('useProjectForm', () => {
   it('accepts a draft that satisfies every rule', () => {
     const { validateAll } = useProjectForm(EXISTING)
 
-    expect(validateAll()).toBe(true)
+    expect(validateAll()).toBeUndefined()
   })
 
   it('restores the seeded draft and clears the messages on reset', () => {

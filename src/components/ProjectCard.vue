@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{ project: Project; highlightTerm?: strin
 
 const store = useProjectsStore()
 const router = useRouter()
-const coverUrl = useCoverUrl(() => props.project)
+const coverUrl = useCoverUrl(props.project)
 const isRemoveDialogOpen = ref(false)
 
 function handleMenuSelect(item: DropdownItem) {

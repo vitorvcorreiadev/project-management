@@ -56,11 +56,15 @@ export default function useProjectForm(initial?: Partial<Project>) {
     revalidate()
   }
 
-  function validateAll(): boolean {
+  /**
+   * Unlocks every message and reports the first field to fix, so a caller that
+   * wants to move focus gets the answer without re-deriving it.
+   */
+  function validateAll(): ProjectField | undefined {
     submitted.value = true
     revalidate()
 
-    return firstInvalidField(errors.value) === undefined
+    return firstInvalidField(errors.value)
   }
 
   function reset(): void {

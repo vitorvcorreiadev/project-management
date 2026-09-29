@@ -1,4 +1,4 @@
-import { onScopeDispose, ref, toValue, type MaybeRefOrGetter, type Ref } from 'vue'
+import { onScopeDispose, ref, type Ref } from 'vue'
 import { getCover, toBlob } from '@/db/covers'
 import type { Project } from '@/types/project'
 
@@ -9,8 +9,12 @@ import type { Project } from '@/types/project'
  * The read is async, so the URL arrives after the first render. `onScopeDispose`
  * can fire while that read is still in flight, which would leak the URL created
  * moments later — hence the `disposed` guard.
+ *
+ * Resolution happens once: nothing watches the project, so a later change to
+ * `hasCover` does not reload. Callers re-run this on mount, which is what a
+ * freshly listed set of projects and a form returning to the listing both do.
  */
-export function useCoverUrl(project: MaybeRefOrGetter<Project>): Ref<string | null> {
+export function useCoverUrl(project: Pick<Project, 'id' | 'hasCover'>): Ref<string | null> {
   const url = ref<string | null>(null)
 
   let objectUrl: string | null = null
@@ -24,7 +28,7 @@ export function useCoverUrl(project: MaybeRefOrGetter<Project>): Ref<string | nu
   }
 
   async function load(): Promise<void> {
-    const { id, hasCover } = toValue(project)
+    const { id, hasCover } = project
 
     release()
     url.value = null
