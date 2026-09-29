@@ -27,12 +27,6 @@ function onSelect(item: DropdownItem) {
   emit('select', item)
 }
 
-/*
- * Escape is watched on the document rather than on the menu itself: opening with
- * a pointer leaves focus on the body, so a keydown bound to the menu would never
- * see the key. `close` ignores the press while the menu is shut, which is what
- * keeps the listener from stealing focus on every stray Escape.
- */
 function onKeydown(event: KeyboardEvent) {
   if (event.key !== 'Escape') return
 
@@ -72,14 +66,17 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
   display: inline-block;
 
   .dropdown-menu-trigger {
-    padding: var(--space-2);
     border-radius: var(--radius-full);
     max-width: 32px;
     width: 32px;
     height: 32px;
     box-shadow: var(--shadow-default);
-    list-style: none;
-    border: none;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-purple-500);
+    cursor: pointer;
 
     &::-webkit-details-marker {
       display: none;
