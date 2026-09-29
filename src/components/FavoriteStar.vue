@@ -25,11 +25,6 @@ const favorited = defineModel<boolean>({ default: false })
     background: none;
     color: var(--color-white);
     cursor: pointer;
-
-    &:focus-visible {
-      outline: var(--focus-ring-width) solid var(--focus-ring-color);
-      outline-offset: var(--focus-ring-width);
-    }
   }
 }
 </style>
