@@ -5,7 +5,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
 import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
-import ImageInput from '@/components/ImageInput.vue'
+import ImageInput from '@/components/image-input/ImageInput.vue'
 import { deleteCover, saveCover } from '@/db/covers'
 import useProjectForm from '@/composables/useProjectForm'
 import { useCoverUrl } from '@/composables/useCoverUrl'
@@ -161,7 +161,7 @@ async function handleSubmit(): Promise<void> {
   border-radius: var(--radius-2);
 
   .project-form {
-    max-width: 704px;
+    max-width: 702px;
     width: 100%;
     padding-block: var(--space-7);
     display: flex;
