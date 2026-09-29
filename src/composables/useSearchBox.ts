@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, useId, watch } from 'vue'
+import { computed, nextTick, shallowRef, useId, useTemplateRef, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useProjectsStore } from '@/stores/projects'
@@ -9,19 +9,19 @@ import { useClickOutside } from '@/composables/useClickOutside'
 export default function useSearchBox() {
   const router = useRouter()
 
-  const searchBoxRef = ref<HTMLElement | null>(null)
-  const inputRef = ref<HTMLElement | null>(null)
-  const buttonRef = ref<HTMLElement | null>(null)
+  const searchBoxRef = useTemplateRef<HTMLElement>('searchBoxRef')
+  const inputRef = useTemplateRef<HTMLElement>('inputRef')
+  const buttonRef = useTemplateRef<HTMLElement>('buttonRef')
 
   const store = useProjectsStore()
   const { filters } = storeToRefs(store)
 
   const history = useSearchHistoryStore()
   const listboxId = `search-history-${useId()}`
-  const activeIndex = ref(-1)
+  const activeIndex = shallowRef(-1)
 
-  const opened = ref(false)
-  const panelDismissed = ref(false)
+  const opened = shallowRef(false)
+  const panelDismissed = shallowRef(false)
   const visibleTerms = computed(() => filterTerms(history.terms, filters.value.term))
   const panelOpen = computed(() => !panelDismissed.value && visibleTerms.value.length > 0)
   const activeId = computed(() =>
