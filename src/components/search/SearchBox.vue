@@ -11,7 +11,7 @@ const {
   buttonRef,
   inputRef,
   opened,
-  filters,
+  searchTerm,
   visibleTerms,
   panelOpen,
   listboxId,
@@ -50,7 +50,7 @@ const {
           @keydown.down.prevent="moveActive(1)"
           @keydown.up.prevent="moveActive(-1)"
           @keydown.enter.prevent="pickActiveTerm"
-          :value="filters.term"
+          :value="searchTerm"
         />
       </div>
 
@@ -58,7 +58,7 @@ const {
         v-if="panelOpen"
         :listbox-id="listboxId"
         :items="visibleTerms"
-        :term="filters.term"
+        :term="searchTerm"
         :active-index="activeIndex"
         @select="selectHistoryTerm"
         @remove="removeHistoryTerm"

@@ -1,7 +1,6 @@
 import { computed, nextTick, shallowRef, useId, useTemplateRef, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useProjectsStore } from '@/stores/projects'
+import { useProjectSearch } from '@/composables/useProjectSearch'
 import { useSearchHistoryStore, filterTerms } from '@/stores/searchHistory'
 
 import { useClickOutside } from '@/composables/useClickOutside'
@@ -13,8 +12,7 @@ export default function useSearchBox() {
   const inputRef = useTemplateRef<HTMLElement>('inputRef')
   const buttonRef = useTemplateRef<HTMLElement>('buttonRef')
 
-  const store = useProjectsStore()
-  const { filters } = storeToRefs(store)
+  const { searchTerm } = useProjectSearch()
 
   const history = useSearchHistoryStore()
   const listboxId = `search-history-${useId()}`
@@ -22,7 +20,7 @@ export default function useSearchBox() {
 
   const opened = shallowRef(false)
   const panelDismissed = shallowRef(false)
-  const visibleTerms = computed(() => filterTerms(history.terms, filters.value.term))
+  const visibleTerms = computed(() => filterTerms(history.terms, searchTerm.value))
   const panelOpen = computed(() => !panelDismissed.value && visibleTerms.value.length > 0)
   const activeId = computed(() =>
     activeIndex.value < 0 ? undefined : `${listboxId}-option-${activeIndex.value}`,
@@ -42,12 +40,12 @@ export default function useSearchBox() {
   // The only path that records. Escape goes through `cancelSearch`, which clears
   // the term first, so a cancelled search can never reach the history.
   function dismissSearch() {
-    history.record(filters.value.term)
+    history.record(searchTerm.value)
     closeSearch()
   }
 
   function resetSearch() {
-    filters.value.term = ''
+    searchTerm.value = ''
   }
 
   async function cancelSearch() {
@@ -62,7 +60,7 @@ export default function useSearchBox() {
   }
 
   function applyTerm(term: string) {
-    filters.value.term = term
+    searchTerm.value = term
 
     if (term.length >= 3) {
       router.push('/search')
@@ -125,7 +123,7 @@ export default function useSearchBox() {
     openSearch,
     buttonRef,
     inputRef,
-    filters,
+    searchTerm,
     opened,
     visibleTerms,
     panelOpen,
