@@ -45,7 +45,9 @@ export const removeProjectConfirm = (card: Locator): Locator =>
 
 export const favoritedFilter = (page: Page): Locator => page.getByRole('switch')
 
-export const sortSelect = (page: Page): Locator => page.getByRole('combobox')
+// Scoped to the listing: the search input is a combobox of its own, so a bare
+// `getByRole('combobox')` reads two elements whenever the search is open.
+export const sortSelect = (page: Page): Locator => projectListing(page).getByRole('combobox')
 
 export const searchToggle = (page: Page): Locator => page.locator('.search-box > button')
 
@@ -54,6 +56,20 @@ export const searchInput = (page: Page): Locator =>
 
 export const searchResultTitle = (page: Page): Locator =>
   page.getByRole('heading', { level: 2, name: 'Resultado da busca' })
+
+// Scoped to the listbox: a native `<select>` carries implicit `option` roles on
+// each of its choices, so a bare `getByRole('option')` would read the listing's
+// sort select as well as the history panel.
+export const searchHistoryPanel = (page: Page): Locator => page.getByRole('listbox')
+
+export const searchHistoryOptions = (page: Page): Locator =>
+  searchHistoryPanel(page).getByRole('option')
+
+export const searchHistoryOption = (page: Page, term: string): Locator =>
+  searchHistoryOptions(page).filter({ hasText: term })
+
+export const searchHistoryRemove = (page: Page, term: string): Locator =>
+  page.getByRole('button', { name: `Remover ${term} das buscas recentes` })
 
 export const searchBackButton = (page: Page): Locator =>
   page.getByRole('button', { name: 'Voltar' })
