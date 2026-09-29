@@ -121,8 +121,8 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
         inline-size: 100%;
         padding: var(--space-3);
         color: var(--color-purple-500);
-        font-size: var(--font-size-16);
-        line-height: var(--line-height-normal);
+        font-size: var(--font-size-sm);
+        line-height: var(--line-height-xl);
         cursor: pointer;
 
         &:focus-visible {

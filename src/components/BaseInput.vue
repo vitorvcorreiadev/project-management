@@ -65,8 +65,8 @@ const errorId = useId()
   }
 
   > span {
-    font-size: var(--font-size-18);
-    line-height: 2.2rem;
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-lg);
     color: var(--color-purple-500);
     margin-bottom: var(--space-1);
     font-weight: 500;
@@ -74,7 +74,7 @@ const errorId = useId()
     &:has(~ div > input[required]) {
       &::after {
         content: v-bind(requiredLabel);
-        font-size: var(--font-size-14);
+        font-size: var(--font-size-xs);
         color: var(--color-gray-400);
         margin-left: var(--space-2);
       }
@@ -87,8 +87,8 @@ const errorId = useId()
     input {
       width: 100%;
       padding: var(--space-2) var(--space-3);
-      font-size: var(--font-size-16);
-      line-height: 2.2rem;
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-lg);
       color: var(--color-purple-950);
       border: 1px solid var(--color-gray-400);
       border-radius: var(--radius-2);
@@ -125,8 +125,8 @@ const errorId = useId()
   }
 
   > small {
-    font-size: var(--font-size-14);
-    line-height: 2.2rem;
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-lg);
     margin-top: var(--space-1);
   }
 }

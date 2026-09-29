@@ -27,7 +27,7 @@ const { sortedProjects, projects } = storeToRefs(store)
   gap: var(--space-2);
 
   span {
-    font-size: var(--font-size-17);
+    font-size: var(--font-size-sm);
     color: var(--color-purple-500);
   }
 }

@@ -99,8 +99,8 @@ const {
       input {
         width: 100%;
         border: none;
-        font-size: var(--font-size-18);
-        line-height: var(--line-height-snug);
+        font-size: var(--font-size-md);
+        line-height: var(--line-height-xl);
         padding: var(--space-6) 7.4rem;
         outline: 0;
       }

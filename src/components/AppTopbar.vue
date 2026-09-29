@@ -55,7 +55,7 @@ header {
 
       h1 {
         color: var(--color-white);
-        font-size: var(--font-size-18);
+        font-size: var(--font-size-md);
       }
     }
   }

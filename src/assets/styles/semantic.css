@@ -21,13 +21,13 @@
     --button-font-weight: var(--font-weight-regular);
     --button-size-medium-padding-block: var(--space-2);
     --button-size-medium-padding-inline: var(--space-5);
-    --button-size-medium-font-size: var(--font-size-16);
-    --button-size-medium-line-height: var(--line-height-normal);
+    --button-size-medium-font-size: var(--font-size-sm);
+    --button-size-medium-line-height: var(--line-height-xl);
     --button-size-medium-gap: var(--space-2);
     --button-size-large-padding-block: var(--space-4);
     --button-size-large-padding-inline: var(--space-6);
-    --button-size-large-font-size: var(--font-size-20);
-    --button-size-large-line-height: var(--line-height-tight);
+    --button-size-large-font-size: var(--font-size-lg);
+    --button-size-large-line-height: var(--line-height-md);
     --button-size-large-gap: var(--space-4);
 
     /* Button borders */
@@ -53,8 +53,8 @@
     --toggle-gap: var(--space-2);
 
     /* Toggle label */
-    --toggle-label-font-size: var(--font-size-16);
-    --toggle-label-line-height: 2.2rem;
+    --toggle-label-font-size: var(--font-size-sm);
+    --toggle-label-line-height: var(--line-height-lg);
     --toggle-label-font-weight: var(--font-weight-regular);
 
     /* Toggle motion */
@@ -83,15 +83,15 @@
     --dialog-icon-color: var(--color-white);
 
     /* Dialog title */
-    --dialog-title-font-size: var(--font-size-20);
-    --dialog-title-line-height: var(--line-height-tight);
+    --dialog-title-font-size: var(--font-size-lg);
+    --dialog-title-line-height: var(--line-height-md);
     --dialog-title-font-weight: var(--font-weight-bold);
     --dialog-title-color: var(--color-purple-800);
 
     /* Dialog content */
     --dialog-content-color: var(--color-gray-400);
-    --dialog-content-font-size: var(--font-size-16);
-    --dialog-content-line-height: var(--line-height-normal);
+    --dialog-content-font-size: var(--font-size-sm);
+    --dialog-content-line-height: var(--line-height-xl);
 
     /* Favorite Star */
     --star-stroke-color: white;

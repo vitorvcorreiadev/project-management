@@ -29,19 +29,20 @@
     --space-8: 6.4rem;
 
     /* Font size */
-    --font-size-14: 1.4rem;
-    --font-size-16: 1.6rem;
-    --font-size-17: 1.7rem;
-    --font-size-18: 1.8rem;
-    --font-size-20: 2rem;
-    --font-size-22: 2.2rem;
-    --font-size-24: 2.4rem;
+    --font-size-xs: 1.4rem;
+    --font-size-sm: 1.6rem;
+    --font-size-md: 1.8rem;
+    --font-size-lg: 2rem;
+    --font-size-xl: 2.2rem;
+    --font-size-2xl: 2.4rem;
 
-    /* Line height */
-    --line-height-tight: 1;
-    --line-height-snug: 1.375;
-    --line-height-normal: 1.5;
-    --line-height-loose: 2;
+    /* Line height: absolute line box, not a ratio, so it does not scale with font-size */
+    --line-height-xs: 1.6rem;
+    --line-height-sm: 1.8rem;
+    --line-height-md: 2rem;
+    --line-height-lg: 2.2rem;
+    --line-height-xl: 2.4rem;
+    --line-height-2xl: 3.2rem;
 
     /* Font family and weight */
     --font-family-sans: 'Encode Sans Variable', system-ui, sans-serif;

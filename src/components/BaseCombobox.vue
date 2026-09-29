@@ -124,8 +124,8 @@ function selectOption(index: number): void {
   border-radius: var(--radius-2);
   background-color: var(--color-white);
   color: var(--color-purple-950);
-  font-size: var(--font-size-16);
-  line-height: 1.8rem;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
   cursor: pointer;
 
   svg {
@@ -175,8 +175,8 @@ function selectOption(index: number): void {
     position: relative;
     padding: 1.8rem var(--space-4);
     color: var(--color-purple-950);
-    font-size: var(--font-size-16);
-    line-height: 1.6rem;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-xs);
     cursor: pointer;
 
     &:not(:last-child) {

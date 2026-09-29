@@ -33,7 +33,7 @@ const handleBack = () => {
     color: var(--color-purple-500);
     margin-bottom: var(--space-2);
     cursor: pointer;
-    font-size: var(--font-size-16);
+    font-size: var(--font-size-sm);
   }
 }
 </style>
