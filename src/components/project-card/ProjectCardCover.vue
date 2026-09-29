@@ -67,6 +67,7 @@ function handleMenuSelect(item: DropdownItem) {
   border-start-start-radius: var(--radius-4);
   border-start-end-radius: var(--radius-4);
   block-size: 231px;
+  min-width: 100%;
   object-fit: cover;
 }
 
