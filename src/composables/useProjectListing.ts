@@ -1,20 +1,14 @@
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProjectsStore } from '@/stores/projects'
-import type { SortParam, SortRule } from '@/types/project'
-
-const filters = ref({
-  favorited: false,
-})
-
-const sorting = ref<{ param: SortParam; rule: SortRule }>({
-  param: 'name',
-  rule: 'asc',
-})
+import { useListingStore } from '@/stores/listing'
 
 export function useProjectListing() {
-  const store = useProjectsStore()
-  const { projects } = storeToRefs(store)
+  const projectsStore = useProjectsStore()
+  const listingStore = useListingStore()
+
+  const { projects } = storeToRefs(projectsStore)
+  const { filters, sorting } = storeToRefs(listingStore)
 
   const filteredProjects = computed(() => {
     return projects.value.filter((project) => {

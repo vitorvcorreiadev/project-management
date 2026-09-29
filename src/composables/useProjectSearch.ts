@@ -1,12 +1,14 @@
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProjectsStore } from '@/stores/projects'
-
-const searchTerm = ref('')
+import { useSearchStore } from '@/stores/search'
 
 export function useProjectSearch() {
-  const store = useProjectsStore()
-  const { projects } = storeToRefs(store)
+  const projectsStore = useProjectsStore()
+  const searchStore = useSearchStore()
+
+  const { projects } = storeToRefs(projectsStore)
+  const { searchTerm } = storeToRefs(searchStore)
 
   const searchedProjects = computed(() => {
     return projects.value.filter((project) => {
