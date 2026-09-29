@@ -21,14 +21,16 @@ export default function useSearchBox() {
   const activeIndex = ref(-1)
 
   const opened = ref(false)
+  const panelDismissed = ref(false)
   const visibleTerms = computed(() => filterTerms(history.terms, filters.value.term))
-  const panelOpen = computed(() => visibleTerms.value.length > 0)
+  const panelOpen = computed(() => !panelDismissed.value && visibleTerms.value.length > 0)
   const activeId = computed(() =>
     activeIndex.value < 0 ? undefined : `${listboxId}-option-${activeIndex.value}`,
   )
 
   async function openSearch() {
     opened.value = true
+    panelDismissed.value = false
     await nextTick()
     inputRef.value?.focus()
   }
@@ -70,25 +72,24 @@ export default function useSearchBox() {
   }
 
   function handleSearch(e: InputEvent) {
+    panelDismissed.value = false
     applyTerm((e.target as HTMLInputElement).value)
   }
 
   function selectHistoryTerm(term: string) {
     applyTerm(term)
     history.record(term)
+    panelDismissed.value = true
+    activeIndex.value = -1
   }
-
-  // `applyTerm` writes `filters.term`, which is what `visibleTerms` filters on, so
-  // picking an entry narrows the panel down to that entry on its own. That is
-  // left to stand rather than special-cased: it is the same rule the input
-  // already follows, and the alternative is a filter that has to remember which
-  // term it just filled the box with.
 
   function removeHistoryTerm(term: string) {
     history.remove(term)
   }
 
   function moveActive(delta: number) {
+    panelDismissed.value = false
+
     const total = visibleTerms.value.length
     if (total === 0) return
 

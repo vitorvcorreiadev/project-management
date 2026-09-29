@@ -191,7 +191,7 @@ describe('SearchBox history', () => {
     expect(push).toHaveBeenCalledWith('/search')
   })
 
-  it('stays open after a search is picked', async () => {
+  it('keeps the search box open when a search is picked', async () => {
     const wrapper = render()
     seed('Alp')
     await open(wrapper)
@@ -201,9 +201,6 @@ describe('SearchBox history', () => {
     expect(wrapper.find('input').exists()).toBe(true)
   })
 
-  // The reorder is asserted on the store, not on the rendered labels: picking fills the
-  // input, and the panel filters on the input, so only the picked row is on screen by
-  // the time the click settles. The rendering of that collapse is the next test.
   it('moves the picked search to the newest position', async () => {
     const wrapper = render()
     const history = useSearchHistoryStore()
@@ -215,14 +212,77 @@ describe('SearchBox history', () => {
     expect(history.terms).toEqual(['a01', 'a03', 'a02'])
   })
 
-  it('narrows the panel to the picked search', async () => {
+  it('hides the panel once a search is picked', async () => {
     const wrapper = render()
     seed('a01', 'a02', 'a03')
     await open(wrapper)
 
     await options(wrapper)[2]?.trigger('click')
 
-    expect(labels(wrapper)).toEqual(['a01'])
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
+    expect(wrapper.find('input').attributes('aria-expanded')).toBe('false')
+    expect(wrapper.find('input').attributes('aria-controls')).toBeUndefined()
+  })
+
+  it('drops the active option once a search is picked', async () => {
+    const wrapper = render()
+    seed('Alfa', 'Beta')
+    await open(wrapper)
+    await wrapper.find('input').trigger('keydown', { key: 'ArrowDown' })
+
+    await options(wrapper)[0]?.trigger('click')
+
+    expect(activeDescendant(wrapper)).toBeUndefined()
+  })
+
+  it('brings the panel back when the term is typed after a pick', async () => {
+    const wrapper = render()
+    seed('a01', 'a02', 'a03')
+    await open(wrapper)
+    await options(wrapper)[2]?.trigger('click')
+
+    await type(wrapper, 'a02')
+
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
+    expect(labels(wrapper)).toEqual(['a02'])
+  })
+
+  it('brings the panel back on arrow down after a pick', async () => {
+    const wrapper = render()
+    seed('a01', 'a02', 'a03')
+    await open(wrapper)
+    await options(wrapper)[2]?.trigger('click')
+
+    await wrapper.find('input').trigger('keydown', { key: 'ArrowDown' })
+
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
+    expect(activeDescendant(wrapper)).toBe(options(wrapper)[0]?.attributes('id'))
+  })
+
+  it('brings the panel back on arrow up after a pick', async () => {
+    const wrapper = render()
+    seed('a01', 'a02', 'a03')
+    await open(wrapper)
+    await options(wrapper)[2]?.trigger('click')
+
+    await wrapper.find('input').trigger('keydown', { key: 'ArrowUp' })
+
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
+    expect(activeDescendant(wrapper)).toBe(options(wrapper)[0]?.attributes('id'))
+  })
+
+  it('lists the stored searches again after the box is reopened', async () => {
+    const wrapper = render()
+    seed('a01', 'a02', 'a03')
+    await open(wrapper)
+    await options(wrapper)[2]?.trigger('click')
+    // Escape, not an outside click: the dismissal on its own leaves the picked term in
+    // the box, and the panel would come back filtered to it rather than fully listed.
+    await wrapper.find('input').trigger('keydown', { key: 'Escape' })
+
+    await open(wrapper)
+
+    expect(labels(wrapper)).toEqual(['a01', 'a03', 'a02'])
   })
 
   it('removes one search when its remove button is clicked', async () => {
@@ -434,6 +494,19 @@ describe('SearchBox combobox', () => {
 
     expect(value(wrapper)).toBe('Alp')
     expect(push).toHaveBeenCalledWith('/search')
+  })
+
+  it('hides the panel when a search is picked with the keyboard', async () => {
+    const wrapper = render()
+    seed('Alp')
+    await open(wrapper)
+    const input = wrapper.find('input')
+
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await input.trigger('keydown', { key: 'Enter' })
+
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
+    expect(input.attributes('aria-expanded')).toBe('false')
   })
 
   it('does nothing on enter with no option active', async () => {

@@ -72,9 +72,21 @@ test.describe('search history', () => {
     await expect(searchInput(page)).toHaveValue('Alp')
     await expect(page).toHaveURL('/search')
     await expect(searchResultTitle(page)).toBeVisible()
-    // The input now holds `Alp`, and the panel filters on the input, so `Gam` drops
-    // out rather than sitting below the picked entry.
-    await expect(searchHistoryOptions(page)).toHaveText(['Alp'])
+    await expect(searchHistoryOptions(page)).toHaveCount(0)
+  })
+
+  test('lists the searches again once the term is typed after a pick', async ({ page }) => {
+    await seedProjects(page, searchableProjects())
+    await seedSearchHistory(page, ['Gam', 'Alp'])
+    await page.goto('/')
+
+    await searchToggle(page).click()
+    await searchHistoryOption(page, 'Alp').click()
+    await expect(searchHistoryOptions(page)).toHaveCount(0)
+
+    await searchInput(page).fill('Gam')
+
+    await expect(searchHistoryOptions(page)).toHaveText(['Gam'])
   })
 
   test('removes a search and promotes the next one', async ({ page }) => {
@@ -106,6 +118,7 @@ test.describe('search history', () => {
     await searchInput(page).press('Enter')
 
     await expect(searchInput(page)).toHaveValue('Gam')
+    await expect(searchHistoryOptions(page)).toHaveCount(0)
   })
 
   test('hides the listed searches when the box is closed', async ({ page }) => {
