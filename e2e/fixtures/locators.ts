@@ -1,25 +1,25 @@
 import type { Locator, Page } from '@playwright/test'
 
-export const projectListing = (page: Page): Locator => page.locator('.project-listing')
+export const projectListing = (page: Page): Locator => page.locator('.project-list')
 
 // Scoped to the listing: the topbar has its own h1, "Gerenciador de Projetos",
 // which a substring match on "Projetos" would also hit.
 export const projectsTitle = (page: Page): Locator =>
-  projectListing(page).getByRole('heading', { level: 1, name: 'Projetos', exact: true })
+  projectListing(page).getByRole('heading', { level: 2, name: 'Projetos', exact: true })
 
-export const projectCount = (page: Page): Locator => page.locator('.project-listing h1 + span')
+export const projectCount = (page: Page): Locator => page.locator('.project-list h2 + span')
 
 export const projectCards = (page: Page): Locator => page.getByRole('article')
 
 export const projectCard = (page: Page, name: string): Locator =>
-  projectCards(page).filter({ has: page.getByRole('heading', { level: 2, name }) })
+  projectCards(page).filter({ has: page.getByRole('heading', { level: 3, name }) })
 
-// Every card carries a remove dialog with an h2 of its own, so a bare `h2`
+// Every card carries a remove dialog with an h3 of its own, so a bare `h3`
 // selector would read the hidden "Remover projeto" title as a project name.
 export const projectNames = (page: Page): Locator =>
-  projectCards(page).locator('h2:not(.dialog-title)')
+  projectCards(page).locator('h3:not(.dialog-title)')
 
-export const projectNameHighlight = (card: Locator): Locator => card.locator('h2 mark')
+export const projectNameHighlight = (card: Locator): Locator => card.locator('h3 mark')
 
 export const favoriteStar = (card: Locator): Locator => card.locator('button.favorite-star')
 
@@ -48,7 +48,7 @@ export const favoritedFilter = (page: Page): Locator => page.getByRole('switch')
 // Scoped to the listing: the search input is a combobox of its own, so a bare
 // `getByRole('combobox')` reads two elements whenever the search is open.
 export const sortSelect = (page: Page): Locator => projectListing(page).getByRole('combobox')
-export const sortCombobox = (page: Page): Locator => page.getByRole('combobox')
+export const sortCombobox = (page: Page): Locator => projectListing(page).getByRole('combobox')
 
 export const sortOption = (page: Page, label: string): Locator =>
   page.getByRole('listbox').getByRole('option', { name: label, exact: true })

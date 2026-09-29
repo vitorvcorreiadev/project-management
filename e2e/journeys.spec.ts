@@ -143,7 +143,7 @@ test.describe('view projects', () => {
       const card = projectCard(page, 'Projeto Alpha')
 
       await expect(projectCards(page)).toHaveCount(3)
-      await expect(card.getByRole('heading', { level: 2, name: 'Projeto Alpha' })).toBeVisible()
+      await expect(card.getByRole('heading', { level: 3, name: 'Projeto Alpha' })).toBeVisible()
       await expect(card).toContainText('Cliente: Clicksign')
       await expect(card).toContainText('15 de janeiro de 2026')
       await expect(card).toContainText('01 de junho de 2025')
