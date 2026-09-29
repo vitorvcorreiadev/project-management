@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AppHeader from './components/AppHeader.vue'
+import AppTopbar from './components/AppTopbar.vue'
 </script>
 
 <template>
   <div class="app">
-    <AppHeader />
+    <AppTopbar />
 
     <main>
       <RouterView />

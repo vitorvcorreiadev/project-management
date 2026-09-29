@@ -8,14 +8,13 @@
     background-color: var(--color-purple-50);
   }
 
-  h1 {
+  h2 {
     color: var(--color-purple-800);
     font-size: var(--font-size-24);
-    line-height: var(--line-height-tight);
     font-weight: var(--font-weight-semibold);
   }
 
-  h2 {
+  h3 {
     color: var(--color-purple-800);
     font-size: var(--font-size-20);
     line-height: var(--line-height-tight);
