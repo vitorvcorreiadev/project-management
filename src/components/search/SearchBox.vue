@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SearchIcon from '@/assets/images/SearchIcon.vue'
+import SearchIcon from '@/icons/SearchIcon.vue'
 import SearchHistoryPanel from '@/components/search/SearchHistoryPanel.vue'
 import useSearchBox from '@/composables/useSearchBox'
 
@@ -27,12 +27,12 @@ const {
 <template>
   <div class="search-box">
     <button ref="buttonRef" @click="openSearch" v-if="!opened" aria-label="Buscar projetos">
-      <SearchIcon aria-hidden="true" />
+      <SearchIcon />
     </button>
 
     <div v-else ref="searchBoxRef">
       <div class="input-wrapper">
-        <SearchIcon aria-hidden="true" />
+        <SearchIcon />
 
         <input
           id="search_by_name"

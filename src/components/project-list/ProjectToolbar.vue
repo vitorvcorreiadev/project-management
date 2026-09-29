@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseToggle from '@/components/base/BaseToggle.vue'
-import PlusCircle from '@/assets/images/PlusCircle.vue'
+import PlusCircleIcon from '@/icons/PlusCircleIcon.vue'
 import { useProjectListing } from '@/composables/useProjectListing'
 import type { SortParam, SortRule } from '@/types/project'
 import type { ComboboxOption } from '@/types/combobox'
@@ -42,7 +42,7 @@ const sortParam = computed<string>({
     <BaseCombobox v-model="sortParam" label="Ordenar por" :options="sortOptions" />
 
     <BaseButton @click="router.push('/projects/new')">
-      <PlusCircle />
+      <PlusCircleIcon />
       Novo Projeto
     </BaseButton>
   </div>

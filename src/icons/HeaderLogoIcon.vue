@@ -1,3 +1,7 @@
+<script setup lang="ts">
+withDefaults(defineProps<{ ariaHidden?: boolean }>(), { ariaHidden: true })
+</script>
+
 <template>
   <svg
     width="72"
@@ -5,7 +9,7 @@
     viewBox="0 0 72 72"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
+    :aria-hidden="ariaHidden"
   >
     <path
       fill-rule="evenodd"

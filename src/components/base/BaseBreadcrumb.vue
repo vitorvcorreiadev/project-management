@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ArrowLeft from '@/assets/images/ArrowLeft.vue'
+import ArrowLeftIcon from '@/icons/ArrowLeftIcon.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -21,7 +21,7 @@ const handleBack = () => {
 <template>
   <div class="breadcrumb">
     <button @click="handleBack">
-      <ArrowLeft />
+      <ArrowLeftIcon />
       Voltar
     </button>
 

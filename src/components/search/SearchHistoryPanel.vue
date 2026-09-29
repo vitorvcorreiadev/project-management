@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ClockRotateLeftIcon from '@/assets/images/ClockRotateLeftIcon.vue'
-import CrossIcon from '@/assets/images/CrossIcon.vue'
+import ClockRotateLeftIcon from '@/icons/ClockRotateLeftIcon.vue'
+import CrossIcon from '@/icons/CrossIcon.vue'
 import BaseHighlight from '@/components/base/BaseHighlight.vue'
 
 defineProps<{ items: string[]; term: string; activeIndex: number; listboxId: string }>()

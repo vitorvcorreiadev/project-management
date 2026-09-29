@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
-import HeaderLogo from '@/assets/images/HeaderLogo.vue'
+import HeaderLogoIcon from '@/icons/HeaderLogoIcon.vue'
 import SearchBox from '@/components/search/SearchBox.vue'
 
 import { useProjectsStore } from '@/stores/projects'
@@ -20,7 +20,7 @@ const showSearchBox = computed(() => !route.meta.hideSearch && projects.value.le
   <header>
     <div class="logo">
       <RouterLink :to="{ name: 'projects' }">
-        <HeaderLogo />
+        <HeaderLogoIcon />
 
         <h1>
           Gerenciador<br />

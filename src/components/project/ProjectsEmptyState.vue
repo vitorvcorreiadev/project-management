@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/base/BaseButton.vue'
-import PlusCircle from '@/assets/images/PlusCircle.vue'
+import PlusCircleIcon from '@/icons/PlusCircleIcon.vue'
 
 const router = useRouter()
 </script>
@@ -13,7 +13,7 @@ const router = useRouter()
     <p>Clique no botão abaixo para criar o primeiro e gerenciá-lo.</p>
 
     <BaseButton size="large" @click="router.push({ name: 'new-project' })">
-      <PlusCircle />
+      <PlusCircleIcon />
       <span>Novo Projeto</span>
     </BaseButton>
   </div>

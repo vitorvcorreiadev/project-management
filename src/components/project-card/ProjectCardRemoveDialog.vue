@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseDialog from '@/components/base/BaseDialog.vue'
-import TrashIcon from '@/assets/images/TrashIcon.vue'
+import TrashIcon from '@/icons/TrashIcon.vue'
 
 defineProps<{ projectName: string }>()
 
@@ -13,7 +13,7 @@ const emit = defineEmits<{ confirm: [] }>()
 <template>
   <BaseDialog v-model:open="open" title="Remover projeto">
     <template #icon>
-      <TrashIcon aria-hidden="true" />
+      <TrashIcon />
     </template>
 
     <div class="remove-info">

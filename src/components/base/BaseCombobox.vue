@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue'
 
-import ChevronDownIcon from '@/assets/images/ChevronDownIcon.vue'
+import ChevronDownIcon from '@/icons/ChevronDownIcon.vue'
 import { useCombobox } from '@/composables/useCombobox'
 import type { ComboboxOption } from '@/types/combobox'
 
@@ -78,7 +78,7 @@ function selectOption(index: number): void {
       >
         {{ displayText }}
 
-        <ChevronDownIcon aria-hidden="true" />
+        <ChevronDownIcon />
       </div>
 
       <div

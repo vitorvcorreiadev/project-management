@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StarIcon from '@/assets/images/StarIcon.vue'
+import StarIcon from '@/icons/StarIcon.vue'
 
 const favorited = defineModel<boolean>({ default: false })
 </script>

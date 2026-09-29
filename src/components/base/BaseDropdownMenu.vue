@@ -52,7 +52,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
     <ul v-if="items.length > 0" class="dropdown-menu-panel">
       <li v-for="item in items" :key="item.id">
         <button type="button" class="dropdown-menu-item" @click="onSelect(item)">
-          <component :is="item.icon" v-if="item.icon" aria-hidden="true" />
+          <component :is="item.icon" v-if="item.icon" />
           <span>{{ item.label }}</span>
         </button>
       </li>

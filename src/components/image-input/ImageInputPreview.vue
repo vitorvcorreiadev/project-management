@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base/BaseButton.vue'
-import TrashIcon from '@/assets/images/TrashIcon.vue'
+import TrashIcon from '@/icons/TrashIcon.vue'
 
 defineProps<{ src: string; alt: string }>()
 
@@ -18,7 +18,7 @@ const emit = defineEmits<{ remove: [] }>()
       aria-label="Remover imagem"
       @click="emit('remove')"
     >
-      <TrashIcon aria-hidden="true" />
+      <TrashIcon />
     </BaseButton>
   </div>
 </template>

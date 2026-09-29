@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base/BaseButton.vue'
-import UploadLight from '@/assets/images/UploadLight.vue'
+import UploadLightIcon from '@/icons/UploadLightIcon.vue'
 
 const emit = defineEmits<{ select: [] }>()
 </script>
 
 <template>
   <div class="image-input-picker">
-    <UploadLight aria-hidden="true" />
+    <UploadLightIcon />
 
     <p class="image-input-picker-hint">Escolha uma imagem .jpg ou .png no seu dispositivo</p>
 

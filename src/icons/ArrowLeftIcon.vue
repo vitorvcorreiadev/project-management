@@ -1,5 +1,16 @@
+<script setup lang="ts">
+withDefaults(defineProps<{ ariaHidden?: boolean }>(), { ariaHidden: true })
+</script>
+
 <template>
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    :aria-hidden="ariaHidden"
+  >
     <path
       d="M12.6667 8H3.33337"
       stroke="currentColor"

@@ -3,8 +3,8 @@ import { computed, nextTick, shallowRef, useTemplateRef, watch } from 'vue'
 
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
-import CalendarCheckLight from '@/assets/images/CalendarCheckLight.vue'
-import CalendarDayLight from '@/assets/images/CalendarDayLight.vue'
+import CalendarCheckLightIcon from '@/icons/CalendarCheckLightIcon.vue'
+import CalendarDayLightIcon from '@/icons/CalendarDayLightIcon.vue'
 import ImageInput from '@/components/image-input/ImageInput.vue'
 import { deleteCover, saveCover } from '@/db/covers'
 import useProjectForm from '@/composables/useProjectForm'
@@ -117,7 +117,7 @@ async function handleSubmit(): Promise<void> {
           @blur="touch('started_at')"
         >
           <template #custom-icon>
-            <CalendarDayLight />
+            <CalendarDayLightIcon />
           </template>
         </BaseInput>
 
@@ -131,7 +131,7 @@ async function handleSubmit(): Promise<void> {
           @blur="touch('end_at')"
         >
           <template #custom-icon>
-            <CalendarCheckLight />
+            <CalendarCheckLightIcon />
           </template>
         </BaseInput>
       </div>
