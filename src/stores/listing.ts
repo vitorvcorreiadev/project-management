@@ -1,13 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { SortParam, SortRule } from '@/types/project'
+import type { SortState, FilterState } from '@/types/project'
 
 export const useListingStore = defineStore('listing', () => {
-  const filters = ref({
+  const filters = ref<FilterState>({
     favorited: false,
   })
 
-  const sorting = ref<{ param: SortParam; rule: SortRule }>({
+  const sorting = ref<SortState>({
     param: 'name',
     rule: 'asc',
   })
@@ -16,7 +16,7 @@ export const useListingStore = defineStore('listing', () => {
     filters.value[key] = value
   }
 
-  function setSorting(param: SortParam, rule: SortRule) {
+  function setSorting(param: SortState['param'], rule: SortState['rule']) {
     sorting.value = { param, rule }
   }
 

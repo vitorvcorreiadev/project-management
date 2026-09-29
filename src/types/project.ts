@@ -8,5 +8,9 @@ export interface Project {
   hasCover: boolean
 }
 
-export type SortParam = keyof Project
+export type SortParam = 'name' | 'client' | 'started_at' | 'end_at'
 export type SortRule = 'asc' | 'desc'
+export type SortState = { param: SortParam; rule: SortRule }
+export type FilterState = { favorited: boolean }
+
+export type ProjectInput = Pick<Project, 'name' | 'client' | 'started_at' | 'end_at'>

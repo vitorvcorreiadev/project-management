@@ -1,12 +1,10 @@
-import type { Project } from '@/types/project'
+import type { Project, ProjectInput } from '@/types/project'
 
 export type ProjectField = 'name' | 'client' | 'started_at' | 'end_at'
 
-export type ProjectDraft = Pick<Project, ProjectField>
-
 export type ProjectErrors = Partial<Record<ProjectField, string>>
 
-type Rule = (value: string, form: ProjectDraft) => string | undefined
+type Rule = (value: string, form: ProjectInput) => string | undefined
 export const projectFieldOrder: ProjectField[] = ['name', 'client', 'started_at', 'end_at']
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
@@ -51,7 +49,7 @@ const projectRules: Record<ProjectField, Rule[]> = {
   end_at: [validDate, endOnOrAfterStart],
 }
 
-export function validateProject(form: ProjectDraft): ProjectErrors {
+export function validateProject(form: ProjectInput): ProjectErrors {
   const errors: ProjectErrors = {}
 
   for (const field of projectFieldOrder) {
