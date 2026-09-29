@@ -45,7 +45,7 @@ defineSlots<{
       </div>
 
       <div class="dialog-body">
-        <h2 :id="titleId" class="dialog-title">{{ title }}</h2>
+        <h3 :id="titleId" class="dialog-title">{{ title }}</h3>
 
         <div class="dialog-content">
           <slot />
@@ -104,18 +104,16 @@ defineSlots<{
 .dialog-body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
   min-block-size: 0;
   padding-block-start: var(--dialog-body-padding-block-start);
   overflow-y: auto;
 }
 
 .dialog-title {
-  font-size: var(--dialog-title-font-size);
-  line-height: var(--dialog-title-line-height);
-  font-weight: var(--dialog-title-font-weight);
+  font-weight: var(--font-weight-semibold);
   color: var(--dialog-title-color);
   text-align: center;
+  padding-block-end: var(--space-5);
 }
 
 .dialog-content {
@@ -124,7 +122,7 @@ defineSlots<{
   line-height: var(--dialog-content-line-height);
   text-align: center;
   border-top: 1px solid var(--color-gray-300);
-  padding-top: var(--space-6);
+  padding-top: 3.4rem;
 }
 
 .dialog-actions {
@@ -132,6 +130,6 @@ defineSlots<{
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  padding-block-start: var(--space-2);
+  padding-block-start: var(--space-6);
 }
 </style>

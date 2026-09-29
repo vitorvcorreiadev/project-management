@@ -13,12 +13,12 @@
 
     /* Dialog surface */
     --dialog-bg: var(--color-white);
-    --dialog-radius: var(--radius-4);
+    --dialog-radius: var(--radius-2);
     --dialog-inline-size: 48rem;
     --dialog-max-block-size: calc(100dvh - var(--space-7));
     --dialog-padding-inline: var(--space-6);
     --dialog-padding-block: var(--space-5);
-    --dialog-body-padding-block-start: var(--space-6);
+    --dialog-body-padding-block-start: var(--space-4);
 
     /* Dialog icon */
     --dialog-icon-size: 6.4rem;
@@ -27,9 +27,6 @@
     --dialog-icon-color: var(--color-white);
 
     /* Dialog title */
-    --dialog-title-font-size: var(--font-size-lg);
-    --dialog-title-line-height: var(--line-height-md);
-    --dialog-title-font-weight: var(--font-weight-bold);
     --dialog-title-color: var(--color-purple-800);
 
     /* Dialog content */
