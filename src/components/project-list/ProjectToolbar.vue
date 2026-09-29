@@ -18,8 +18,8 @@ type SortOption = ComboboxOption & { value: SortParam; rule: SortRule }
 
 const sortOptions: SortOption[] = [
   { value: 'name', label: 'Ordem alfabética', rule: 'asc' },
-  { value: 'started_at', label: 'Iniciados mais recentes', rule: 'desc' },
-  { value: 'end_at', label: 'Prazo mais próximo', rule: 'desc' },
+  { value: 'started_at', label: 'Iniciados mais recentes', rule: 'asc' },
+  { value: 'end_at', label: 'Prazo mais próximo', rule: 'asc' },
 ]
 
 const sortParam = computed<string>({

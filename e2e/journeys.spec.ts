@@ -359,16 +359,16 @@ test.describe('sort and filter projects', () => {
     await test.step('picks each sorting and the list is ordered accordingly', async () => {
       await chooseSorting(page, 'Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
-        'Projeto Alpha',
-        'Projeto Gamma',
         'Projeto Beta',
+        'Projeto Gamma',
+        'Projeto Alpha',
       ])
 
       await chooseSorting(page, 'Prazo mais próximo')
       await expect(projectNames(page)).toHaveText([
-        'Projeto Beta',
-        'Projeto Alpha',
         'Projeto Gamma',
+        'Projeto Alpha',
+        'Projeto Beta',
       ])
 
       await chooseSorting(page, 'Ordem alfabética')
@@ -382,9 +382,9 @@ test.describe('sort and filter projects', () => {
     await test.step('sorts, searches, comes back and the sorting is kept', async () => {
       await chooseSorting(page, 'Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
-        'Projeto Alpha',
-        'Projeto Gamma',
         'Projeto Beta',
+        'Projeto Gamma',
+        'Projeto Alpha',
       ])
 
       // Every name starts with "Projeto", so the term matches the whole listing
@@ -400,9 +400,9 @@ test.describe('sort and filter projects', () => {
       await expect(page).toHaveURL('/')
       await expect(sortCombobox(page)).toHaveText('Iniciados mais recentes')
       await expect(projectNames(page)).toHaveText([
-        'Projeto Alpha',
-        'Projeto Gamma',
         'Projeto Beta',
+        'Projeto Gamma',
+        'Projeto Alpha',
       ])
     })
   })
