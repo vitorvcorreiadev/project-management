@@ -47,7 +47,7 @@ const classes = computed(() => [
     justify-content: center;
     gap: var(--button-gap);
     padding: var(--button-padding-block) var(--button-padding-inline);
-    border: 0.1rem solid var(--button-border);
+    box-shadow: inset 0 0 0 1px var(--button-border);
     border-radius: var(--radius-5);
     background-color: var(--button-bg);
     color: var(--button-text);
@@ -84,10 +84,10 @@ const classes = computed(() => [
   }
 
   .button--large {
-    --button-padding-block: 1.3rem;
+    --button-padding-block: 1.5rem;
     --button-padding-inline: var(--space-6);
     --button-font-size: var(--font-size-lg);
-    --button-line-height: var(--line-height-xl);
+    --button-line-height: var(--line-height-lg);
     --button-gap: var(--space-4);
   }
 
