@@ -1,9 +1,6 @@
-@layer reset, tokens, base, semantic, components;
-
 @import '@fontsource-variable/encode-sans/wdth.css';
 @import './reset.css';
 @import './tokens.css';
 @import './base.css';
 @import './semantic.css';
-@import './components/button.css';
 @import './components/toggle.css';

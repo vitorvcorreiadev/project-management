@@ -36,7 +36,7 @@
     --font-size-xl: 2.2rem;
     --font-size-2xl: 2.4rem;
 
-    /* Line height: absolute line box, not a ratio, so it does not scale with font-size */
+    /* Line height */
     --line-height-xs: 1.6rem;
     --line-height-sm: 1.8rem;
     --line-height-md: 2rem;

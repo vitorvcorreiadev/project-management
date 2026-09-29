@@ -14,7 +14,7 @@ const router = useRouter()
 
     <BaseButton size="large" @click="router.push({ name: 'new-project' })">
       <PlusCircle />
-      Novo Projeto
+      <span>Novo Projeto</span>
     </BaseButton>
   </div>
 </template>
