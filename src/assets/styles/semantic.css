@@ -2,6 +2,8 @@
   :root {
     /* Colors */
     --color-surface: white;
+    --color-error: var(--color-red-500);
+    --color-error-strong: var(--color-red-800);
 
     /* Focus ring */
     --focus-ring-color: var(--color-purple-500);

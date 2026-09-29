@@ -42,26 +42,25 @@ const errorId = useId()
   width: 100%;
 
   &.has-error {
-    color: var(--color-red-500);
+    color: var(--color-error);
 
     span {
-      color: var(--color-red-800);
+      color: var(--color-error-strong);
 
       &:has(~ div > input[required]) {
         &::after {
-          color: var(--color-red-500);
+          color: var(--color-error);
         }
       }
     }
 
     input {
-      color: var(--color-red-500);
-      border-color: var(--color-red-500);
-      background-color: var(--color-surface);
+      color: var(--color-error);
+      border-color: var(--color-error);
     }
 
     .custom-icon {
-      color: var(--color-red-500);
+      color: var(--color-error);
     }
   }
 
@@ -93,6 +92,7 @@ const errorId = useId()
       color: var(--color-purple-950);
       border: 1px solid var(--color-gray-400);
       border-radius: var(--radius-2);
+      background-color: var(--color-surface);
 
       &[type='date']::-webkit-calendar-picker-indicator {
         position: absolute;
