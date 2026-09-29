@@ -12,7 +12,7 @@ const { sortedProjects, projects } = storeToRefs(store)
   <ProjectsListing v-if="projects.length" :projects="sortedProjects">
     <template #header>
       <div class="projects-listing-header">
-        <h1>Projetos</h1>
+        <h2>Projetos</h2>
         <span>({{ sortedProjects.length }})</span>
       </div>
     </template>
