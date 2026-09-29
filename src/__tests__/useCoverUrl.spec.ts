@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { effectScope, nextTick } from 'vue'
 
-import { getCover, saveCover } from '../db/covers'
+import { clearCoverUrlCache, getCover, saveCover } from '../db/covers'
 import { useCoverUrl } from '../composables/useCoverUrl'
 import type { Project } from '../types/project'
 
@@ -39,6 +39,7 @@ describe('useCoverUrl', () => {
   }
 
   beforeEach(() => {
+    clearCoverUrlCache()
     createObjectURL.mockClear()
     revokeObjectURL.mockClear()
 
@@ -95,7 +96,7 @@ describe('useCoverUrl', () => {
     expect(createObjectURL).not.toHaveBeenCalled()
   })
 
-  it('revokes the object URL when the owning scope goes away', async () => {
+  it('keeps the object URL cached when the scope goes away', async () => {
     await saveCover(1, new File(['bytes'], 'capa.png', { type: 'image/png' }))
 
     const { scope, url } = run(buildProject({ hasCover: true }))
@@ -105,7 +106,7 @@ describe('useCoverUrl', () => {
 
     scope.stop()
 
-    expect(revokeObjectURL).toHaveBeenCalledWith('blob:capa')
+    expect(revokeObjectURL).not.toHaveBeenCalled()
   })
 
   it('never creates a url when the scope closes before the read resolves', async () => {

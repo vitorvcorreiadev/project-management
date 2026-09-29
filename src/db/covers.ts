@@ -52,6 +52,7 @@ export async function saveCover(projectId: number, file: File): Promise<CoverRec
   }
 
   await (await getDb()).put(COVER_STORE, record, projectId)
+  invalidateCoverUrl(projectId)
 
   return record
 }
@@ -62,8 +63,34 @@ export async function getCover(projectId: number): Promise<CoverRecord | undefin
 
 export async function deleteCover(projectId: number): Promise<void> {
   await (await getDb()).delete(COVER_STORE, projectId)
+  invalidateCoverUrl(projectId)
 }
 
 export function toBlob(record: CoverRecord): Blob {
   return new Blob([record.bytes], { type: record.type })
+}
+
+const urlCache = new Map<number, string>()
+
+export function getCachedCoverUrl(projectId: number): string | null {
+  return urlCache.get(projectId) ?? null
+}
+
+export function setCachedCoverUrl(projectId: number, url: string): void {
+  urlCache.set(projectId, url)
+}
+
+export function invalidateCoverUrl(projectId: number): void {
+  const url = urlCache.get(projectId)
+  if (url) {
+    URL.revokeObjectURL(url)
+    urlCache.delete(projectId)
+  }
+}
+
+export function clearCoverUrlCache(): void {
+  for (const url of urlCache.values()) {
+    URL.revokeObjectURL(url)
+  }
+  urlCache.clear()
 }

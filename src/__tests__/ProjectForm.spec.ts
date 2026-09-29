@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import ProjectForm from '../components/project/ProjectForm.vue'
-import { getCover, saveCover } from '../db/covers'
+import { clearCoverUrlCache, getCover, saveCover } from '../db/covers'
 import type { Project } from '../types/project'
 
 /*
@@ -152,6 +152,7 @@ async function waitForSave(wrapper: FormWrapper): Promise<Project> {
  */
 describe('ProjectForm', () => {
   beforeEach(() => {
+    clearCoverUrlCache()
     coversFailure.current = null
     releaseCover.current = null
     minted = 0
