@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseCombobox from '@/components/base/BaseCombobox.vue'
 import BaseToggle from '@/components/base/BaseToggle.vue'
 import PlusCircle from '@/assets/images/PlusCircle.vue'
-import { useProjectsStore } from '@/stores/projects'
+import { useProjectListing } from '@/composables/useProjectListing'
 import type { SortParam, SortRule } from '@/types/project'
 import type { ComboboxOption } from '@/types/combobox'
 
-const store = useProjectsStore()
-const { filters, sorting } = storeToRefs(store)
+const { filters, sorting } = useProjectListing()
 
 const router = useRouter()
 

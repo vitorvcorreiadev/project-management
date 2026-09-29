@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import ProjectsEmptyState from '@/components/project/ProjectsEmptyState.vue'
 import ProjectList from '@/components/project-list/ProjectList.vue'
+import { useProjectListing } from '@/composables/useProjectListing'
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
 
 const store = useProjectsStore()
-const { sortedProjects, projects } = storeToRefs(store)
+const { projects } = storeToRefs(store)
+const { sortedProjects } = useProjectListing()
 </script>
 
 <template>
