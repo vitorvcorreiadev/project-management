@@ -153,7 +153,7 @@ test.describe('projects search', () => {
     await expect(page).toHaveURL('/search')
     await expect(projectCards(page)).toHaveCount(1)
 
-    await projectCard(page, 'Projeto Alpha').getByRole('heading', { level: 2 }).click()
+    await projectCard(page, 'Projeto Alpha').getByRole('heading', { level: 3 }).click()
 
     await expect(searchInput(page)).toHaveCount(0)
     await expect(searchToggle(page)).toBeVisible()

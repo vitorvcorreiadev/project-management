@@ -37,7 +37,7 @@ test.describe('search history', () => {
     await searchInput(page).fill('Alp')
     await expect(page).toHaveURL('/search')
 
-    await projectCard(page, 'Projeto Alpha').getByRole('heading', { level: 2 }).click()
+    await projectCard(page, 'Projeto Alpha').getByRole('heading', { level: 3 }).click()
 
     await expect(searchInput(page)).toHaveCount(0)
 

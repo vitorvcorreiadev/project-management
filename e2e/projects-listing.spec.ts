@@ -43,7 +43,7 @@ test.describe('projects listing', () => {
 
     const card = projectCard(page, 'Projeto 1')
 
-    await expect(card.getByRole('heading', { level: 2, name: 'Projeto 1' })).toBeVisible()
+    await expect(card.getByRole('heading', { level: 3, name: 'Projeto 1' })).toBeVisible()
     await expect(card).toContainText('Cliente: Clicksign')
     await expect(card).toContainText('27 de janeiro de 2026')
     await expect(card).toContainText('30 de junho de 2026')
