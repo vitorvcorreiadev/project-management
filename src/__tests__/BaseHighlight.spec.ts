@@ -18,10 +18,11 @@ describe('BaseHighlight', () => {
     expect(wrapper.text()).toBe('Projeto Alpha')
   })
 
-  it('wraps every occurrence of the term', () => {
-    const wrapper = mount(BaseHighlight, { props: { text: 'Projeto Pro', term: 'pro' } })
+  it('wraps only the first occurrence of the term', () => {
+    const wrapper = mount(BaseHighlight, { props: { text: 'Projeto teste', term: 'te' } })
 
-    expect(wrapper.findAll('mark').map((mark) => mark.text())).toEqual(['Pro', 'Pro'])
+    expect(wrapper.findAll('mark').map((mark) => mark.text())).toEqual(['te'])
+    expect(wrapper.text()).toBe('Projeto teste')
   })
 
   it('keeps the whole text readable when the term matches nothing', () => {

@@ -131,10 +131,11 @@ describe('ProjectCard', () => {
     expect(wrapper.get('h2').text()).toBe('Projeto Alpha')
   })
 
-  it('highlights every occurrence of the term in the name', () => {
-    const wrapper = mountCard(buildProject({ name: 'Projeto Pro' }), 'Pro')
+  it('highlights only the first occurrence of the term in the name', () => {
+    const wrapper = mountCard(buildProject({ name: 'Projeto teste' }), 'te')
 
-    expect(wrapper.findAll('h2 mark').map((mark) => mark.text())).toEqual(['Pro', 'Pro'])
+    expect(wrapper.findAll('h2 mark').map((mark) => mark.text())).toEqual(['te'])
+    expect(wrapper.get('h2').text()).toBe('Projeto teste')
   })
 
   it('does not throw when a date is missing', () => {

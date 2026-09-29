@@ -6,25 +6,19 @@ export type HighlightSegment = {
 export function splitByTerm(text: string, term: string): HighlightSegment[] {
   if (!term) return [{ text, matched: false }]
 
-  const segments: HighlightSegment[] = []
-  const haystack = text.toLowerCase()
   const needle = term.toLowerCase()
+  const index = text.toLowerCase().indexOf(needle)
 
-  let cursor = 0
-  let index = haystack.indexOf(needle)
+  if (index === -1) return [{ text, matched: false }]
 
-  while (index !== -1) {
-    if (index > cursor) segments.push({ text: text.slice(cursor, index), matched: false })
+  const segments: HighlightSegment[] = []
+  const matchEnd = index + needle.length
 
-    segments.push({ text: text.slice(index, index + needle.length), matched: true })
+  if (index > 0) segments.push({ text: text.slice(0, index), matched: false })
 
-    cursor = index + needle.length
-    index = haystack.indexOf(needle, cursor)
-  }
+  segments.push({ text: text.slice(index, matchEnd), matched: true })
 
-  if (!segments.length) return [{ text, matched: false }]
-
-  if (cursor < text.length) segments.push({ text: text.slice(cursor), matched: false })
+  if (matchEnd < text.length) segments.push({ text: text.slice(matchEnd), matched: false })
 
   return segments
 }

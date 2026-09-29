@@ -18,11 +18,17 @@ describe('splitByTerm', () => {
     ])
   })
 
-  it('splits the text around every match', () => {
+  it('splits the text around the first match only', () => {
     expect(splitByTerm('Projeto Pro', 'Pro')).toEqual([
       { text: 'Pro', matched: true },
-      { text: 'jeto ', matched: false },
-      { text: 'Pro', matched: true },
+      { text: 'jeto Pro', matched: false },
+    ])
+  })
+
+  it('marks the first of the matches it finds, leaving the later ones untouched', () => {
+    expect(splitByTerm('teste', 'te')).toEqual([
+      { text: 'te', matched: true },
+      { text: 'ste', matched: false },
     ])
   })
 
