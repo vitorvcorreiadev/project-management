@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SearchIcon from '@/assets/images/SearchIcon.vue'
-import CloseIcon from '@/assets/images/CloseIcon.vue'
+import ClockRotateLeftIcon from '@/assets/images/ClockRotateLeftIcon.vue'
+import CrossIcon from '@/assets/images/CrossIcon.vue'
 import BaseHighlight from '@/components/BaseHighlight.vue'
 
 defineProps<{ items: string[]; term: string; activeIndex: number; listboxId: string }>()
@@ -18,7 +18,7 @@ const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()
         :aria-selected="index === activeIndex"
         @click="emit('select', item)"
       >
-        <SearchIcon />
+        <ClockRotateLeftIcon />
         <BaseHighlight :text="item" :term="term" />
       </button>
 
@@ -28,7 +28,7 @@ const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()
         :aria-label="`Remover ${item} das buscas recentes`"
         @click="emit('remove', item)"
       >
-        <CloseIcon />
+        <CrossIcon />
       </button>
     </li>
   </ul>
@@ -36,44 +36,36 @@ const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()
 
 <style lang="css" scoped>
 .search-history {
-  margin: 0;
-  padding: var(--space-2) 0;
-  list-style: none;
   background-color: var(--color-white);
-  border-radius: var(--radius-3);
   box-shadow: var(--shadow-default);
+  border-radius: 0 0 var(--radius-4) var(--radius-4);
+  border: 2px solid var(--color-purple-500);
+  border-top: none;
 
   .search-history-row {
     display: flex;
     align-items: center;
+    border-top: 1px solid var(--color-purple-50);
 
-    &:not(:last-child) {
-      border-bottom: 1px solid var(--color-purple-50);
+    .search-history-term {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex: 1;
+      padding: var(--space-4) var(--space-5);
+      color: var(--color-gray-400);
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+
+      &[aria-selected='true'] {
+        background-color: var(--color-purple-50);
+      }
+
+      &:focus-visible {
+        outline: var(--focus-ring-width) solid var(--focus-ring-color);
+        outline-offset: calc(-1 * var(--focus-ring-width));
+      }
     }
-  }
-}
-
-.search-history-term {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: 1;
-  padding: var(--space-3) var(--space-4);
-  color: var(--color-purple-500);
-  text-align: start;
-  cursor: pointer;
-
-  svg {
-    flex-shrink: 0;
-  }
-
-  &[aria-selected='true'] {
-    background-color: var(--color-purple-50);
-  }
-
-  &:focus-visible {
-    outline: var(--button-focus-ring-width) solid var(--button-accent);
-    outline-offset: calc(-1 * var(--button-focus-ring-width));
   }
 }
 
@@ -88,8 +80,8 @@ const emit = defineEmits<{ select: [term: string]; remove: [term: string] }>()
   }
 
   &:focus-visible {
-    outline: var(--button-focus-ring-width) solid var(--button-accent);
-    outline-offset: calc(-1 * var(--button-focus-ring-width));
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: calc(-1 * var(--focus-ring-width));
   }
 }
 </style>

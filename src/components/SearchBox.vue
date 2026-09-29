@@ -79,11 +79,6 @@ const {
     top: 0;
     left: 0;
     width: 100%;
-    /* The load-bearing declaration. `.search-box` is not positioned, so this
-     * absolutely positioned div resolves against `header`, which has no z-index and
-     * so no stacking context of its own. A z-index here therefore competes in the
-     * root context, where it beats the `position: relative` card bits in `main`
-     * that come later in DOM order. */
     z-index: 1;
 
     .input-wrapper {
@@ -103,12 +98,17 @@ const {
         line-height: var(--line-height-xl);
         padding: var(--space-6) 7.4rem;
         outline: 0;
+        border: 2px solid transparent;
+      }
+
+      &:has(~ .search-history) {
+        input {
+          border: 2px solid var(--color-purple-500);
+          border-bottom: 0;
+        }
       }
     }
 
-    /* `.search-box > div` is the nearest positioned ancestor — the panel is a
-     * sibling of `.input-wrapper`, not a child of it — so 100% is the bottom of
-     * the input. */
     .search-history {
       position: absolute;
       inset-block-start: 100%;
