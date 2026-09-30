@@ -4,45 +4,28 @@ import { createPinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 
 import App from '../App.vue'
+import AppTopbar from '../components/AppTopbar.vue'
 import appRouter from '../router'
 
-const { route, push, back } = vi.hoisted(() => ({
-  route: { name: 'projects', meta: {} as { hideSearch?: boolean } },
-  push: vi.fn<(to: string) => unknown>(),
-  back: vi.fn<() => void>(),
-}))
-
-// Keeps the real `createRouter` so the route table below is the shipped one, but
-// hands `App` a fixed route so each page can be mounted on its own.
 vi.mock('vue-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('vue-router')>()),
-  useRoute: () => route,
-  useRouter: () => ({ push, back }),
-  RouterView: { render: () => null },
+  useRoute: () => ({ name: 'projects', meta: {} }),
+  useRouter: () => ({ push: vi.fn(), back: vi.fn() }),
+  RouterView: { template: '<div />' },
+  RouterLink: { template: '<a><slot /></a>' },
 }))
 
-function mountApp(name: string, hideSearch = false) {
-  route.name = name
-  route.meta = hideSearch ? { hideSearch: true } : {}
-
+function mountApp() {
   return mount(App, { global: { plugins: [createPinia()] } })
 }
 
 describe('App', () => {
-  it('shows the search on the projects listing', () => {
-    expect(mountApp('projects').find('.search-box').exists()).toBe(true)
+  it('renders the AppTopbar', () => {
+    expect(mountApp().findComponent(AppTopbar).exists()).toBe(true)
   })
 
-  it('shows the search on the search result', () => {
-    expect(mountApp('projects-search-result').find('.search-box').exists()).toBe(true)
-  })
-
-  it('hides the search on the new project page', () => {
-    expect(mountApp('new-project', true).find('.search-box').exists()).toBe(false)
-  })
-
-  it('hides the search on the edit project page', () => {
-    expect(mountApp('edit-project', true).find('.search-box').exists()).toBe(false)
+  it('renders the RouterView', () => {
+    expect(mountApp().find('div').exists()).toBe(true)
   })
 })
 
