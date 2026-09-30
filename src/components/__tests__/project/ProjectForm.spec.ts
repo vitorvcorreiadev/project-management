@@ -120,6 +120,15 @@ function errorFor(wrapper: FormWrapper, field: string): string | undefined {
   return label?.querySelector('[role="alert"]')?.textContent ?? undefined
 }
 
+// `ImageInput` puts its own button ("Selecionar", or "Remover imagem" once a
+// preview is shown) in the DOM ahead of the submit one, so the first `button`
+// inside the form is never the submit button. Only the submit `BaseButton` is a
+// direct child of the `<form>`: `BaseInput` renders a label, and `ImageInput`
+// nests its button one level deeper.
+function submitButton(wrapper: FormWrapper) {
+  return wrapper.find('form > button')
+}
+
 async function waitForSave(wrapper: FormWrapper): Promise<Project> {
   await vi.waitFor(() => {
     expect(wrapper.emitted('save')).toHaveLength(1)
@@ -504,7 +513,6 @@ describe('ProjectForm', () => {
     await expect(getCover(SEEDED.id)).resolves.toMatchObject({ name: 'antiga.png' })
   })
 
-
   it('forgets nothing when the cover is removed but the form is abandoned', async () => {
     await seedCover(SEEDED.id, 'antiga.png')
 
@@ -690,7 +698,7 @@ describe('ProjectForm - validation', () => {
   it('disables the submit button on an empty form', () => {
     const wrapper = mountForm()
 
-    expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+    expect(submitButton(wrapper).attributes('disabled')).toBeDefined()
   })
 
   it('enables the submit button once every field is valid', async () => {
@@ -698,19 +706,19 @@ describe('ProjectForm - validation', () => {
 
     await fillFields(wrapper)
 
-    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
+    expect(submitButton(wrapper).attributes('disabled')).toBeUndefined()
   })
 
   it('disables the submit button again when a field becomes invalid', async () => {
     const wrapper = mountForm()
 
     await fillFields(wrapper)
-    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
+    expect(submitButton(wrapper).attributes('disabled')).toBeUndefined()
 
     await wrapper.find('input[name="name"]').setValue('')
 
     await vi.waitFor(() => {
-      expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+      expect(submitButton(wrapper).attributes('disabled')).toBeDefined()
     })
   })
 
@@ -723,7 +731,7 @@ describe('ProjectForm - validation', () => {
     await wrapper.find('form').trigger('submit')
 
     await vi.waitFor(() => {
-      expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+      expect(submitButton(wrapper).attributes('disabled')).toBeDefined()
     })
 
     releaseCover.current?.()
