@@ -1,8 +1,8 @@
 import { describe, it, expect, afterEach } from 'vitest'
 
 import { mount, type VueWrapper } from '@vue/test-utils'
-import BaseDropdownMenu from '../components/base/BaseDropdownMenu.vue'
-import type { DropdownItem } from '../types/dropdown'
+import BaseDropdownMenu from '../../../components/base/BaseDropdownMenu.vue'
+import type { DropdownItem } from '../../../types/dropdown'
 
 const items: DropdownItem[] = [
   { id: 'edit', label: 'Editar' },

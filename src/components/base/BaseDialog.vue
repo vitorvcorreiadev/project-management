@@ -11,9 +11,7 @@ const panelRef = useTemplateRef<HTMLDivElement>('panel')
 const titleId = useId()
 
 function syncDialog() {
-  const dialog = dialogRef.value
-
-  if (!dialog) return
+  const dialog = dialogRef.value!
 
   if (open.value && !dialog.open) {
     dialog.showModal()

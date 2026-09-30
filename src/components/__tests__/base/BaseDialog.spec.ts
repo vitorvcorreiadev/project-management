@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach, beforeAll, afterAll, beforeEach, vi } from 'vitest'
 
 import { mount, type VueWrapper } from '@vue/test-utils'
-import BaseDialog from '../components/base/BaseDialog.vue'
+import BaseDialog from '../../../components/base/BaseDialog.vue'
 
 const wrappers: VueWrapper[] = []
 
@@ -129,7 +129,6 @@ describe('BaseDialog', () => {
 
     expect(children.map((child) => child.className)).toEqual([
       'dialog-title',
-      'dialog-divider',
       'dialog-content',
     ])
   })

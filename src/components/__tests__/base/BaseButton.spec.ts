@@ -1,14 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import BaseButton from '../components/base/BaseButton.vue'
+import BaseButton from '../../../components/base/BaseButton.vue'
 
-/*
- * BaseButton has a single `<button>` root, so `find('button')` is the component
- * root rather than one branch of a fragment. The defaults are spelled out in the
- * assertions because every modifier the component owns is derived from a prop,
- * which means a missing default is a silent regression rather than a failure.
- */
 describe('BaseButton', () => {
   it('renders a button carrying the default modifiers', () => {
     const wrapper = mount(BaseButton)

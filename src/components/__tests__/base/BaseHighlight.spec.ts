@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import BaseHighlight from '../components/base/BaseHighlight.vue'
+import BaseHighlight from '../../../components/base/BaseHighlight.vue'
 
 describe('BaseHighlight', () => {
   it('renders the text as-is when it is not given a term', () => {
