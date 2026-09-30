@@ -18,7 +18,7 @@ const emit = defineEmits<{ save: [project: Project] }>()
 
 const { form, visibleErrors, isValid, touch, validateAll } = useProjectForm(props.initial)
 
-const formRef = useTemplateRef<HTMLFormElement>('form')
+const formRef = useTemplateRef<HTMLFormElement>('formEl')
 const coverFile = shallowRef<File | null>(null)
 const coverRemoved = shallowRef(false)
 const savedCoverUrl = useCoverUrl(form)
@@ -85,7 +85,7 @@ async function handleSubmit(): Promise<void> {
 
 <template>
   <div class="project-form-wrapper">
-    <form ref="form" class="project-form" novalidate @submit.prevent="handleSubmit">
+    <form ref="formEl" class="project-form" novalidate @submit.prevent="handleSubmit">
       <BaseInput
         label="Nome do projeto"
         required
