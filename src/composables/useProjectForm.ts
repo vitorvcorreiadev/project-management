@@ -50,6 +50,8 @@ export default function useProjectForm(initial?: Partial<Project>) {
     return visible
   })
 
+  const isValid = computed(() => Object.keys(errors.value).length === 0)
+
   function touch(field: ProjectField): void {
     touched[field] = true
     // Blur alone does not change the draft, so the watcher below would not run.
@@ -78,5 +80,5 @@ export default function useProjectForm(initial?: Partial<Project>) {
 
   watch(form, revalidate, { deep: true })
 
-  return { form, errors, visibleErrors, touch, validateAll, reset }
+  return { form, errors, visibleErrors, isValid, touch, validateAll, reset }
 }

@@ -29,6 +29,7 @@ const emit = defineEmits<{ confirm: [] }>()
 </template>
 
 <style lang="css" scoped>
+<<<<<<< HEAD
 @layer components {
   .remove-info {
     p {
@@ -41,6 +42,18 @@ const emit = defineEmits<{ confirm: [] }>()
       line-height: var(--line-height-2xl);
       font-weight: var(--font-weight-medium);
     }
+=======
+.remove-info {
+  p {
+    margin-bottom: var(--space-3);
+  }
+
+  span {
+    color: var(--color-purple-950);
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-2xl);
+    font-weight: var(--font-weight-medium);
+>>>>>>> d950bf003af40be1c761463fb068149b3fbc77ac
   }
 }
 </style>

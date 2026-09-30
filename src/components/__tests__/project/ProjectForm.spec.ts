@@ -687,4 +687,46 @@ describe('ProjectForm - validation', () => {
     expect(alert?.getAttribute('id')).toBe(describedBy)
     expect(alert?.getAttribute('role')).toBe('alert')
   })
+
+  it('disables the submit button on an empty form', () => {
+    const wrapper = mountForm()
+
+    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('enables the submit button once every field is valid', async () => {
+    const wrapper = mountForm()
+
+    await fillFields(wrapper)
+
+    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeUndefined()
+  })
+
+  it('disables the submit button again when a field becomes invalid', async () => {
+    const wrapper = mountForm()
+
+    await fillFields(wrapper)
+    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeUndefined()
+
+    await wrapper.find('input[name="name"]').setValue('')
+
+    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('keeps the submit button disabled while saving', async () => {
+    const wrapper = mountForm()
+
+    await fillFields(wrapper)
+    await selectCover(wrapper, buildFile())
+
+    await wrapper.find('form').trigger('submit')
+
+    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+
+    releaseCover.current?.()
+
+    await vi.waitFor(() => {
+      expect(wrapper.emitted('save')).toHaveLength(1)
+    })
+  })
 })

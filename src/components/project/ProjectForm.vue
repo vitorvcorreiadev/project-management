@@ -16,7 +16,7 @@ const props = defineProps<{ initial?: Partial<Project> }>()
 
 const emit = defineEmits<{ save: [project: Project] }>()
 
-const { form, visibleErrors, touch, validateAll } = useProjectForm(props.initial)
+const { form, visibleErrors, isValid, touch, validateAll } = useProjectForm(props.initial)
 
 const formRef = useTemplateRef<HTMLFormElement>('form')
 const coverFile = shallowRef<File | null>(null)
@@ -146,7 +146,7 @@ async function handleSubmit(): Promise<void> {
         </template>
       </BaseInput>
 
-      <BaseButton full :disabled="isSaving" size="large">Salvar projeto</BaseButton>
+      <BaseButton full :disabled="isSaving || !isValid" size="large">Salvar projeto</BaseButton>
     </form>
   </div>
 </template>
