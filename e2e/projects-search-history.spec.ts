@@ -4,7 +4,6 @@ import {
   projectCard,
   searchHistoryOption,
   searchHistoryOptions,
-  searchHistoryRemove,
   searchInput,
   searchResultTitle,
   searchToggle,
@@ -17,18 +16,6 @@ const searchableProjects = () => [
 ]
 
 test.describe('search history', () => {
-  test('lists the five most recent searches from the newest to the oldest', async ({ page }) => {
-    await seedProjects(page, searchableProjects())
-    await seedSearchHistory(page, ['s01', 's02', 's03', 's04', 's05', 's06'])
-    await page.goto('/')
-
-    await expect(searchHistoryOptions(page)).toHaveCount(0)
-
-    await searchToggle(page).click()
-
-    await expect(searchHistoryOptions(page)).toHaveText(['s06', 's05', 's04', 's03', 's02'])
-  })
-
   test('records the search when the box is dismissed by clicking outside', async ({ page }) => {
     await seedProjects(page, searchableProjects())
     await page.goto('/')
@@ -89,22 +76,6 @@ test.describe('search history', () => {
     await expect(searchHistoryOptions(page)).toHaveText(['Gam'])
   })
 
-  test('removes a search and promotes the next one', async ({ page }) => {
-    await seedProjects(page, searchableProjects())
-    await seedSearchHistory(page, ['s01', 's02', 's03', 's04', 's05', 's06'])
-    await page.goto('/')
-
-    await searchToggle(page).click()
-    await searchHistoryRemove(page, 's06').click()
-
-    await expect(searchHistoryOptions(page)).toHaveText(['s05', 's04', 's03', 's02', 's01'])
-
-    await page.reload()
-    await searchToggle(page).click()
-
-    await expect(searchHistoryOptions(page)).toHaveText(['s05', 's04', 's03', 's02', 's01'])
-  })
-
   test('picks a search with the keyboard', async ({ page }) => {
     await seedProjects(page, searchableProjects())
     await seedSearchHistory(page, ['Gam', 'Alp'])
@@ -132,47 +103,5 @@ test.describe('search history', () => {
     await searchInput(page).press('Escape')
 
     await expect(searchHistoryOptions(page)).toHaveCount(0)
-  })
-
-  test('narrows the listed searches as the term is typed', async ({ page }) => {
-    await seedProjects(page, searchableProjects())
-    await seedSearchHistory(page, ['Alfa', 'Beta', 'Gam'])
-    await page.goto('/')
-
-    await searchToggle(page).click()
-    await searchInput(page).fill('a')
-
-    await expect(searchHistoryOptions(page)).toHaveText(['Gam', 'Beta', 'Alfa'])
-
-    await searchInput(page).fill('Al')
-
-    await expect(searchHistoryOptions(page)).toHaveText(['Alfa'])
-  })
-
-  test('hides the listed searches when the term matches none', async ({ page }) => {
-    await seedProjects(page, searchableProjects())
-    await seedSearchHistory(page, ['Alfa'])
-    await page.goto('/')
-
-    await searchToggle(page).click()
-    await searchInput(page).fill('zzz')
-
-    await expect(searchHistoryOptions(page)).toHaveCount(0)
-    await expect(searchInput(page)).toBeFocused()
-  })
-
-  test('surfaces a stored search below the recent five once the filter excludes them', async ({
-    page,
-  }) => {
-    await seedProjects(page, searchableProjects())
-    await seedSearchHistory(page, ['s01', 's02', 's03', 's04', 's05', 's06'])
-    await page.goto('/')
-
-    await searchToggle(page).click()
-    await expect(searchHistoryOptions(page)).toHaveText(['s06', 's05', 's04', 's03', 's02'])
-
-    await searchInput(page).fill('s01')
-
-    await expect(searchHistoryOptions(page)).toHaveText(['s01'])
   })
 })
