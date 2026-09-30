@@ -7,9 +7,6 @@
   Routes live in `src/router/index.ts` (`routes: []`, still empty); stores in `src/stores/`.
 - `@/` -> `src/` is declared twice (`vite.config.ts` alias + `tsconfig.app.json` paths) — change both together.
 - Single-tenant app with local persistence and no backend: don't add API clients or infra.
-- This repo is spec-driven and follows the OpenSpec approach; the `/opsx-*` commands and
-  `openspec/config.yaml` define the process. Don't hand-create files under `openspec/`.
-- `README.md` is still the untouched create-vue template — not project docs.
 
 ## Commands
 
@@ -47,9 +44,4 @@
 
 ## Conventions
 
-Inferred from the three existing source files; correct me if any is wrong.
-
-- `<script setup lang="ts">` only, Composition API.
-- Setup-style Pinia stores: `src/stores/<name>.ts` exporting `use<Name>Store`.
-- No `any`; use `@/` imports inside `src/`.
-- Commit to `main` only when explicitly asked. No message convention.
+- When creating or editing Vue components (`.vue`), use the vue-best-practices skill.
