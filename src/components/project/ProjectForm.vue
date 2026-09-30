@@ -114,6 +114,7 @@ async function handleSubmit(): Promise<void> {
           name="started_at"
           v-model="form.started_at"
           :error-message="visibleErrors.started_at"
+          @input="touch('started_at')"
           @blur="touch('started_at')"
         >
           <template #custom-icon>
@@ -128,6 +129,7 @@ async function handleSubmit(): Promise<void> {
           name="end_at"
           v-model="form.end_at"
           :error-message="visibleErrors.end_at"
+          @input="touch('end_at')"
           @blur="touch('end_at')"
         >
           <template #custom-icon>
