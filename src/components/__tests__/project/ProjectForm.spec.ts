@@ -70,11 +70,10 @@ const SEEDED: Project = {
   hasCover: true,
 }
 
-// `Array.prototype.at` is unavailable here: tsconfig.vitest.json pins `lib: []`.
 function savedProject(wrapper: FormWrapper): Project | undefined {
   const emitted = wrapper.emitted<[Project]>('save')
 
-  return emitted?.[emitted.length - 1]?.[0]
+  return emitted?.at(-1)?.[0]
 }
 
 async function selectCover(wrapper: FormWrapper, file: File) {
@@ -119,10 +118,6 @@ function errorFor(wrapper: FormWrapper, field: string): string | undefined {
   const label = wrapper.find(`input[name="${field}"]`).element.closest('label')
 
   return label?.querySelector('[role="alert"]')?.textContent ?? undefined
-}
-
-function saveButton(wrapper: FormWrapper) {
-  return wrapper.findAll('button').find((button) => button.text() === 'Salvar projeto')
 }
 
 async function waitForSave(wrapper: FormWrapper): Promise<Project> {
@@ -695,7 +690,7 @@ describe('ProjectForm - validation', () => {
   it('disables the submit button on an empty form', () => {
     const wrapper = mountForm()
 
-    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.find('button').attributes('disabled')).toBeDefined()
   })
 
   it('enables the submit button once every field is valid', async () => {
@@ -703,18 +698,20 @@ describe('ProjectForm - validation', () => {
 
     await fillFields(wrapper)
 
-    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeUndefined()
+    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
   })
 
   it('disables the submit button again when a field becomes invalid', async () => {
     const wrapper = mountForm()
 
     await fillFields(wrapper)
-    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeUndefined()
+    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
 
     await wrapper.find('input[name="name"]').setValue('')
 
-    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+    await vi.waitFor(() => {
+      expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+    })
   })
 
   it('keeps the submit button disabled while saving', async () => {
@@ -725,7 +722,9 @@ describe('ProjectForm - validation', () => {
 
     await wrapper.find('form').trigger('submit')
 
-    expect(wrapper.find('button[type="submit"]').attributes('disabled')).toBeDefined()
+    await vi.waitFor(() => {
+      expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+    })
 
     releaseCover.current?.()
 

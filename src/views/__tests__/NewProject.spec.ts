@@ -22,11 +22,10 @@ describe('NewProject', () => {
     return mount(NewProject, { global: { plugins: [pinia] } })
   }
 
-  // `Array.prototype.at` is unavailable here: tsconfig.vitest.json pins `lib: []`.
   function lastProject(): Project | undefined {
     const { projects } = useProjectsStore()
 
-    return projects[projects.length - 1]
+    return projects.at(-1)
   }
 
   function buildFile(name = 'capa.png'): File {
