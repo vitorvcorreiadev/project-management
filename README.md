@@ -12,6 +12,10 @@ pnpm test:e2e   # Playwright (precisa do dev server no ar)
 pnpm build      # build de produção
 ```
 
+## URL do projeto
+
+[Project Management](https://project-management.vitorvcorreiadev.workers.dev)
+
 ## Requisitos cobertos
 
 - [x] Exibir uma listagem inicial sem nenhum projeto cadastrado, conforme o design.
@@ -46,6 +50,7 @@ pnpm build      # build de produção
 - Adicionaria hover no componente de botão
 - Arrumaria o bug visual quando se navega por tab até o último item do histórico
 - Aumentaria a cobertura de testes
+- Criado um favicon
 
 ## O que eu faria se fosse um projeto real
 
