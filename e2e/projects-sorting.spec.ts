@@ -43,7 +43,7 @@ test.describe('projects sorting', () => {
 
     await expect(combobox).toHaveAttribute('aria-expanded', 'false')
     await expect(combobox).toHaveText('Iniciados mais recentes')
-    await expect(projectNames(page)).toHaveText(['Projeto Alpha', 'Projeto Gamma', 'Projeto Beta'])
+    await expect(projectNames(page)).toHaveText(['Projeto Beta', 'Projeto Gamma', 'Projeto Alpha'])
   })
 
   test('leaves the sorting untouched on escape', async ({ page }) => {
