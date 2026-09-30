@@ -121,6 +121,10 @@ function errorFor(wrapper: FormWrapper, field: string): string | undefined {
   return label?.querySelector('[role="alert"]')?.textContent ?? undefined
 }
 
+function saveButton(wrapper: FormWrapper) {
+  return wrapper.findAll('button').find((button) => button.text() === 'Salvar projeto')
+}
+
 async function waitForSave(wrapper: FormWrapper): Promise<Project> {
   await vi.waitFor(() => {
     expect(wrapper.emitted('save')).toHaveLength(1)

@@ -38,6 +38,10 @@ export default function useProjectForm(initial?: Partial<Project>) {
     errors.value = validateProject(form)
   }
 
+  // The watcher below only fires when the draft changes, so the first pass
+  // cannot wait for one: a blank form must read as invalid on first render.
+  revalidate()
+
   const visibleErrors = computed<ProjectErrors>(() => {
     if (submitted.value) return errors.value
 
@@ -77,6 +81,8 @@ export default function useProjectForm(initial?: Partial<Project>) {
 
     revalidate()
   }
+
+  const isValid = computed(() => firstInvalidField(errors.value) === undefined)
 
   watch(form, revalidate, { deep: true })
 

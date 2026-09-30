@@ -109,4 +109,30 @@ describe('useProjectForm', () => {
 
     expect(visibleErrors.value).toEqual({})
   })
+
+  it('calls a blank draft invalid, which keeps the save button disabled', () => {
+    const { isValid } = useProjectForm()
+
+    expect(isValid.value).toBe(false)
+  })
+
+  it('calls a complete draft valid, which enables the save button', () => {
+    const { isValid } = useProjectForm(EXISTING)
+
+    expect(isValid.value).toBe(true)
+  })
+
+  it('follows the draft as it is revised, so the button tracks every keystroke', async () => {
+    const { form, isValid } = useProjectForm(EXISTING)
+
+    form.end_at = '2026-08-31'
+    await nextTick()
+
+    expect(isValid.value).toBe(false)
+
+    form.end_at = '2026-12-15'
+    await nextTick()
+
+    expect(isValid.value).toBe(true)
+  })
 })
