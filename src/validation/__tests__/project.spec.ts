@@ -1,16 +1,16 @@
 import { describe, it, expect } from 'vitest'
 
-import { firstInvalidField, isValidDate, validateProject } from '../validation/project'
-import type { ProjectDraft } from '../validation/project'
+import { firstInvalidField, isValidDate, validateProject } from '../project'
+import type { ProjectInput } from '@/types/project'
 
-const VALID: ProjectDraft = {
+const VALID: ProjectInput = {
   name: 'Projeto novo',
   client: 'Clicksign',
   started_at: '2026-09-01',
   end_at: '2026-12-15',
 }
 
-function build(overrides: Partial<ProjectDraft> = {}): ProjectDraft {
+function build(overrides: Partial<ProjectInput> = {}): ProjectInput {
   return { ...VALID, ...overrides }
 }
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import FavoriteStar from '../components/project-card/FavoriteStar.vue'
+import FavoriteStar from '../../../components/project-card/FavoriteStar.vue'
 
 describe('FavoriteStar', () => {
   it('renders a button carrying the favorite-star class', () => {

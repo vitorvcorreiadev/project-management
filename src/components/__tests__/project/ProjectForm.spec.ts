@@ -2,9 +2,9 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import ProjectForm from '../components/project/ProjectForm.vue'
-import { clearCoverUrlCache, getCover, saveCover } from '../db/covers'
-import type { Project } from '../types/project'
+import ProjectForm from '../../../components/project/ProjectForm.vue'
+import { clearCoverUrlCache, getCover, saveCover } from '../../../db/covers'
+import type { Project } from '../../../types/project'
 
 /*
  * `coversFailure` makes `saveCover` reject; `releaseCover` makes it hang. Both
@@ -16,8 +16,8 @@ const { coversFailure, releaseCover } = vi.hoisted(() => ({
   releaseCover: { current: null as (() => void) | null },
 }))
 
-vi.mock('../db/covers', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../db/covers')>()
+vi.mock('@/db/covers', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../../db/covers')>()
 
   return {
     ...actual,

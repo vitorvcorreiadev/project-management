@@ -10,7 +10,7 @@ import appRouter from '../router'
 vi.mock('vue-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('vue-router')>()),
   useRoute: () => ({ name: 'projects', meta: {} }),
-  useRouter: () => ({ push: vi.fn(), back: vi.fn() }),
+  useRouter: () => ({ push: vi.fn<() => void>(), back: vi.fn<() => void>() }),
   RouterView: { template: '<div />' },
   RouterLink: { template: '<a><slot /></a>' },
 }))

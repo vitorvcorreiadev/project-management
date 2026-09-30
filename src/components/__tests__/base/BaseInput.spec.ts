@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import BaseInput from '../components/base/BaseInput.vue'
+import BaseInput from '../../../components/base/BaseInput.vue'
 
 describe('BaseInput', () => {
   function mountInput(errorMessage?: string) {
@@ -34,6 +34,12 @@ describe('BaseInput', () => {
 
     expect(wrapper.find('[role="alert"]').exists()).toBe(false)
     expect(wrapper.classes()).not.toContain('has-error')
+  })
+
+  it('renders the label text', () => {
+    const wrapper = mountInput()
+
+    expect(wrapper.find('span').text()).toBe('Nome do projeto')
   })
 
   it('marks the input invalid and points it at the message', () => {
@@ -90,6 +96,27 @@ describe('BaseInput', () => {
     expect(onBlur).toHaveBeenCalledTimes(1)
   })
 
+  it('renders the custom-input slot instead of the default input', () => {
+    const wrapper = mount(BaseInput, {
+      props: { label: 'Cliente' },
+      slots: { 'custom-input': '<textarea class="custom-field" />' },
+    })
+
+    expect(wrapper.find('textarea.custom-field').exists()).toBe(true)
+    expect(wrapper.find('input').exists()).toBe(false)
+  })
+
+  it('renders the custom-icon slot when provided', () => {
+    const wrapper = mount(BaseInput, {
+      props: { label: 'Cliente' },
+      slots: { 'custom-icon': '<svg class="field-icon" />' },
+    })
+
+    const iconWrapper = wrapper.find('.custom-icon')
+    expect(iconWrapper.exists()).toBe(true)
+    expect(iconWrapper.find('svg.field-icon').exists()).toBe(true)
+  })
+
   it('binds the model to the inner input', async () => {
     const wrapper = mount(BaseInput, { props: { label: 'Cliente', modelValue: 'Clicksign' } })
 
@@ -100,5 +127,18 @@ describe('BaseInput', () => {
     const emitted = wrapper.emitted('update:modelValue')
 
     expect(emitted?.[emitted.length - 1]).toEqual(['Clicksign SA'])
+  })
+
+  it('binds a numeric model to the inner input', async () => {
+    const wrapper = mount(BaseInput, {
+      props: { label: 'Quantidade', modelValue: 42 },
+    })
+
+    expect(wrapper.find('input').element.value).toBe('42')
+
+    await wrapper.find('input').setValue('100')
+
+    const emitted = wrapper.emitted('update:modelValue')
+    expect(emitted?.[emitted.length - 1]).toEqual(['100'])
   })
 })

@@ -3,9 +3,9 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 
-import NewProject from '../views/NewProject.vue'
-import { useProjectsStore } from '../stores/projects'
-import type { Project } from '../types/project'
+import NewProject from '../NewProject.vue'
+import { useProjectsStore } from '../../stores/projects'
+import type { Project } from '../../types/project'
 
 const { push } = vi.hoisted(() => ({ push: vi.fn<(to: string) => unknown>() }))
 
@@ -108,7 +108,7 @@ describe('NewProject', () => {
     await submit(wrapper)
 
     await vi.waitFor(() => {
-      expect(push).toHaveBeenCalledWith('/')
+      expect(push).toHaveBeenCalledWith({ name: 'projects' })
     })
   })
 

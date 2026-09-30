@@ -7,7 +7,7 @@ import {
   VISIBLE_TERMS,
   filterTerms,
   useSearchHistoryStore,
-} from '../stores/searchHistory'
+} from '../searchHistory'
 
 /*
  * The store and `filterTerms` are the only places that decide what a search is and

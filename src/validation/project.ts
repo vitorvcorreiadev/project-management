@@ -1,4 +1,4 @@
-import type { Project, ProjectInput } from '@/types/project'
+import type { ProjectInput } from '@/types/project'
 
 export type ProjectField = 'name' | 'client' | 'started_at' | 'end_at'
 

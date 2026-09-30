@@ -39,6 +39,7 @@ const rows = computed(() => [
 <style lang="css" scoped>
 @layer components {
   .project-card-dates {
+    color: var(--color-gray-400);
     padding-block-start: var(--space-4);
     display: flex;
     flex-direction: column;

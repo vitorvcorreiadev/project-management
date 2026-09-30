@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import ImageInput from '../components/image-input/ImageInput.vue'
+import ImageInput from '../../../components/image-input/ImageInput.vue'
 
 /*
  * The component can show two different things in the same slot: the cover a

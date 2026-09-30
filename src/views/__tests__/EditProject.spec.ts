@@ -3,10 +3,10 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
 
-import EditProject from '../views/EditProject.vue'
-import { useProjectsStore } from '../stores/projects'
-import { getCover, saveCover } from '../db/covers'
-import type { Project } from '../types/project'
+import EditProject from '../EditProject.vue'
+import { useProjectsStore } from '../../stores/projects'
+import { getCover, saveCover } from '../../db/covers'
+import type { Project } from '../../types/project'
 
 const { push, route } = vi.hoisted(() => ({
   push: vi.fn<(to: string) => unknown>(),
@@ -28,6 +28,25 @@ describe('EditProject', () => {
     setActivePinia(pinia)
 
     const store = useProjectsStore()
+
+    store.createProject({
+      id: 1,
+      name: 'Projeto 1',
+      client: 'Clicksign',
+      started_at: '2026-01-27',
+      end_at: '2026-06-30',
+      favorited: false,
+      hasCover: false,
+    })
+    store.createProject({
+      id: 2,
+      name: 'Projeto 2',
+      client: 'Clicksign',
+      started_at: '2025-01-27',
+      end_at: '2025-06-30',
+      favorited: false,
+      hasCover: false,
+    })
 
     seed?.(store)
 
@@ -213,7 +232,7 @@ describe('EditProject', () => {
     await renameProject(wrapper, 'Projeto 1 renomeado')
 
     await vi.waitFor(() => {
-      expect(push).toHaveBeenCalledWith('/')
+      expect(push).toHaveBeenCalledWith({ name: 'projects' })
     })
   })
 

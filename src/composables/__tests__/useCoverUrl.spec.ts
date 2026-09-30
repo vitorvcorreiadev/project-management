@@ -2,9 +2,9 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { effectScope, nextTick } from 'vue'
 
-import { clearCoverUrlCache, getCover, saveCover } from '../db/covers'
-import { useCoverUrl } from '../composables/useCoverUrl'
-import type { Project } from '../types/project'
+import { clearCoverUrlCache, getCover, saveCover } from '../../db/covers'
+import { useCoverUrl } from '../useCoverUrl'
+import type { Project } from '../../types/project'
 
 const createObjectURL = vi.fn<(blob: Blob) => string>(() => 'blob:capa')
 const revokeObjectURL = vi.fn<(url: string) => void>()

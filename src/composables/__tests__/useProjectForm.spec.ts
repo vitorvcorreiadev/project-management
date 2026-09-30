@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { nextTick } from 'vue'
 
-import useProjectForm from '../composables/useProjectForm'
-import type { Project } from '../types/project'
+import useProjectForm from '../useProjectForm'
+import type { Project } from '../../types/project'
 
 const EXISTING: Project = {
   id: 7,

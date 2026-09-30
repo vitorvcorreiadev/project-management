@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-import { formatProjectDate } from '../utils/dates'
+import { formatProjectDate } from '../dates'
 
 describe('formatProjectDate', () => {
   it('renders the exact day named by a date-only value', () => {

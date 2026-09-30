@@ -2,8 +2,8 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
-import ProjectCard from '../components/project-card/ProjectCard.vue'
-import type { Project } from '../types/project'
+import ProjectCard from '../../../components/project-card/ProjectCard.vue'
+import type { Project } from '../../../types/project'
 
 const showModalMock = vi.fn<() => void>(function (this: HTMLDialogElement) {
   this.open = true
@@ -99,7 +99,7 @@ describe('ProjectCard', () => {
   it('renders both dates alongside the name and the client', () => {
     const wrapper = mountCard(buildProject({ name: 'Projeto 1', client: 'Clicksign' }))
 
-    expect(wrapper.get('h2').text()).toBe('Projeto 1')
+    expect(wrapper.get('h3').text()).toBe('Projeto 1')
     expect(wrapper.text()).toContain('Clicksign')
     expect(wrapper.text()).toContain('01 de setembro de 2026')
     expect(wrapper.text()).toContain('15 de dezembro de 2026')
@@ -108,21 +108,21 @@ describe('ProjectCard', () => {
   it('leaves the name unhighlighted when it is not given a search term', () => {
     const wrapper = mountCard(buildProject({ name: 'Projeto Alpha' }))
 
-    expect(wrapper.find('h2 mark').exists()).toBe(false)
+    expect(wrapper.find('h3 mark').exists()).toBe(false)
   })
 
   it('highlights the searched term inside the name, keeping the whole name readable', () => {
     const wrapper = mountCard(buildProject({ name: 'Projeto Alpha' }), 'Alp')
 
-    expect(wrapper.get('h2 mark').text()).toBe('Alp')
-    expect(wrapper.get('h2').text()).toBe('Projeto Alpha')
+    expect(wrapper.get('h3 mark').text()).toBe('Alp')
+    expect(wrapper.get('h3').text()).toBe('Projeto Alpha')
   })
 
   it('highlights only the first occurrence of the term in the name', () => {
     const wrapper = mountCard(buildProject({ name: 'Projeto teste' }), 'te')
 
-    expect(wrapper.findAll('h2 mark').map((mark) => mark.text())).toEqual(['te'])
-    expect(wrapper.get('h2').text()).toBe('Projeto teste')
+    expect(wrapper.findAll('h3 mark').map((mark) => mark.text())).toEqual(['te'])
+    expect(wrapper.get('h3').text()).toBe('Projeto teste')
   })
 
   it('does not throw when a date is missing', () => {
@@ -172,7 +172,7 @@ describe('ProjectCard', () => {
     const wrapper = mountCard(buildProject())
 
     await openRemoveDialog(wrapper)
-    await wrapper.get('.dialog-actions button.button--secondary').trigger('click')
+    await wrapper.get('.dialog-actions button.secondary').trigger('click')
 
     expect(wrapper.emitted('remove')).toBeUndefined()
     expect(dialogOf(wrapper).open).toBe(false)
@@ -182,7 +182,7 @@ describe('ProjectCard', () => {
     const wrapper = mountCard(buildProject())
 
     await openRemoveDialog(wrapper)
-    await wrapper.get('.dialog-actions button.button--primary').trigger('click')
+    await wrapper.get('.dialog-actions button.primary').trigger('click')
 
     expect(wrapper.emitted('remove')).toEqual([[1]])
     expect(dialogOf(wrapper).open).toBe(false)

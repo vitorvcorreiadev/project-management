@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { effectScope, nextTick, shallowRef } from 'vue'
 
-import { useObjectUrl } from '../composables/useObjectUrl'
+import { useObjectUrl } from '../useObjectUrl'
 
 const createObjectURL = vi.fn<(blob: Blob) => string>()
 const revokeObjectURL = vi.fn<(url: string) => void>()

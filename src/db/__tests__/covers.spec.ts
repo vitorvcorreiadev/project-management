@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import { deleteCover, getCover, saveCover, toBlob } from '../db/covers'
+import { deleteCover, getCover, saveCover, toBlob } from '../covers'
 
 /*
  * Covers live in IndexedDB because the alternative — a `File` on the persisted

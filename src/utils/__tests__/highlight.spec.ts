@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-import { splitByTerm } from '../utils/highlight'
+import { splitByTerm } from '../highlight'
 
 describe('splitByTerm', () => {
   it('returns the whole text unmatched when there is no term', () => {

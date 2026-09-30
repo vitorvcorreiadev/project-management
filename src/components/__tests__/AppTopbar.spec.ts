@@ -15,7 +15,7 @@ const { route } = vi.hoisted(() => ({
 vi.mock('vue-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('vue-router')>()),
   useRoute: () => route,
-  useRouter: () => ({ push: vi.fn(), back: vi.fn() }),
+  useRouter: () => ({ push: vi.fn<() => void>(), back: vi.fn<() => void>() }),
   RouterView: { render: () => null },
   RouterLink: { template: '<a><slot /></a>' },
 }))
